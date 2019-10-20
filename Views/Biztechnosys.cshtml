@@ -1,0 +1,457 @@
+﻿@using ContentModels = ProjectNamespace.PublishedContentModels;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.Biztechnosys>
+@using System.Collections.Generic;
+@{
+    Layout = "master.cshtml";
+    var site = Model.Root();
+}
+@*
+            To Use forms in our Application I Installed "Microsoft-JQuery-Unobstrusive-Ajax".
+            Reference
+            https://www.completecsharptutorial.com/asp-net-mvc5/4-ways-to-create-form-in-asp-net-mvc.php#three
+        -->
+        <!-- Try to attach this Package in umbraco Back Office
+            https://our.umbraco.com/packages/backoffice-extensions/cultiv-tabify-umbraco-8/             //added
+            https://our.umbraco.com/packages/website-utilities/grid-layout-youtube-video/
+
+            Macros Should not be used Instead use Partial Views
+            https://24days.in/umbraco-cms/2015/umbraco-zeitgeist/
+        Grid Best Practices:
+        https://our.umbraco.com/documentation/getting-started/backoffice/property-editors/built-in-property-editors/Grid-Layout/Grid-Layout-Best-Practices
+
+    @****************************SEO Components starts *******************@
+
+
+@{
+    var typedMediaPickerSingle = site.Value<IPublishedContent>("siteLogo");
+}
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Organization",
+    "name": "Biztechnosys",
+    "email": "info@biztechnosys.com",
+    "description": " Biztechnosys provides Umbraco CMS development and Microsoft cloud services in USA , UK & Australia. And also Cloud Service development. We help you to achieve increased productivity, faster time-to-market and improvements in cost and effort efficiency.Visit our website today.",
+    "logo": "@typedMediaPickerSingle.Url",
+    "url": "www. Biztechnosys.com",
+    "sameAs": [
+    "https://www.facebook.com/mygenneve/",
+    "https://twitter.com/mygenneve/",
+    "https://www.instagram.com/mygenneve/",
+    "https://www.linkedin.com/company/genneve/",
+    "http://www.genneve.libsyn.com/"
+    ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org/",
+    "@@type": "WebSite",
+    "url": "www. Biztechnosys.com",
+    "potentialAction": {
+    "@@type": "SearchAction",
+    "target": "www. Biztechnosys.com",
+    "query-input": "required name=search_term_string"
+    }
+    }
+</script>
+
+@*********************************************************************@
+
+<section class="container-fluid mainslide black_back">
+    <div class="wlcm_slide">
+        <h1 class="white_text">@Model.Value("welcomeMsg")</h1>
+    </div>
+    <div class="row main_service_slide">
+        @{
+            string[] cssClass = { "service_s", "service_u", "service_c" };
+            var bannerImages = Model.Value<IEnumerable<IPublishedContent>>("threeImages");
+            var icons = Model.Value<IEnumerable<IPublishedContent>>("bannerIcon");
+            int i = 0;
+            foreach (var item in bannerImages)
+            {
+                <div class="col-lg-4 col-md-4 col-sm-4 col-12 px-0">
+                    <div class="@cssClass[i] button_hover"
+                         style="background: url(@item.Url) no-repeat;
+                            background-size: cover;
+                            height: 100%;
+                            z-index: 4;
+                            width: 100%;
+                            position: absolute;
+                            text-align: center;">
+                        @foreach (var icon in icons)
+                        {
+                            if (icon.Name.Contains(item.Name.Substring(0, 7)))
+                            {
+                                <img style="padding-top:70px;" src="@icon.Url" alt="">
+                            }
+                        }
+                        <button type="button" class="case_study_button btn ">
+                            <a class="arrow" href="#">
+                                <span class="view_arrow">view case study</span>
+                                <span><i class="fas fa-arrow-right"></i></span>
+                            </a>
+                        </button>
+                    </div>
+                </div>
+                i++;
+            }
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-12 ">
+            <div class="owl_case_studies">
+                <div class="main_case_study  owl-carousel owl-theme">
+                    @{
+                        var typedMultiMediaPicker1 = Model.Value<IEnumerable<IPublishedContent>>("threeImages");
+
+                        foreach (var item in typedMultiMediaPicker1)
+                        {
+                            <div class="item">
+                                <div class="owl_image">
+                                    <img src="@item.Url" class="img-fluid" alt="">
+                                    <button type="button" class="case_study_button btn them_border them_color">
+                                        <a class="arrow white_text" href="#">
+                                            <span class="view_arrow">view case study <i class="fas fa-arrow-right"></i></span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section class="biz_about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                @Model.Value("aboutText")
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row biz_main_ser">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <ul class="list-unstyled list-inline">
+                @{
+                    var serviceItem = (List<IPublishedContent>)site.GetProperty("addContent").Value();
+                    string[] divIDs = { "leftbox", "centerbox", "rightbox" };
+                    var index = 0;
+                    foreach (var pointer in serviceItem)
+                    {
+                        var selectedIcon = (IPublishedContent)pointer.GetProperty("pickedIcon").Value();
+                        var description = pointer.GetProperty("homePageDescription").Value();
+                        <li class="list-inline-item">
+                            <div id="@divIDs[index]">
+                                <div class="main_ser_logo">
+                                    <img src="@selectedIcon.Url" class="img-fluid" alt="@pointer.Name">
+                                </div>
+                                <div class="main_ser_des">
+                                    <h5 class="@pointer.Name.ToLower()_text">@pointer.Name.ToUpper()</h5>
+                                    <p class="p_text">
+                                        @description
+                                    </p>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 contact_btn">
+                                    <a href="@pointer.Url" class="btn " role="button">Read more</a>
+                                </div>
+                            </div>
+                        </li>
+                        index++;
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="our_num_count">
+    <video id="back_video" preload="auto" autoplay="autoplay" loop="loop" muted="muted" volume="0">
+        <source src="@Model.GetProperty("backgroundVideo").Value()" type="video/mp4">
+    </video>
+    <div class="overlay_menu">
+        <div class="num_animate">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col">
+                        <div class="counter">
+                            <i class="fas fa-edit fa-2x"></i>
+                            <h2><span class="timer count-title count-number project" data-to="100" data-speed="3000"></span>+</h2>
+                            <p class="count-text ">Project</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="counter">
+                            <i class="fas fa-shield-alt fa-2x"></i>
+                            <h2><span class="timer count-title count-number" data-to="99.2" data-speed="3000"></span>%</h2>
+                            <p class="count-text ">Success Rate</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="counter">
+                            <i class="far fa-handshake fa-2x"></i>
+                            <h2><span class="timer count-title count-number" data-to="99.5" data-speed="3000"></span>%</h2>
+                            <p class="count-text ">Customer Retention</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="counter">
+                            <i class="fas fa-truck fa-2x"></i>
+                            <h2><span class="timer count-title count-number" data-to="99.7" data-speed="3000"></span>%</h2>
+                            <p class="count-text ">On-Time Delivery</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="counter">
+                            <i class="fas fa-award fa-2x"></i>
+                            <h2><span class="timer count-title count-number project" data-to="8" data-speed="3000"></span>+</h2>
+                            <p class="count-text ">Certified</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 owl_num_count">
+                    <div class="owl_counter owl-carousel owl-theme">
+                        <div class="item">
+                            <div class="col">
+                                <div class="counter">
+                                    <i class="fas fa-edit fa-2x"></i>
+                                    <h2><span class="timer count-title count-number project" data-to="100" data-speed="3000"></span>+</h2>
+                                    <p class="count-text ">Project</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col">
+                                <div class="counter">
+                                    <i class="fas fa-shield-alt fa-2x"></i>
+                                    <h2><span class="timer count-title count-number" data-to="99.2" data-speed="3000"></span>%</h2>
+                                    <p class="count-text ">Success Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col">
+                                <div class="counter">
+                                    <i class="far fa-handshake fa-2x"></i>
+                                    <h2><span class="timer count-title count-number" data-to="99.5" data-speed="3000"></span>%</h2>
+                                    <p class="count-text ">Customer Retention</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col">
+                                <div class="counter">
+                                    <i class="fas fa-truck fa-2x"></i>
+                                    <h2><span class="timer count-title count-number" data-to="99.7" data-speed="3000"></span>%</h2>
+                                    <p class="count-text ">On-Time Delivery</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col">
+                                <div class="counter">
+                                    <i class="fas fa-award fa-2x"></i>
+                                    <h2><span class="timer count-title count-number project" data-to="8" data-speed="3000"></span>+</h2>
+                                    <p class="count-text ">Certified</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid">
+    <div class="row biz_perform">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <h2 class="them_text">What makes us Best? </h2>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <ul class="list-unstyled list-inline">
+                @{
+
+                    var items = Model.Value<IEnumerable<IPublishedElement>>("quality");
+
+                    foreach (var selecteditem in items)
+                    {
+                        var title = selecteditem.GetProperty("qualityTitle").Value();
+                        var subTitle = selecteditem.GetProperty("qualitySubTitle").Value();
+                        var selectedimage = (IPublishedContent)selecteditem.GetProperty("image").Value();
+                        if (selectedimage != null)
+                        {
+                            <li class="list-inline-item client_grid">
+                                <div class="progress_icon">
+                                    <img src="@selectedimage.Url" class="img-fluid" alt="@title">
+                                    <p>@title</p>
+                                </div>
+                                <div class="client_grid_view  ">
+                                    <p class="white_text">
+                                        @subTitle
+                                    </p>
+                                </div>
+                            </li>
+                        }
+
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 work_btn">
+            <a href="#" class="btn contact_orange_btn them_color them_border white_text launch-modal" role="button" data-toggle="modal" data-target="#biz_quate">Request a Quote</a>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid biz_solution_us footer_color">
+    <div class="row text-center">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <h3 class="them_text">Consultation Services</h3>
+            <p class="p_text">
+                We scale the database efficiently to maintain application fast and effective.
+                we continuously monitor the database performance and maintain 99.99 % up time.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="biz_iq_features footer_color">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-7 col-md-7 col-sm-12">
+                <div class="holderCircle">
+                    <div class="round"></div>
+                    <div class="dotCircle">
+                        <span class="itemDot active itemDot1" data-tab="1">
+                            <i class="fas fa-database"></i>
+                            <span class="forActive"></span>
+                        </span>
+                        <span class="itemDot itemDot2" data-tab="2">
+                            <i class="fas fa-tablet-alt"></i>
+                            <span class="forActive"></span>
+                        </span>
+                        <span class="itemDot itemDot3" data-tab="3">
+                            <i class="fas fa-users"></i>
+                            <span class="forActive"></span>
+                        </span>
+                        <span class="itemDot itemDot4" data-tab="4">
+                            <i class="fas fa-cloud"></i>
+                            <span class="forActive"></span>
+                        </span>
+                    </div>
+                    <div class="contentCircle">
+                        <div class="CirItem title-box active CirItem1">
+                            <h2 class="titlecir">
+                                <span>Database Optimization</span>
+                            </h2>
+                            <ul class="list-unstyled black_text">
+                                <li>SQL</li>
+                                <li>NoSQL</li>
+                                <li>Redis Cache</li>
+                            </ul>
+                            @*<i class="fas fa-database"></i>*@
+                        </div>
+                        <div class="CirItem title-box CirItem2">
+                            <h2 class="titlecir"><span>Application Optimization</span></h2>
+                            <ul class="list-unstyled black_text">
+                                <li>Compress Data</li>
+                                <li>Web Server Tuning</li>
+                                <li>Optimization App. Layer</li>
+                            </ul>
+                            @*<i class="fas fa-tablet-alt"></i>*@
+                        </div>
+                        <div class="CirItem title-box CirItem3">
+                            <h2 class="titlecir"><span>CRM</span></h2>
+                            <ul class="list-unstyled black_text">
+                                <li>Sales Automation</li>
+                                <li>Marketing Automation</li>
+                                <li>Inventory Management</li>
+                            </ul>
+                            @*<i class="fas fa-users"></i>*@
+                        </div>
+                        <div class="CirItem title-box CirItem4">
+                            <h2 class="titlecir"><span>Microsoft Cloud Support</span></h2>
+                            <ul class="list-unstyled black_text">
+                                <li>Development Lab</li>
+                                <li>Azur App Development</li>
+                                <li>Azur Migration Support</li>
+                            </ul>
+                            @*<i class="fas fa-cloud"></i>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-12 biz_pointing">
+                @{
+                    var consutationImage = site.Value<IPublishedContent>("consultationServices");
+                    if (consutationImage != null)
+                    {
+                        <img src="@consutationImage.Url" class="img-fluid" alt="@consutationImage.Value("altText")">
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid biz_client">
+    <div class="row text-center">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <h3 class="them_text">@Model.Value("sliderTitle")</h3>
+        </div>
+    </div>
+    <div class="row client_slide">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 owl_client_slider">
+            <div class="client_logo_slider owl-carousel owl-theme">
+                @{
+                    var typedMultiMediaPicker = Model.Value<IEnumerable<IPublishedContent>>("sliderComponent");
+
+                    foreach (var item in typedMultiMediaPicker)
+                    {
+                        <div class="item">
+                            <div class="owl_image">
+                                <img src="@item.Url" alt="@item.Name" class="img-fluid" />
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.Partial("_footerBanner")
+
+<script>
+    document.getElementById('RequestBtn').classList.add("them_color");
+    document.getElementById('RequestBtn').classList.add("them_border");
+
+    document.getElementById('DemoBtn').classList.add("them_color");
+    document.getElementById('DemoBtn').classList.add("them_border");
+
+    document.getElementById('QuoteSubmitButton').classList.add("them_color");
+    document.getElementById('QuoteSubmitButton').classList.add("them_border");
+</script>
+
+@*
+    <script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <!--  <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script> This is Stoping the form Submition so delete this reference-->
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+*@
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>

@@ -1,0 +1,55 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+<div class="col-lg-5 col-md-5 col-sm-5 col-12">
+    <div class="submit_req">
+        <ul class="list-unstyled list-inline">
+            <li class="list-inline-item col_icon">
+                <span>
+                    <a href="tel:@Model.Root().Value("mobileNo")">
+                        <i class="fas fa-phone fa-rotate-90 about_text"></i>
+                    </a>
+                </span>
+            </li>
+            <li class="list-inline-item col_info">
+                <ul class="list-unstyled">
+                    <li>
+                        <h5>Call to us</h5>
+                    </li>
+                    <li>
+                        <a href="tel:@Model.Root().Value("mobileNo")">@Model.Root().Value("mobileNo")</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="submit_req">
+        <ul class="list-unstyled list-inline">
+            <li class="list-inline-item col_icon">
+                <span>
+                    <i class="fas fa-comments about_text"></i>
+                </span>
+            </li>
+            <li class="list-inline-item col_info">
+                <ul class="list-unstyled">
+                    <li>
+                        <h5>Chat with our sales team</h5>
+                    </li>
+                    <li class="forsale">
+                        <a href="javascript:$zopim.livechat.window.show();" class="about_them_color about_border">Chat with sales</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="submit_req text-center">
+        <h4>Vtiger migration</h4>
+        <blockquote>
+            <p class="p_text">
+                <em>
+                    "I will definetely contract him again."
+                </em>
+            </p>
+            <p><span>- Jean Marc Alma, Spain</span></p>
+        </blockquote>
+    </div>
+</div>

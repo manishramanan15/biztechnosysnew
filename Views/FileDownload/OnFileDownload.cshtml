@@ -1,0 +1,99 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Biztechnosys.Umbraco.Website.Email_Service
+@{
+    IPublishedContent selectedProperty = (IPublishedContent)Model.GetProperty("fileIcon").Value();
+    DateTime publishedDate = selectedProperty.UpdateDate;
+    
+    var fileIcon = (IPublishedContent)Model.Value("fileIcon");
+    var downloadMe = Model.GetProperty("uploadFile").Value(); 
+    DateRepresentation dateRepsentation = new DateRepresentation();
+}
+
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+
+<section class="work_them_color clientpdf text-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-12 abtpdf">
+                <table class="table table-borderless white_text">
+                    <tbody>
+                        <tr>
+                            <th>Author</th>
+                            <td>:</td>
+                            <td>@Model.Root().Name</td>
+                        </tr>
+                        <tr>
+                            <th>Download</th>
+                            <td>:</td>
+                            <td id="N_OF_Download">@System.Configuration.ConfigurationManager.AppSettings["N_Of_Download"]</td>
+                        </tr>
+                        <tr>
+                            <th>Pages</th>
+                            <td>:</td>
+                            <td>@Model.Value("numberOfPages")</td>
+                        </tr>
+                        <tr>
+                            <th>Published</th>
+                            <td>:</td>
+                            <td>@dateRepsentation.OurFormat(publishedDate).ToString()</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="our_service">
+                    <div class="pdfdwnld">
+                        <div class="left">
+                            <a href="@downloadMe" download>
+                                <img src="@fileIcon.Url" width="100" alt="">
+                            </a>
+                            <div class="work_btn">
+                                <a href="#" id="btnDownload" class="btn contact_orange_btn white_border work_them_color white_text GetFile" role="button"><i class="fa fa-download"></i> Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $('.GetFile').on('click', function () {
+        $.ajax({
+            url: '@downloadMe',
+            method: 'GET',
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (data) {
+                var a = document.createElement('a');
+                var url = window.URL.createObjectURL(data);
+                a.href = url;
+                a.download = '@downloadMe';
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            }
+        });
+    });
+
+     $('#btnDownload').click(function () {    
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("onFileDownload", "FileDownload")",
+            data: {path: '@downloadMe'},
+            success: function (data) {              
+                $('#N_OF_Download').empty();
+                $('#N_OF_Download').append(data);
+            },
+            error: function () {
+                 alert('error');
+            }
+        });
+        return false;
+    });
+</script>

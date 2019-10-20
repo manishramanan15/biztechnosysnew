@@ -1,0 +1,65 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{ 
+    var cssName = Model.Level == 1 ? "biz" : Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "Biztechnosys";
+    var site = Model.Root();
+    string forColor = Model.Level == 1 ? "them_color" : cssName.ToLower() + "_them_color";
+}
+
+<section class="request_quote @forColor.ToLower() @cssName.ToLower()_req">
+    <div class="container request">
+        <ul class="list-unstyled list-inline text-center">
+            <li class="list-inline-item" data-aos="fade-up">
+                <div id="call" class="fa rounded_icon"></div>
+                <div class="contact_cosumer">
+                    <h5>Give us a call</h5>
+                    <p><a href="tel:@site.Value("mobileNo")">@site.Value("mobileNo")</a></p>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <div id="message" class="fa rounded_icon"></div>
+                <div class="contact_cosumer">
+                    <h5>Write to us</h5>
+                    <p><a href="mailto:@site.Value("email")">@site.Value("email")</a></p>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <a href="#" role="button" data-toggle="modal" data-backdrop="static" data-target="#biz_quate">
+                    <div id="request" class="fa rounded_icon"></div>
+                    <div class="contact_cosumer">
+                        <h5>Request to us</h5>
+                        <p>Get started today!</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<script>
+    /*get quote*/
+    function callToUs() {
+        var call;
+        var message;
+        var req;
+        call = document.getElementById("call");
+        message = document.getElementById("message");
+        req = document.getElementById("request");
+        call.innerHTML = "&#xf2a0;";
+        // call.innerHTML = "&#xf095;" ;
+        message.innerHTML = "&#xf0e0;";
+        req.innerHTML = "&#xf14a;";
+        // setTimeout(function () {
+        //     call.innerHTML = "&#xf2a0;";
+        //     message.innerHTML = "&#xf2b6;";
+        //     req.innerHTML = "&#xf14d;";
+        // }, 1000);
+    }
+    callToUs();
+    // setInterval(callToUs, 2000);
+
+    AOS.init({
+        duration: 1200,
+    })
+
+</script>

@@ -1,0 +1,237 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.InnerDetailPage>
+@using ContentModels = ProjectNamespace.PublishedContentModels;
+@{
+    Layout = "master.cshtml";
+    var pageIcon = (IPublishedContent)Model.Parent.GetProperty("pickedIcon").Value();
+    var selectedName = Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
+    var cssClass1 = selectedName.ToLower().ToString() + "_them_color";
+    var cssClass2 = selectedName.ToLower().ToString() + "_border";
+    var caseStudyIcon = (IPublishedContent)Model.GetProperty("caseStudyIcon").Value();
+}
+
+@Umbraco.RenderMacro("ServiceNav")
+
+@{
+    if (Model.Parent.Parent.Name.ToLower() == "work")
+    {
+        var btnslinks = (IPublishedContent)Model.Value("buttonLink");
+        var btns_links = (btnslinks == null) ? "#" : btnslinks.Url;
+        <section class="client_cs_wrapper">
+            <div class="row title_slider">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+                    <div class="service_name">
+                        <h1 class="page_title work_text"><b>@Model.Value("heading")</b></h1>
+                        <h2 class="black_text">@Model.Value("subHeading")</h2>
+                        <div class="work_btn">
+                            <a href="@btns_links" class="btn contact_orange_btn work_border work_them_color white_text" role="button">@Model.Value("buttonText")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-12 ">
+                    <div class="slider_logo">
+                        @if (Model.HasValue("caseStudyIcon"))
+                        {
+                            <img src="@caseStudyIcon.Url" class="img-fluid" alt="">
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page_breadcrumb casestudy_breadcrumb cms_breadecrumb">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="@Model.Parent.Parent.Url">@Model.Parent.Parent.Name</a>
+                                <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="@Model.Parent.Url">@Model.Parent.Name</a>
+                                <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="javascript:void(0)">@Model.Name</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container-fluid cms_services">
+            <div class="biz_service ind_list">
+                <div class="row">
+                    <div class="col-lg-4 col-md-5 col-sm-12 col-12 consumer_form">
+                        <div class="submit_req">
+                            <h2 class="black_text text-center">Request for Quote</h2>
+                            <p class="p_text">Drop us a line and we'll get in touch with you as quick as we can</p>
+                            @Html.Partial("~/Views/Contact/ContactUs.cshtml", new Biztechnosys.Umbraco.Website.Models.ContactModel())
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-7 col-sm-12 col-12 client_detail">
+                        @Model.Value("pageContent")
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        @Model.Value("mainContent")
+        @Html.Partial("~/Views/FileDownload/OnFileDownload.cshtml")
+    }
+    else if (Model.Parent.Parent.Name.ToLower() == "services")
+    {
+        <!--pageIcon is used inside this section-->
+        <section class="cms_@Model.Parent.Name.ToLower()">
+            <div class="row title_slider">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+                    <div class="service_name">
+                        <h1 class="page_title @Model.Parent.Name.ToLower()_text"><b>@Model.GetProperty("heading").Value()</b></h1>
+                        <p class="black_text">@Model.GetProperty("subHeading").Value()</p>
+                        <div class="work_btn">
+                            <a href="#" class="btn contact_orange_btn @Model.Parent.Name.ToLower()_them_color @Model.Parent.Name.ToLower()_border white_text" role="button">@Model.GetProperty("buttonText").Value()</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-md-5 col-sm-5 col-12 ">
+                    <div class="slider_logo">
+                        <img src="@pageIcon.Url" class="img-fluid" alt="@pageIcon.Name">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page_breadcrumb @Model.Parent.Name.ToLower()_breadcrumb cms_breadecrumb">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="@Model.Parent.Parent.Url">@Model.Parent.Parent.Name</a>
+                                <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="@Model.Parent.Url">@Model.Parent.Name</a>
+                                <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="javascript:void(0)">@Model.Name</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container-fluid">
+            <div class="@Model.Parent.Name.ToLower()_services cms_services biz_service">
+                <div class="row">
+                    <div class="col-lg-4 col-md-5 col-sm-12 col-12 consumer_form">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="our_service">
+                                    <h2 class="black_text text-center">@Model.Parent.Name CMS Services</h2>
+                                    <ul>
+                                        @{
+                                            var selection = Model.Parent.Children.Where(x => x.IsVisible());
+                                        }
+                                        @foreach (var item in selection)
+                                        {
+                                            <li>
+                                                <a href="@item.Url">@item.Name</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="submit_req">
+                                    <h2 class="black_text text-center">Request for Quote</h2>
+                                    <p class="p_text">Drop us a line and we'll get in touch with you as quick as we can</p>
+                                    @Html.Partial("~/Views/Contact/ContactUs.cshtml", new Biztechnosys.Umbraco.Website.Models.ContactModel())
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-7 col-sm-12 col-12">
+                        @Model.Value("pageContent")
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        @Model.Value("mainContent")
+    }
+    else  // code for product section
+    {
+        <section class="page_breadcrumb product_breadcrumb blog_breadcrumb cms_breadecrumb">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="@Model.Parent.Parent.Url">@Model.Parent.Parent.Name</a>
+                                <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="@Model.Parent.Url">@Model.Parent.Name</a>
+                                <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a class="black_text" href="javascript:void(0)">@Model.Name</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        @Model.Value("pageContent")
+        @Model.Value("mainContent")
+    }
+}
+
+@Html.Partial("_GetStarted")
+
+@Html.Partial("_footerBanner")
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).on('click', '.card-heading span.clickable', function (e) {
+        var $this = $(this);
+        if (!$this.hasClass('card-collapsed')) {
+            $this.parents('.card').find('.card-body').slideDown();
+            $this.addClass('card-collapsed');
+            $this.find('i').removeClass('fas fa-angle-down').addClass('fas fa-angle-up');
+
+        } else {
+            $this.parents('.card').find('.card-body').slideUp();
+            $this.removeClass('card-collapsed');
+            $this.find('i').removeClass('fas fa-angle-up').addClass('fas fa-angle-down');
+
+        }
+    });
+</script>
+
+<script>
+    document.getElementById('SubmitButton').classList.add("@cssClass1");
+    document.getElementById('SubmitButton').classList.add("@cssClass2");
+
+    document.getElementById('RequestBtn').classList.add("@cssClass1");
+    document.getElementById('RequestBtn').classList.add("@cssClass2");
+
+    document.getElementById('DemoBtn').classList.add("@cssClass1");
+    document.getElementById('DemoBtn').classList.add("@cssClass2");
+
+    document.getElementById('QuoteSubmitButton').classList.add("them_color");
+    document.getElementById('QuoteSubmitButton').classList.add("them_border");
+</script>

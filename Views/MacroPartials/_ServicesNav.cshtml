@@ -1,0 +1,68 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    var site = Umbraco.AssignedContentItem.Root();      // Just Assigning the root components as its default value no other use of this as any how we will override this value.
+    //at last i just used "azure" it is our default css                                                    //On the basics of Selected Level in the Model's Content i am assigning the appropiate value to the variable "site"
+    var selectedCss = Model.Content.Level == 2 ? Umbraco.AssignedContentItem.Name : Model.Content.Level == 3 ? (Umbraco.AssignedContentItem.Parent.Name.ToLower() == "services" ? Model.Content.Name : Model.Content.Parent.Name) : Model.Content.Level == 4 ? (Model.Content.Parent.Parent.Name.ToLower() == "services" ? Model.Content.Parent.Name : Model.Content.Parent.Parent.Name) : "azure";
+    site = Model.Content.Level == 2 ? Umbraco.AssignedContentItem.AncestorOrSelf() : Model.Content.Level != 4 ? Umbraco.AssignedContentItem.Parent : Umbraco.AssignedContentItem.Parent.Parent;
+    selectedCss = selectedCss.ToLower() + "_them_color";
+
+    var selection = site.Children.Where(x => x.IsVisible());
+}
+
+@{
+    <section class="container-fluid page_navigation @selectedCss">
+        <div class="services_nav">
+            <div class="sec_nav_wrapper">
+                <ul class="sec_nav list-unstyled list-inline">
+                    <li class="list-inline-item"><a href="@site.Url" class="white_text">@site.Name</a></li>
+                    @foreach (var nav in selection)
+                    {
+                        <li class="list-inline-item"><a href="@nav.Url" class="white_text">@nav.Name</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*if (Model.Content.Level == 2 || Model.Content.Level == 3)
+    {
+        selectedCss = Umbraco.AssignedContentItem.Name.ToLower() == "contact us" ? Umbraco.AssignedContentItem.Parent.Name.ToLower() : Umbraco.AssignedContentItem.Name.ToLower();
+    }
+    else if(Model.Content.Level == 4)
+    {
+        selectedCss = Umbraco.AssignedContentItem.Parent.Name.ToLower();
+    }
+    else
+    {
+        selectedCss = defaultCss;
+    }
+    if(selectedCss == "blogs" || selectedCss == "careers")
+    {
+        selectedCss = "about";
+    }
+    if(selectedCss == "industries" || selectedCss == "case studies")
+    {
+        selectedCss = "work";
+    }*@

@@ -1,0 +1,792 @@
+﻿@using ContentModels = ProjectNamespace.PublishedContentModels;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.DetailPage>
+@using System.Globalization;
+@{
+    Layout = "master.cshtml";
+
+    var selectedIcon = Model.Value<IPublishedContent>("pickedIcon");
+    var selectedIntroImage = Model.Value<IPublishedContent>("introImage");
+    string selectedName = Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
+    Boolean showProductPrice = (Boolean)Model.GetProperty("dockProductPrice").Value();
+
+    var name = Model.Name.ToLower() == "contact us" ? Model.Parent.Name : Model.Name;
+    name = Model.Name.ToLower() == "careers" ? Model.Parent.Name : Model.Name;
+
+    var site = Model.Root();
+    string path = (string)Model.GetProperty("partialPath").Value();
+}
+@Umbraco.RenderMacro("ServiceNav")
+@{
+    switch (Model.Parent.Name.ToLower())
+    {
+        case "work":
+
+            switch (Model.Name.ToLower())
+            {
+                case "industries":
+                    <section class="casestudy_wrapper">
+                        <div class="row title_slider">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+                                <div class="service_name">
+                                    <h1 class="page_title work_text"><b>@Model.Value("heading")</b></h1>
+                                    <h2 class="black_text">@Model.Value("subHeading")</h2>
+                                    <div class="work_btn">
+                                        <a href="#" class="btn contact_orange_btn work_border work_them_color white_text" role="button">@Model.Value("buttonText")</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="page_breadcrumb casestudy_breadcrumb">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a class="black_text" href="@Model.Parent.Url">@Model.Parent.Name</a>
+                                            <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="black_text" href="javascript:void(0)">@Model.Name</a>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="biz_about industry_work">
+                        @Model.Value("industryDescription")
+                    </section>
+
+                    <section class="container-fluid">
+                        <div class="biz_service ind_list">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-5 col-sm-4 col-12 ind_left">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <div class="our_service">
+                                                <h2 class="black_text text-center">Our Industry</h2>
+                                                <ul id="industry_list">
+                                                    @{
+                                                        var Title = Model.Value<IEnumerable<IPublishedElement>>("industries");
+                                                        foreach (var item in Title)
+                                                        {
+                                                            var idName = item.GetProperty("industryID").Value();
+                                                            var TitleName = item.GetProperty("industryHeading").Value();
+                                                            if (idName.ToString() == "ind_first")
+                                                            {
+                                                                <li class="ind_link active" onclick="showInd('@idName')">@TitleName</li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="ind_link  " onclick="showInd('@idName')">@TitleName</li>
+                                                            }
+
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <div class="submit_req">
+                                                <h2 class="black_text text-center">Request for Quote</h2>
+                                                <p class="p_text">Drop us a line and we'll get in touch with you as quick as we can</p>
+                                                @Html.Partial("~/Views/Contact/ContactUs.cshtml", new Biztechnosys.Umbraco.Website.Models.ContactModel())
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-7 col-sm-8 col-12 ind_detail">
+                                    @{
+                                        var Industry = Model.Value<IEnumerable<IPublishedElement>>("industries");
+                                        foreach (var industries in Industry)
+                                        {
+                                            var OurBanner = industries.Value<IEnumerable<IPublishedContent>>("industryBanner");
+                                            <div id="@industries.GetProperty("industryID").Value()">
+                                                <h2 class="text-center">@industries.GetProperty("industryHeading").Value()</h2>
+                                                <ul class="list-unstyled list-inline py-5s">
+                                                    <li class=" list-inline-item">
+                                                        <ul class="list-unstyled list-inline client_industry">
+                                                            @foreach (var images in OurBanner)
+                                                            {
+                                                                <li>
+                                                                    <img class="img-fluid" src="@images.Url" alt="@images.Name" title="@images.Name">
+                                                                </li>
+                                                            }
+
+                                                        </ul>
+                                                    </li>
+                                                    <hr />
+                                                    <li class=" list-inline-item">
+                                                        @industries.Value("industryIntro")
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <script>
+                        // // Add active class to the current button (highlight it)
+
+                        var indlist = document.getElementById("industry_list");
+                        var btns = indlist.getElementsByClassName("ind_link");
+                        for (var j = 0; j < btns.length; j++) {
+                            btns[j].addEventListener("click", function () {
+                                var current = document.getElementsByClassName("active");
+                                current[0].className = current[0].className.replace(" active", "");
+                                this.className += " active";
+                            });
+                        }
+
+                        function showInd(id) {
+                            var disOption = $("#" + id).css("display");
+                            $("#ind_first").css("display", "none");
+                            $("#ind_sec").css("display", "none");
+                            $("#ind_third").css("display", "none");
+                            $("#ind_forth").css("display", "none");
+                            $("#ind_fifth").css("display", "none");
+                            $("#ind_sixth").css("display", "none");
+                            $("#ind_seven").css("display", "none");
+                            $("#ind_eight").css("display", "none");
+                            $("#ind_nine").css("display", "none");
+                            $("#ind_ten").css("display", "none");
+                            $("#ind_ele").css("display", "none");
+
+                            if (disOption === "none") {
+                                $("#" + id).css("display", "block");
+                            } else {
+                                $("#" + id).css("display", "none");
+                            }
+                        }
+
+                    </script>
+                    break;
+
+                case "case studies":
+                    <section class="casestudy_wrapper">
+                        <div class="row title_slider">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+                                <div class="service_name">
+                                    <h1 class="page_title work_text"><b>@Model.Value("heading")</b></h1>
+                                    <h2 class="black_text">@Model.Value("subHeading")</h2>
+                                    <div class="work_btn">
+                                        <a href="#" class="btn contact_orange_btn work_border work_them_color white_text" role="button">@Model.Value("buttonText")</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="page_breadcrumb casestudy_breadcrumb">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a class="black_text" href="@Model.Parent.Url">@Model.Parent.Name</a>
+                                            <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="black_text" href="javascript:void(0)">@Model.Name</a>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="container our_work">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h2 class="black_text">@Model.Value("caseStudyHeading")</h2>
+                                <p class="black_text">
+                                    <em>
+                                        <b>
+                                            @Model.Value("caseStudySubHeading")
+                                        </b>
+                                    </em>
+                                </p>
+                            </div>
+                        </div>
+                        @{
+                            var CaseStudyList = Model.Value<IEnumerable<IPublishedElement>>("caseStudies");
+
+                            <div class="row">
+                                @foreach (var selectedItem in CaseStudyList)
+                                {
+                                    var selectedCaseStudy = (IPublishedContent)selectedItem.GetProperty("caseStudyImage").Value();
+                                    IPublishedContent CtrlLink = selectedItem.Value<IPublishedContent>("caseStudyButtonLink");
+                                    if (CtrlLink != null)
+                                    {
+                                        <div class="col-lg-4 col-md-3 col-sm-4 col-6 client_logo">
+                                            <a href="@CtrlLink.Url">
+                                                <img class="img-fluid" src="@selectedCaseStudy.Url" alt="Archtype Solution Group">
+                                                <button class="btn contact_orange_btn work_them_color work_border white_text" role="button">@selectedItem.GetProperty("caseStudyButtonText").Value()</button>
+                                            </a>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        }
+                    </section>
+                    break;
+                case "labs":
+                    <section class="page_breadcrumb casestudy_breadcrumb blog_breadcrumb">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a class="black_text" href="@Model.Parent.Url">@Model.Parent.Name</a>
+                                            <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a class="black_text" href="javascript:void(0)">@Model.Name</a>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="container cms_services lab_type">
+                        @Model.Value("industryDescription")
+                        @{
+                            var labs = (IEnumerable<IPublishedElement>)Model.Value("industries");
+                            int iteration = 0;
+                            foreach (var lab in labs)
+                            {
+                                iteration = iteration + 1;
+                                var iterationName = iteration == 1 ? "first" : iteration == 2 ? "sec" : iteration == 3 ? "third" : "forth";
+                                <div class="row inner_des tools">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                        @if (iteration != 2)
+                                        {
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 tool_heading">
+                                                    <h2 class="black_text">
+                                                        <strong>@lab.Value("industryID")</strong>
+                                                    </h2>
+                                                    <p>
+                                                        @lab.GetProperty("industryHeading").Value()
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row start_pro">
+                                                @lab.Value("industryIntro")
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                    <div id="@iterationName.ToLower()_prcs_slider" class="carousel slide" data-ride="carousel">
+                                                        <!-- Indicators -->
+                                                        <ul class="carousel-indicators">
+                                                            <li data-target="#@iterationName.ToLower()_prcs_slider" data-slide-to="0" class="active"></li>
+                                                            <li data-target="#@iterationName.ToLower()_prcs_slider" data-slide-to="1"></li>
+                                                            <li data-target="#@iterationName.ToLower()_prcs_slider" data-slide-to="2"></li>
+                                                        </ul>
+
+                                                        <!-- The slideshow -->
+                                                        <div class="carousel-inner">
+                                                            @{
+                                                                var SliderImage = (IEnumerable<IPublishedContent>)lab.GetProperty("industryBanner").Value();
+                                                                var status = "active";
+                                                                foreach (var LabImage in SliderImage)
+                                                                {
+
+                                                                    <div class="carousel-item @status">
+                                                                        <img src="@LabImage.Url" alt="" width="100%">
+                                                                    </div>
+                                                                    status = "";
+                                                                }
+                                                            }
+                                                        </div>
+                                                        <!-- Left and right controls -->
+                                                        <a class="carousel-control-prev" href="#first_prcs_slider" data-slide="prev">
+                                                            <span class="carousel-control-prev-icon"></span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="#first_prcs_slider" data-slide="next">
+                                                            <span class="carousel-control-next-icon"></span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row start_pro">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                                    <div id="@iterationName.ToLower()_prcs_slider" class="carousel slide" data-ride="carousel">
+                                                        <!-- Indicators -->
+                                                        <ul class="carousel-indicators">
+                                                            <li data-target="#@iterationName.ToLower()_prcs_slider" data-slide-to="0" class="active"></li>
+                                                            <li data-target="#@iterationName.ToLower()_prcs_slider" data-slide-to="1"></li>
+                                                            <li data-target="#@iterationName.ToLower()_prcs_slider" data-slide-to="2"></li>
+                                                        </ul>
+
+                                                        <!-- The slideshow -->
+                                                        <div class="carousel-inner">
+                                                            @{var SliderImage = (IEnumerable<IPublishedContent>)lab.GetProperty("industryBanner").Value();
+                                                                var state = "active";
+                                                                foreach (var LabImage in SliderImage)
+                                                                {
+                                                                    <div class="carousel-item @state">
+                                                                        <img src="@LabImage.Url" alt="" width="100%">
+                                                                    </div>
+                                                                    state = "";
+                                                                }
+                                                            }
+
+                                                        </div>
+
+                                                        <!-- Left and right controls -->
+                                                        <a class="carousel-control-prev" href="#sec_prcs_slider" data-slide="prev">
+                                                            <span class="carousel-control-prev-icon"></span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="#sec_prcs_slider" data-slide="next">
+                                                            <span class="carousel-control-next-icon"></span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                @lab.Value("industryIntro")
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </section>
+                    break;
+                default:
+                    break;
+            }
+            @Html.Partial("_GetStarted")
+            break;
+
+        case "services":
+
+            @Html.Partial("~/Views/Partials/DetailPages/Services/headerBanner.cshtml")
+
+            @Html.Partial("_Breadcrumb")
+
+            var selection = Model.Children.Where(x => x.IsVisible());
+
+            <section class="container-fluid">
+                <div class="@name.ToLower()_services biz_service">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 consumer_form">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="our_service">
+                                        <h2 class="black_text text-center">@Model.Name CMS Services</h2>
+                                        <ul>
+                                            @foreach (var item in selection)
+                                            {
+                                                <li><a href="@item.Url">@item.Name</a></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="submit_req">
+                                        <h2 class="black_text text-center">Request for Quote</h2>
+                                        <p class="p_text">Drop us a line and we'll get in touch with you as quick as we can</p>
+                                        @Html.Partial("~/Views/Contact/ContactUs.cshtml", new Biztechnosys.Umbraco.Website.Models.ContactModel())
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-12 ser_detail">
+                            @Model.Value("firstParagraph")
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            @Model.Value("secondParagraph")
+
+            @Html.Partial("_feature")
+
+            @Model.Value("thirdParagraph")
+
+            @Html.Partial("_OurWorks")
+
+            @Html.Partial("_GetStarted")
+            break;
+
+        case "about":
+
+            switch (Model.Name.ToLower())
+            {
+                case "contact us":
+                    <section class="contact_wrapper">
+                        <div class="row title_slider">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+                                <div class="service_name">
+                                    <h1 class="page_title @selectedName.ToLower()_text"><b>@Model.Value("heading")</b></h1>
+                                    <h2 class="black_text">@Model.Value("subHeading")</h2>
+                                    @*<div class="work_btn">
+                                            <a href="#" class="btn contact_orange_btn about_border white_text about_them_color" role="button">@Model.Value("buttonText")</a>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    @Html.Partial("_Breadcrumb")
+
+                    <section class="container">
+                        <div class="row contact_form">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-12">
+                                <div class="submit_req text-center">
+                                    <h1 class="black_text">Request for Quote</h1>
+                                    <p class="p_text ">Drop us a line and we'll get in touch with you as quick as we can</p>
+                                    @Html.Partial("~/Views/Contact/ContactUs.cshtml", new Biztechnosys.Umbraco.Website.Models.ContactModel())
+                                </div>
+                            </div>
+                            @Html.Partial(path)
+                        </div>
+                    </section>
+                    break;
+                case "careers":
+
+                    <section class="contact_wrapper">
+                        <div class="row title_slider">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+                                <div class="service_name">
+                                    <h1 class="page_title about_text"><b>@Model.GetProperty("heading").Value()</b></h1>
+                                    <p class="black_text">@Model.GetProperty("subHeading").Value()</p>
+                                    <div class="work_btn">
+                                        <a href="#" class="btn contact_orange_btn about_border white_text about_them_color" role="button">@Model.GetProperty("buttonText").Value()</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    @Html.Partial("_Breadcrumb")
+
+                    <section class="container about_contact">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h2 class="black_text"> @Model.GetProperty("careersHeading").Value()</h2>
+                                <p class="p_text">
+                                    @Model.GetProperty("careersSubHeading").Value()
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    @Html.Partial("~/Views/Partials/DetailPages/About/Careers/careers.cshtml")
+
+                    if (path != "")
+                    {
+                        @Html.Partial(path)
+                    }
+                    <section class="social_page">
+                        <div class="container">
+                            <div class="row justify-content-md-center">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h1>@Model.GetProperty("joinusHeading").Value()</h1>
+                                </div>
+                                @{
+                                    var JoinUsImg = (IEnumerable<IPublishedContent>)Model.Value("joinusImages");
+                                    string[] socialClass = (string[])Model.GetProperty("socialcssClass").Value();
+                                    var socialLinks = (List<Umbraco.Web.Models.Link>)site.GetProperty("externalLinks").Value();
+                                    int count = 0;
+                                }
+
+                                @if (JoinUsImg.Count() == socialClass.Length)
+                                {
+                                    foreach (var item1 in JoinUsImg)
+                                    {
+                                        var selectLink = socialLinks.FirstOrDefault(x => x.Name.ToLower() == item1.Name.ToLower());
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="biz_soc">
+                                                <img src="@item1.Url" alt="" class="img-fluid">
+                                                <div class="soc_content">
+                                                    <ul class="icon">
+                                                        <li class="soc_media">
+                                                            <a href="@selectLink.Url">
+                                                                <i class="@socialClass[count]"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="soc_menu"><a href="@selectLink.Url">@selectLink.Name</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        count++;
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </section>
+                    break;
+                case "blogs":
+                    <section class="contact_wrapper">
+                        <div class="row title_slider">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+                                <div class="service_name">
+                                    <h1 class="page_title about_text"><b>@Model.GetProperty("heading").Value()</b></h1>
+                                    <p class="black_text">@Model.GetProperty("subHeading").Value()</p>
+                                    <div class="work_btn">
+                                        <a href="#" class="btn contact_orange_btn about_border white_text about_them_color" role="button">@Model.GetProperty("buttonText").Value()</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    @Html.Partial("_Breadcrumb")
+
+                    //var blogList = Model.Children.OrderByDescending(c => c.CreateDate).Where(x => x.IsVisible()).Take(4);
+                    var colStyle = 12;
+                    var PageSize = Convert.ToInt32(Model.GetProperty("numberOfBlogs").Value());
+                    var page = 1;
+                    int.TryParse(Request.QueryString["page"], out page);
+                    var blogList = Model.Children().Where(x => x.IsDocumentType("blogPost")).OrderByDescending(x => x.CreateDate);
+                    var totalPages = (int)Math.Ceiling((double)blogList.Count() / (double)PageSize);
+                    <section class="container">
+                        <div class="sitecore_services blog">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class=" pb-40">
+                                        @{
+                                            <div class="row">
+                                                @if (page > totalPages)
+                                                {
+                                                    page = totalPages;
+                                                }
+                                                @if (page < 1)
+                                                {
+                                                    page = 1;
+                                                }
+                                                @foreach (var selectedBlog in blogList.Skip((page - 1) * PageSize).Take(PageSize).OrderByDescending(x => x.CreateDate))
+                                                {
+                                                    <div class="col-lg-@colStyle col-md-@colStyle col-sm-12 col-12 mb-4">
+                                                        <div class="blog_post">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                    <div class="blog_content">
+                                                                        <div class="blog_title">
+                                                                            <h4>
+                                                                                <a href="@selectedBlog.Url" class="black_text">
+                                                                                    @selectedBlog.Name
+                                                                                </a>
+                                                                            </h4>
+                                                                            <div class="post_date">
+                                                                                <ul>
+                                                                                    <li>@selectedBlog.CreateDate.ToString("MMMM dd, yyyy")</li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @{
+                                                                    var blogImg = (IPublishedContent)selectedBlog.GetProperty("blogImage").Value();
+                                                                }
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                    <div class="blog_img">
+                                                                        <img src="@blogImg.Url" class="img-fluid" alt="@blogImg.Name">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                    <div class="blog_content">
+                                                                        <div class="blog_des">
+                                                                            <p class="">@selectedBlog.GetProperty("blogIntro").Value() </p>
+                                                                            <a href="@selectedBlog.Url" class="them_text" role="button">Read more</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    colStyle = 6;
+                                                }
+                                            </div>
+
+                                            <div class="container page_bar">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                        <ul class="list-unstyled text-center">
+                                                            @if (totalPages > 1)
+                                                            {
+                                                                if (page > 1)
+                                                                {
+                                                                    <li class="pag-link"><a href="?page=@(page - 1)"><i class="fa fa-angle-double-left"></i></a></li>
+                                                                }
+                                                                for (int p = 1; p < totalPages + 1; p++)
+                                                                {
+                                                                    if (p == page)
+                                                                    {
+                                                                        <li class="pag-link current"><a href="?page=@p">@p</a></li>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li class="pag-link"><a href="?page=@p">@p</a></li>
+                                                                    }
+                                                                }
+                                                                if (page < totalPages)
+                                                                {
+                                                                    <li class="pag-link"><a href="?page=@(page + 1)"><i class="fa fa-angle-double-right"></i></a></li>
+                                                                }
+                                                                   
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case "product":
+            {
+                <section class="abt_@selectedName.ToLower() container-fluid">
+                    <div class="row title_slider">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12 ">
+                            <div class="service_name">
+                                <h1 class="page_title @selectedName.ToLower()_text"><b>@Model.Value("heading")</b></h1>
+                                <h2 class="black_text">
+                                    @Model.Value("subHeading")
+                                </h2>
+                                <div class="work_btn">
+                                    <a href="#" class="btn contact_orange_btn @selectedName.ToLower()_them_color @selectedName.ToLower()_border white_text" role="button" data-toggle="modal" data-target="#biz_quate">@Model.Value("buttonText")</a>
+                                    <!--                    <a href="#" class="btn contact_orange_btn white_text" role="button" data-toggle="modal" data-target="#biz_consumer">Get a Demo </a>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm col-12 ">
+                            <div class="slider_logo">
+                                <img src="@selectedIcon.Url" class="img-fluid img-thumbnail" alt="@selectedIcon.Name">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                @Html.Partial("_Breadcrumb")
+
+                <section class="container prdt_service biz_service">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h2 class="text-center">@Model.Value("toolsHeading")</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @{
+                            var ToolsData = Model.Value<IEnumerable<IPublishedElement>>("productTools");
+                            foreach (var Tools in ToolsData)
+                            {
+                                var banner = (IPublishedContent)Tools.Value("image");
+                                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="text-center">
+                                        <img src="@banner.Url" class="img-fluid" width="100" alt="">
+                                        <h4>@Tools.GetProperty("imageTitle").Value()</h4>
+                                        <p>
+                                            @Tools.Value("imageSubTitle")
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </section>
+
+                <section class="container prdt_use">
+                    <div class="row prdt_use">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+                            <h3>@Model.GetProperty("useCaseHeading").Value()</h3>
+                        </div>
+
+                        @{ var UseCase = Model.Value<IEnumerable<IPublishedElement>>("productUsecase");
+
+                            foreach (var usecase in UseCase)
+                            {
+                                var buttonlink = (IPublishedContent)usecase.Value("buttonLink");
+                                var UseBanner = (IPublishedContent)usecase.GetProperty("image").Value();
+                                var id = "";
+                                if (UseBanner.Name.ToLower() == "sale")
+                                {
+                                    id = "one";
+                                }
+                                else if (UseBanner.Name.ToLower() == "projecttracking")
+                                {
+                                    id = "two";
+                                }
+                                else
+                                {
+                                    id = "three";
+                                }
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 ">
+                                    <div class="prdt_detail">
+                                        <div class="prdt_img">
+                                            <img src="@UseBanner.Url" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="prdt_name">
+                                            <h4>@usecase.Value("imageTitle")</h4>
+                                            <p class="text-justify">
+                                                @usecase.Value("imageSubTitle")
+                                            </p>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 work_btn">
+                                                <a href="@buttonlink.Url#@id" class="btn contact_orange_btn product_border product_text" role="button">Learn More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </section>
+
+                @Html.Partial("_GetStarted")
+                break;
+            }
+        default:
+
+            break;
+    }
+}
+
+@Html.Partial("_footerBanner")
+
+<script>
+    //For the two Header Buttons
+    document.getElementById('RequestBtn').classList.add("them_color");
+    document.getElementById('RequestBtn').classList.add("them_border");
+
+    document.getElementById('DemoBtn').classList.add("them_color");
+    document.getElementById('DemoBtn').classList.add("them_border");
+
+    //For the submit button
+    if (document.getElementById('SubmitButton')) {
+        document.getElementById('SubmitButton').classList.add("@selectedName.ToLower()_them_color");
+        document.getElementById('SubmitButton').classList.add("@selectedName.ToLower()_text");
+    }
+</script>
+
+
+
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>   @*This is Stoping the form Submition so delete this reference But if we are comenting this then unobractive error is coming Check it once*@
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="~/Js/wowslider.js"></script>

@@ -1,0 +1,93 @@
+﻿@using ContentModels = ProjectNamespace.PublishedContentModels;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.LandingPage>
+@using Umbraco.Web;
+@using Umbraco.Web.Composing;
+@using Umbraco.Core;
+@{
+    Layout = "master.cshtml";
+    var site = Model.Root();
+}
+
+@Umbraco.RenderMacro("ServiceNav")
+
+<section class="@Model.Name.ToLower()_wrapper">
+    <div class="row title_slider">
+        <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+            <div class="service_name">
+                <h1 class="page_title white_text"><b>@Model.Value("heading")</b></h1>
+                <h2 class="black_text">@Model.Value("subHeading")</h2>
+                <div class="work_btn">
+                    <a href="#" class="btn contact_orange_btn white_border white_text" role="button">@Model.Value("buttonText")</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@{
+    switch (Model.Name.ToLower())
+    {
+
+        case "work":
+            //work Banner
+            @*@Html.Partial("~/Views/LandingPages/work/workBanner.cshtml")*@
+            //for Our Clients
+            @Html.Partial("~/Views/LandingPages/work/ourClients.cshtml")
+            break;
+
+        case "services":
+            //Our Services
+            @Html.Partial("~/Views/LandingPages/services/ourServices.cshtml")
+
+            @Html.Partial("_OurWorks")
+
+            break;
+
+        case "about":
+            //Our Qualities
+            @Html.Partial("~/Views/LandingPages/About/ourQualities.cshtml")
+
+            //Careers
+            @Html.Partial("~/Views/LandingPages/About/careers_Banner.cshtml")
+
+            //testimonial
+            @Html.Partial("~/Views/LandingPages/About/testimonial.cshtml")
+            break;
+
+        case "product":
+            //Product Services
+            @Html.Partial("~/Views/LandingPages/Product/productServices.cshtml")
+            @Html.Partial("_OurWorks")
+            <script>
+                document.getElementById('SubmitButton').classList.add("product_them_color");
+                document.getElementById('SubmitButton').classList.add("product_border");
+            </script>
+            break;
+
+        default:
+            break;
+    }
+}
+
+@Html.Partial("_GetStarted")
+
+@Html.Partial("_footerBanner")
+
+<script>
+
+    document.getElementById('QuoteSubmitButton').classList.add("them_color");
+    document.getElementById('QuoteSubmitButton').classList.add("them_border");
+
+    document.getElementById('RequestBtn').classList.add("them_color");
+    document.getElementById('RequestBtn').classList.add("them_border");
+
+    document.getElementById('DemoBtn').classList.add("them_color");
+    document.getElementById('DemoBtn').classList.add("them_border");
+</script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="~/js/wowslider.js"></script>

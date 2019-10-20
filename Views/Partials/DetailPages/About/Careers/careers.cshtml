@@ -1,0 +1,31 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+<section class="container-fluid company_fea">
+    <div class="row">
+        <div class="col-lg-12 col-mg-12 col-sm-12 col-12">
+            <h2 class="text-center">@Model.GetProperty("experienceMainHeading").Value()</h2>
+        </div>
+        @{
+            var EmployeeList = Model.Value<IEnumerable<IPublishedElement>>("careersEmployee");
+            var duration = "3s";
+            var direction = "fadeInLeft";
+            int pointAt = 1;
+            foreach (var Experience in EmployeeList)
+            {
+                duration = pointAt == 2 || pointAt == 3 ? "2s" : "3s";
+                direction = pointAt == 1 || pointAt == 2 ? "fadeInLeft" : "fadeInRight";
+                pointAt++;
+                var ExpImage = (IPublishedContent)Experience.GetProperty("experienceImage").Value();
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12 wow @direction" data-wow-duration="@duration">
+                    <div class="com_feature">
+                        <img class="img-fluid" src="@ExpImage.Url" alt="@ExpImage.Name">
+                    </div>
+                    <div class="com_p">
+                        <h3 class="text-center py-3">@Experience.GetProperty("experienceHeading").Value()</h3>
+                        <p>@Experience.Value("experienceSubHeading")</p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>

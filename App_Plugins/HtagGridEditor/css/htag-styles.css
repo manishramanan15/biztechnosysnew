@@ -1,0 +1,92 @@
+﻿.htag .hte-toolbar-wrapper {
+    display: none;
+    float: left;
+    margin: 0 4px 4px 4px;
+}
+
+.htag .hte-toolbar-wrapper > span {
+    color: #b4b4b4;
+    cursor: default;
+    user-select: none;
+    margin-left: 3px;
+}
+
+.umb-control.-active .htag .hte-toolbar-wrapper {
+    display: block;
+}
+
+.htag .hte-toolbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.htag .hte-toolbar li {
+    float: left;
+    color: #b4b4b4;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.htag .hte-toolbar li.active {
+    color: #1b264f;
+    border-bottom: 3px solid #f5c1bc;
+}
+
+.htag textarea {
+    font-weight: bold;
+    height: 60px;
+    line-height: 45px;
+    border: none;
+}
+
+.htag .icon-wrap {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.htag .icon-layers-text {
+    font-weight: bold;
+    font-family: Lato,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    display: flex;
+    align-self: flex-end;
+    margin-bottom: 6px;
+}
+
+.htag textarea.text-left {
+    text-align: left;
+}
+.htag textarea.text-center {
+    text-align: center;
+}
+.htag textarea.text-right {
+    text-align: right;
+}
+
+.htag textarea.h1 {
+    font-size: 36px;
+}
+.htag textarea.h2 {
+    font-size: 32px;
+}
+.htag textarea.h3 {
+    font-size: 28px;
+}
+.htag textarea.h4 {
+    font-size: 24px;
+}
+.htag textarea.h5 {
+    font-size: 21px;
+}
+.htag textarea.h6 {
+    font-size: 18px;
+}

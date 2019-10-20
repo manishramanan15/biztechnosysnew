@@ -1,0 +1,30 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var itemget = Model.Value<IEnumerable<IPublishedElement>>("pageHeader");
+
+
+    foreach (var select in itemget)
+    {
+        var image = (IPublishedContent)select.GetProperty("image").Value();
+        <section class="about_careers about_them_color">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="careers">
+                            <h1 class="white_text">@select.GetProperty("imageTitle").Value()</h1>
+                            <p class="white_text">
+                                @select.GetProperty("imageSubTitle").Value()
+                            </p>
+                            @*<div class="contact_btn">
+                                    <a href="#" class="btn white_text white_border" role="button">@select.GetProperty("buttonText").Value()</a>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 careers_img">
+                        <img src="@image.Url" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}

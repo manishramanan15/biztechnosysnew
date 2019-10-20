@@ -1,0 +1,533 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VTigerNetApi</name>
+    </assembly>
+    <members>
+        <member name="T:VTigerApi.VTiger">
+            <summary>
+            Client for the VTiger webservice API
+            </summary>
+        </member>
+        <member name="P:VTigerApi.VTiger.ServiceUrl">
+            <summary>
+            The URL of the VTiger-CRM (e.g. http://demo.vtiger.de/)
+            </summary>
+        </member>
+        <member name="P:VTigerApi.VTiger.WebserviceVersion">
+            <summary>
+            The version of the server's VTiger webservice to which the current user logged in
+            </summary>
+        </member>
+        <member name="P:VTigerApi.VTiger.RemoteTables">
+            <summary>
+            Available tables at VTiger instance
+            </summary>
+            <remarks>
+            Table list is only available when logged on
+            </remarks>
+        </member>
+        <member name="P:VTigerApi.VTiger.VTigerVersion">
+            <summary>
+            The version of the server's VTiger software to which the current user logged in
+            </summary>
+        </member>
+        <member name="P:VTigerApi.VTiger.UserID">
+            <summary>
+            The ID of the current VTiger user which is logged in
+            </summary>
+        </member>
+        <member name="P:VTigerApi.VTiger.SessionName">
+            <summary>
+            The session identifier which is used for authentication
+            </summary>
+            <remarks>
+            This value is automatically set by login
+            </remarks>
+            <seealso cref="M:VTigerApi.VTiger.Login(System.String,System.String)"/>
+        </member>
+        <member name="M:VTigerApi.VTiger.#ctor(System.String)">
+            <summary>
+            Create an instance of the VTiger-API interface
+            </summary>
+            <param name="aServiceUrl">Address of the service (example: http://demo.vtiger.de)</param>
+        </member>
+        <member name="P:VTigerApi.VTiger.IgnoreSslCertificateErrors">
+            <summary>
+            Ignore errors and continue when connecting to a remote server with an invalid certificate
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTiger.TitleFields">
+            <summary>
+            The typical title fields for a table row
+            </summary>
+        </member>
+        <member name="M:VTigerApi.VTiger.Login(System.String,System.String)">
+            <summary>
+            Login to the VTiger API.
+            Neccessary to access any data.
+            </summary>
+            <param name="username">Username</param>
+            <param name="accessKey">Personal authentication-key provided on the VTiger website</param>
+        </member>
+        <member name="M:VTigerApi.VTiger.Logout">
+            <summary>
+            Terminates the current session
+            </summary>
+        </member>
+        <member name="M:VTigerApi.VTiger.Listtypes">
+            <summary>
+            Retrieve a list of the different entity-types supported by VTiger (for development)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Listtypes_DataTable">
+            <summary>
+            Retrieve a list of the different entity-types supported by VTiger (for development)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Describe(VTigerApi.VTigerType)">
+            <summary>
+            Retrieves detailed information about a VTiger entity-type (for development)
+            </summary>
+            <param name="elementType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Describe_DataTable(VTigerApi.VTigerType)">
+            <summary>
+            Retrieves detailed information about a VTiger entity-type (for development)
+            </summary>
+            <param name="elementType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Retrieve``1(System.String)">
+            <summary>
+            Retrieve a single element with the specified id
+            </summary>
+            <typeparam name="T">Expected result-type (derivate of VTigerEntity)</typeparam>
+            <param name="id">VTiger-ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Retrieve(System.String)">
+            <summary>
+            Retrieve a single element with the specified id as a DataTable with a single row
+            </summary>
+            <param name="id">VTiger-ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.VTiger_Query``1(System.String)">
+            <summary>
+            Performs a query on the VTiger database
+            </summary>
+            <typeparam name="T">Expected type</typeparam>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Query``1(System.String)">
+            <summary>
+            Performs a query on the VTiger database and converts the result to an array of the desired type
+            </summary>
+            <typeparam name="T">Expected entity-type</typeparam>
+            <param name="query"></param>
+            <returns></returns>
+            <example>
+            This query will return the first 10 contacts whose firstname begins with an "M"  
+            <code>Query&lt;VTigerContact&gt;("SELECT * FROM Contacts WHERE firstname LIKE 'M%' ORDER BY firstname LIMIT 0,10");</code></example>      
+        </member>
+        <member name="M:VTigerApi.VTiger.Query(System.String)">
+            <summary>
+            Performs a query on the VTiger database and converts the result into a DataTable
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.VTiger_Create``1(VTigerApi.VTigerType,System.String)">
+            <summary>
+            Creates a new VTiger entity
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="elementType"></param>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Create``1(``0)">
+            <summary>
+            Creates a new VTiger entity
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Create(VTigerApi.VTigerEntity)">
+            <summary>
+            Creates a new VTiger entity and return the result as a DataTable
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Create(VTigerApi.VTigerType,System.Data.DataRow)">
+            <summary>
+            Creates a new VTiger entity and return the result as a DataTable
+            </summary>
+            <param name="elementType"></param>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.NewElement(VTigerApi.VTigerType)">
+            <summary>
+            Creates a new empty, locally stored VTiger entity
+            </summary>
+            <param name="elementType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.NewElementFromRemoteServerScheme(System.String)">
+            <summary>
+            Creates a new empty, locally stored VTiger entity with column scheme as provided by remote server
+            </summary>
+            <remarks>WARNING: the remote system must return at least 1 row! If the remote system returns 0 rows, there won't be any information on columns (table schema).</remarks>
+            <param name="remoteTableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.VTiger_Update``1(System.String)">
+            <summary>
+            Updates an existing entity in the VTiger database
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Update``1(``0)">
+            <summary>
+            Updates an existing entity in the VTiger database
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Update(System.Data.DataRow)">
+            <summary>
+            Updates an existing entity in the VTiger database
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.UpdateTable(System.Data.DataTable)">
+            <summary>
+            Fetches each entry from a DataTable and updates the corrosponding entities in the VTiger database
+            </summary>
+            <param name="elements"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.Delete(System.String)">
+            <summary>
+            Delete an element from the database
+            </summary>
+            <param name="id">VTiger-ID</param>
+        </member>
+        <member name="M:VTigerApi.VTiger.ExportJson(System.Object)">
+            <summary>
+            Exports an object with all accessible properties and fields as a Json-string
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.ImportJson``1(System.String)">
+            <summary>
+            Imports all possible properties and fields of a Json-string into a new instance of the desired class
+            </summary>
+            <typeparam name="T">Target type</typeparam>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.VTigerExecuteOperation(System.String,System.String,System.Boolean)">
+            <summary>
+            Performs an operation with the VTiger webservice
+            </summary>
+            <param name="operation">operation-identifier</param>
+            <param name="parameters">parameters for the operation</param>
+            <param name="post">Specifies whether a HTTP-GET or HTTP-POST is used for the operation</param>
+            <returns>VTiger response as string</returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.VTigerGetJson``1(System.String,System.String,System.Boolean)">
+            <summary>
+            Performs an operation with the VTiger webservice and converts the result to the desired type
+            </summary>
+            <typeparam name="T">Expected type for the result</typeparam>
+            <param name="operation">operation-identifier</param>
+            <param name="parameters">parameters for the operation</param>
+            <param name="post">Specifies whether a HTTP-GET or HTTP-POST is used for the operation</param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.DtConvertAddRow(System.Data.DataTable,Jayrock.Json.JsonObject)">
+            <summary>
+            Adds a new row to the DataTable and converts special fields if needed
+            </summary>
+            <param name="dt"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:VTigerApi.VTiger.JsonArrayToDataTable(Jayrock.Json.JsonArray)">
+            <summary>
+            Converts a JsonArray (from a query) into a DataTable
+            </summary>
+            <param name="array"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.JsonObjectToDataTable(Jayrock.Json.JsonObject)">
+            <summary>
+            Converts a JsonObject into a DataTable with a single row
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.DefaultSearchQuery(VTigerApi.VTigerType,System.String,System.String,System.String[],System.String,System.String,System.DateTime,System.DateTime)">
+            <summary>
+            Creates a new VTigerQueryWriter and initializes it with default search-parameters.
+            Empty parameters are excluded from the search.
+            </summary>
+            <param name="table"></param>
+            <param name="PrimaryCol">Primary search-column-name</param>
+            <param name="OptionalCols">Optional search-column-names</param>
+            <param name="DateCol">Column for date-search</param>
+            <param name="PrimaryText"></param>
+            <param name="OptionalText"></param>
+            <param name="FromDate"></param>
+            <param name="ToDate"></param>
+            <returns>Returns the initialized VTigerQueryWriter</returns>       
+        </member>
+        <member name="M:VTigerApi.VTiger.FindEntityID(VTigerApi.VTigerType,System.String,System.String)">
+            <summary>
+            Searches for an entity which matches the specified condition and retrives it's ID
+            </summary>
+            <param name="elementType"></param>
+            <param name="field">The field of the entity which should match the specified value</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.FindEntity``1(System.String,System.String)">
+            <summary>
+            Searches for an entity which matches the specified condition and retrives it's data
+            </summary>
+            <param name="field">The field of the entity which should match the specified value</param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VTigerApi.VTiger.DefaultSearchInvoices(System.String,System.String,System.DateTime,System.DateTime)">
+            <summary>
+            Returns a default search-query
+            </summary>
+            <remarks>
+            Default search-attributes:
+            Primary-Column: invoice_no
+            Optional-Columns: subject, hdnGrandTotal, hdnSubTotal, hdnDiscountAmount, txtAdjustment, terms_conditions
+            Date-Column: invoicedate
+            </remarks>
+            <param name="invoice_no"></param>
+            <param name="searchText"></param>
+            <param name="fromDate"></param>
+            <param name="toDate"></param>
+            <returns></returns>
+            <seealso cref="M:VTigerApi.VTiger.DefaultSearchQuery(VTigerApi.VTigerType,System.String,System.String,System.String[],System.String,System.String,System.DateTime,System.DateTime)"/>
+        </member>
+        <member name="T:VTigerApi.VTigerApiSessionTimedOutException">
+            <summary>
+            A session timeout at the server may required to re-logon again
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerApiException">
+            <summary>
+            An exception as reported by the remote server
+            </summary>
+        </member>
+        <member name="F:VTigerApi.VTigerApiException.VTigerErrorCode">
+            <summary>
+            The error code as defined by the VTiger remote server
+            </summary>
+        </member>
+        <member name="F:VTigerApi.VTigerApiException.VTigerMessage">
+            <summary>
+            A human readable error message from the VTiger remote server
+            </summary>
+        </member>
+        <member name="P:VTigerApi.VTigerApiException.Message">
+            <summary>
+            The full message from the VTiger remote server (error code + human readable message)
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerObjectType">
+            <summary>
+            Containts the description of a VTiger-object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerObjectField">
+            <summary>
+            Part of VTigerObjectType
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerTypeDesc">
+            <summary>
+            Part of VTigerObjectType
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerPicklistItem">
+            <summary>
+            Part of VTigerObjectType
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerCalendar">
+            <summary>
+            VTiger-Calendar object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerLead">
+            <summary>
+            VTiger-Leads object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerAccount">
+            <summary>
+            VTiger-Accounts object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerContact">
+            <summary>
+            VTiger-Contacts object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerPotential">
+            <summary>
+            VTiger-Potentials object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerProduct">
+            <summary>
+            VTiger-Products object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerDocument">
+            <summary>
+            VTiger-Documents object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerEmail">
+            <summary>
+            VTiger-Emails object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerHelpDesk">
+            <summary>
+            VTiger-HelpDesk object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerFaq">
+            <summary>
+            VTiger-Faq object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerVendor">
+            <summary>
+            VTiger-Vendors object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerPriceBook">
+            <summary>
+            VTiger-PriceBooks object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerQuote">
+            <summary>
+            VTiger-Quotes object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerPurchaseOrder">
+            <summary>
+            VTiger-PurchaseOrder object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerSalesOrder">
+            <summary>
+            VTiger-SalesOrder object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerInvoice">
+            <summary>
+            VTiger-Invoice object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerCampaign">
+            <summary>
+            VTiger-Campaigns object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerEvent">
+            <summary>
+            VTiger-Events object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerUser">
+            <summary>
+            VTiger-Users object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerPBXManager">
+            <summary>
+            VTiger-PBXManager object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerServiceContract">
+            <summary>
+            VTiger-ServiceContracts object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerService">
+            <summary>
+            VTiger-Services object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerAsset">
+            <summary>
+            VTiger-Assets object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerModComment">
+            <summary>
+            VTiger-ModComments object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerProjectMilestone">
+            <summary>
+            VTiger-ProjectMilestone object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerProjectTask">
+            <summary>
+            VTiger-ProjectTask object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerProject">
+            <summary>
+            VTiger-Project object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerSMSNotifier">
+            <summary>
+            VTiger-SMSNotifier object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerGroup">
+            <summary>
+            VTiger-Groups object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerCurrency">
+            <summary>
+            VTiger-Currency object
+            </summary>
+        </member>
+        <member name="T:VTigerApi.VTigerDocumentFolder">
+            <summary>
+            VTiger-DocumentFolders object
+            </summary>
+        </member>
+    </members>
+</doc>

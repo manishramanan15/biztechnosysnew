@@ -1,0 +1,24 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web;
+
+@{
+    var items = Model.Value<IEnumerable<IPublishedElement>>("pageHeader");
+    var cssClassName = "client";
+}
+@foreach (var selecteditem in items)
+{
+    var selectedimage = (IPublishedContent)selecteditem.GetProperty("image").Value();
+    if (selectedimage != null)
+    {
+        <section class="client_sec @cssClassName">
+            <div class="our_client">
+                <img src="@selectedimage.Url" class="img-fluid" alt="@Model.Name">
+                <h3 class="white_text">@selecteditem.GetProperty("imageTitle").Value()</h3>
+                <div class="work_btn">
+                    <a href="#" class="btn contact_orange_btn work_border work_them_color white_text" role="button">@selecteditem.GetProperty("buttonText").Value()</a>
+                </div>
+            </div>
+        </section>
+    }
+    cssClassName = "client2";
+}

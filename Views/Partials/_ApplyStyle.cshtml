@@ -1,0 +1,99 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+
+    switch (Model.Level)
+    {
+        case 2:
+            string selectedColor = "orange";
+            if (Model.HasValue("menuColor") && Model.Value<string>("menuColor") != null)
+            {
+                selectedColor = Model.Value<string>("menuColor").ToLower();
+                selectedColor = "#" + selectedColor;
+            }
+            else
+            {
+                string[] colors = { "orange", "green", "blue", "purple" };
+                Random rand = new Random();
+                int index = rand.Next(colors.Length);
+                selectedColor = colors[index];
+            }
+            switch (selectedColor)
+            {
+                case "green":
+                    selectedColor = "#a3cf5f";
+                    break;
+                case "blue":
+                    selectedColor = "#62b4e5";
+                    break;
+                case "orange":
+                    selectedColor = "#f3781f";
+                    break;
+                case "purple":
+                    selectedColor = "#a072a5";
+                    break;
+                default:
+
+                    break;
+            }
+            var selectedCase = Model.Name.ToLower();
+            var kjkjkjh = Model.Url;
+            switch (selectedCase)
+            {
+                case "work":
+                <style>
+                    #header_wrapper .overlay ul.nav-main > li.work:before {
+                        background: @selectedColor;
+                    }
+                    #header_wrapper .overlay ul.nav-main > li > ul.a-green li:first-child:before {
+                        border-left: 3px solid @selectedColor;
+                    }
+                </style>
+                    break;
+
+                case "services":
+                <style>
+
+                    #header_wrapper .overlay ul.nav-main > li.services:before {
+                        background: @selectedColor;
+                    }
+                    #header_wrapper .overlay ul.nav-main > li > ul.a-blue li:first-child:before {
+                        border-left: 3px solid @selectedColor;
+                    }
+                </style>
+                    break;
+
+                case "about":
+                <style>
+                #header_wrapper .overlay ul.nav-main > li.about:before {
+                    background: @selectedColor;
+                }
+                #header_wrapper .overlay ul.nav-main > li > ul.a-orange li:first-child:before {
+                    border-left: 3px solid @selectedColor;
+                }
+                </style>
+                    break;
+
+                case "product":
+                <style>
+                #header_wrapper .overlay ul.nav-main > li.product:before {
+                    background: @selectedColor;
+                }
+                #header_wrapper .overlay ul.nav-main > li > ul.a-purple li:first-child:before {
+                    border-left: 3px solid @selectedColor;
+                }
+                </style>
+                        break;
+                    default:
+
+                        break;
+                }
+            break;
+        case 3:
+
+            break;
+        default:
+                break;
+    }
+}
+
+

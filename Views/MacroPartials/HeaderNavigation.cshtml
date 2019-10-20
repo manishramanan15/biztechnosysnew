@@ -1,0 +1,184 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web;
+@using Umbraco.Web.Composing;
+@using Umbraco.Core;
+@using Umbraco.Core.PropertyEditors.ValueConverters;
+@{
+    Layout = null;
+    var selectedmodel = Model;
+    var site = Model.Root();
+    var select = site.Children.Where(x => x.Id == 1258 || x.Id == 1259);
+    var selection = site.Children.Where(x => x.IsVisible()).Except(select);
+    var name = Model.Level == 1 ? Model.Name : Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
+    name = @name.ToLower() == "privacy policy" ?  "terms & conditions_header" : name.ToLower() + "_header";
+}
+
+<!--
+    Text Animation Reference
+    colorful water filling effect in text using css
+    https://tympanus.net/codrops/2015/02/16/create-animated-text-fills/
+-->
+
+<section class="@name">
+    <div class="header_section">
+        <div id="header_wrapper">
+            <!--Progress Bar-->
+            <div class="scroll-container">
+                <div class="scroll-bar" id="top_scrollbar"> </div>
+            </div>
+
+            <div id="header" class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div id="logo">
+                            <a href="http://localhost:64439/" rel="home" title="Home">
+                                @{
+                                    var typedMediaPickerSingle = site.Value<IPublishedContent>("siteLogo");
+                                    if (typedMediaPickerSingle != null)
+                                    {
+                                    <img src="@typedMediaPickerSingle.Url" width="225" alt="@typedMediaPickerSingle.Value("altText")" />
+                                    }
+                                }
+                            </a>
+                        </div>
+
+                        <div class="work_btn">
+                            <a href="#" id="RequestBtn" class="btn contact_orange_btn white_text" role="button" data-toggle="modal" data-backdrop="static" data-target="#biz_quate">Request a Quote</a>
+                            <a href="#" id="DemoBtn" class="btn contact_orange_btn white_text" role="button" data-toggle="modal" data-backdrop="static" data-target="#biz_consumer">Get a Demo </a>
+                        </div>
+
+                        <!--Generating Navigation Button -->
+                        <a id="nav-toggle" href="#">
+                            <span></span>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <nav class="overlay overlay-nav">
+                            <ul class="nav-main">
+                                @{
+                                    var isChecked = false;
+                                    string color = "";
+                                    int index = -1;
+                                    var NavImages = site.Value<IEnumerable<IPublishedContent>>("navImages");
+                                    foreach (var nav in selection)
+                                    {
+                                        index++;
+                                        isChecked = nav.Value<bool>("dockMe");
+                                        string[] colors = { "Green", "Blue", "Orange", "Purple" };
+                                        color = colors[index].ToLower();
+                                        var myClass = @nav.Name.ToLower();
+                                        var selectedColor = "nav-" + color.ToString();
+                                        var selectedNavColor = "a-" + color.ToString();
+                                    <li style="display:none"></li>
+                                        //Put try Catch here As, when x.Name does not contains anything it will throw an error
+                                        var selectedBackground = NavImages.FirstOrDefault(x => x.Name.ToLower() == nav.Name.ToLower());
+                                    <li class="@myClass"
+                                        style="background: url(@selectedBackground.Url) no-repeat;
+                                           background-size: cover">
+                                        <a class="@selectedColor" href="@nav.Url">/@nav.Name</a>
+                                        @if (nav.Children.Any(x => x.IsVisible()))
+                                            {
+                                        <ul class="@selectedNavColor">
+                                            @foreach (var subNav in nav.Children.Where(x => x.IsVisible()))
+                                                    {
+                                            <li><a href="@subNav.Url">@subNav.Name</a></li>
+                                                    }
+                                            @if (isChecked == true)
+                                                    {
+                                                        var links = (List<Umbraco.Web.Models.Link>)site.GetProperty("externalLinks").Value();
+                                                        var socialIcons = site.Value<IEnumerable<IPublishedContent>>("socialIcons");
+                                                        if (links.Count() > 0)
+                                                        {
+                                            <li>
+                                                <ul class="social-networks">
+                                                    @{
+                                                                        foreach (var link in links)
+                                                                        {
+                                                                            var imageItem = socialIcons.FirstOrDefault(x => x.Name.ToLower() == link.Name.ToLower() + " header"); <!--Instead of using second For Loop we used Lamda Expression to make our code runs faster. Try to skip two for loops in your code.-->
+                                                        <li>
+                                                            <a rel="noreferrer" href="@link.Url" target="@link.Target">
+                                                                <img src="@imageItem.Url" data-toggle="tooltip" title="@link.Name" alt="@link.Name">
+                                                            </a>
+                                                            <!-- Instead of using rel="stylesheet" I am using rel= "noopener" or rel= "noreferrer" to all External Links to improve performance and prevent security vulnerabilities. -->
+                                                        </li>
+                                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                                        }
+                                                    }
+                                        </ul>
+                                            }
+                                    </li>
+                                    @Html.Partial("_ApplyStyle", nav);
+                                    }
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Form 1-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="modal fade" id="biz_quate">
+            <div class="modal-dialog modal-dialog-centered consumer">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" onclick="document.location.reload(true);">&times;</button>
+                        <div class="row mt-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <h5 class="text-center them_text">Please fill with your details</h5>
+                                @Html.Partial("~/Views/Contact/OnQuoteRequest.cshtml", new Biztechnosys.Umbraco.Website.Models.ContactModel())
+                                @*@Html.Partial("_OnQuoteRequest")*@
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 quote_req">
+                                <img src="@Umbraco.Media("1477").Url" class="img-fluid" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Form 2-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="modal fade" id="biz_consumer">
+            <div class="modal-dialog modal-dialog-centered consumer">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" onclick="document.location.reload(true);">&times;</button>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 quote">
+                                <h5 class="them_text">
+                                    Biztechnosys has delivered projects across verticals, with its office in Bangalore has served clients around the globe.
+                                    Why Biztechnosys?
+                                </h5>
+                                <ul>
+                                    <li>Competitive prices</li>
+                                    <li> Customized solutions</li>
+                                    <li>Excellent track record in project delivery</li>
+                                    <li> Diversified and talented work-pool</li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <img src="@Umbraco.Media("1476").Url" class="img-fluid" alt="">
+                                </div>
+                                @Html.Partial("~/Views/OurDemo/OnDemoRequest.cshtml", new Biztechnosys.Umbraco.Website.Models.OurDemoModel())
+                                @*@Html.Partial("_OnDemoRequest")*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,141 @@
+﻿<div class="row blog_form blog_post" id="QuoteOutput" style="text-align:left">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-left">
+        <div class="text-left">
+            <h2 class="black_text"><strong>Leave a Reply</strong></h2>
+            <p class="p_text">Your email address will not be published. Required fields are marked *</p>
+
+            <form name="DemoForm1" action="https://cors-anywhere.herokuapp.com/https://daily.biztechnosys.com/modules/Webforms/capture.php" method="post" class="ajax" id="demo" accept-charset="utf-8" enctype="multipart/form-data">
+                <input type="hidden" name="__vtrftk" value="sid:fe1cd1ccdbff124a6d42daacd56323f05d509f4a,1565608495">
+                <input type="hidden" name="publicid" value="cd1c2a44509ae631bf40c01a363d5540">
+                <input type="hidden" name="name" value="DemoForm">
+                <input type="hidden" name="VTIGER_RECAPTCHA_PUBLIC_KEY" value="RECAPTCHA PUBLIC KEY FOR THIS DOMAIN">
+                <div class="form-group">
+                    <label for="name">Name (Required)</label>
+
+                    <input type="text" name="lastname" value="" class="form-control req_input" id="clastname" placeholder="Enter Your Name" onkeypress='return restrictNumbers(event)'>
+                    <div id="clastname_error" style="color:red"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email (Required)</label>
+                    <input type="email" name="email" id="cemail" value="" class="form-control req_input" placeholder="Enter Your Email">
+                    <div id="cemail_error" style="color:red"></div>
+                </div>
+                <div class="form-group">
+                    <label for="website">Website</label>
+                    <input type="text" id="cwebsite" class="form-control req_input" name="website" placeholder="www.example.com">
+                    <div id="cwebsite_error" style="color:red"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment">Comment</label>
+                    <textarea id="cdescription" name="description" rows="5" class="form-control req_input" placeholder="Enter Your message"></textarea>
+                    <div id="cdescription_error" style="color:red"></div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 work_btn text-center">
+                    <button value="submit" type="submit" id="QuoteSubmitButton" class="btn about_them_color about_border white_text" role="button" onclick=" return register_validate()">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+        $('form.ajax').on('submit', function () {
+            var that = $(this),
+                url = that.attr('action'),
+                type = that.attr('method'),
+                data = {};
+
+            that.find('[name]').each(function (index, value) {
+                var that = $(this),
+                    name = that.attr('name'),
+                    value = that.val();
+
+                data[name] = value;
+            });
+            $.ajax({
+                url: url,
+                header: { 'Access-Control-Allow-Origin': 'https://daily.biztechnosys.com/modules/Webforms/capture.php' },
+                async: false,
+                type: "POST",
+                data: data,
+                success: function (response) {
+                    var name = document.getElementById('clastname').value;
+                    var phone = document.getElementById('cwebsite').value;
+                    var email = document.getElementById('cemail').value;
+
+                    var result = "Thank You ";
+                    result = result.concat(name, '\n', 'we will contact you soon ', '\n', '           on     ', '\n', phone, ' or ', email);
+                    $("#QuoteOutput").replaceWith(result);
+                },
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'json',
+            });
+            return false;
+        });
+</script>
+<script>
+        function register_validate() {
+            var name = document.getElementById('clastname').value;
+            var email = document.getElementById('cemail').value;
+            var Desc = document.getElementById('cdescription').value;
+            var mobile = document.getElementById('cwebsite').value;
+            if (name == "") {
+                document.getElementById('clastname_error').innerHTML = "Name Is Required";
+                return false;
+            }
+
+            if (email == "") {
+                document.getElementById('cemail_error').innerHTML = "Email Is Required";
+                return false;
+            }
+            if (mobile == "") {
+                document.getElementById('cwebsite_error').innerHTML = "Website Is Requiredquired";
+                return false;
+            }
+
+            //dummy
+
+            if (Desc == "") {
+                document.getElementById('cdescription_error').innerHTML = "Message Is Required";
+                return false;
+            }
+            return true;
+        }
+        function removeWarning() {
+            document.getElementById(this.id + "_error").innerHTML = "";
+        }
+
+        document.getElementById("clastname").onkeyup = removeWarning;
+        document.getElementById("cemail").onkeyup = removeWarning;
+        document.getElementById("cwebsite").onkeyup = removeWarning;
+        document.getElementById("cdescription").onkeyup = removeWarning;
+
+</script>
+
+@*for number*@
+<script type="text/javascript">
+        /*code: 48-57 Numbers
+          8  - Backspace,
+          35 - home key, 36 - End key
+          37-40: Arrow keys, 46 - Delete key*/
+        function restrictAlphabets(e) {
+            var x = e.which || e.keycode;
+            if ((x >= 48 && x <= 57) || x == 8 ||
+                (x >= 35 && x <= 40) || x == 46)
+                return true;
+            else
+                return false;
+        }
+</script>
+<script>
+        function restrictNumbers(e) {
+            var x = e.which || e.keycode;
+            if ((x >= 67 && x <= 122) || x == 8 ||
+                (x >= 35 && x <= 40) || x == 46)
+                return true;
+            else
+                return false;
+        }
+</script>

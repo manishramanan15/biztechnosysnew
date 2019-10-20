@@ -1,0 +1,177 @@
+﻿    <div id="output" class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left">
+        <h5 class="them_text">Thinking about CRM!!, start your journey by filling out the below details</h5>
+        <form name="DemoForm2" class="form" action="https://cors-anywhere.herokuapp.com/http://daily.biztechnosys.com/modules/Webforms/capture.php" method="post" class="ajax" accept-charset="utf-8" enctype="multipart/form-data">
+            <input type="hidden" name="__vtrftk" value="sid:fe1cd1ccdbff124a6d42daacd56323f05d509f4a,1565608495">
+            <input type="hidden" name="publicid" value="cd1c2a44509ae631bf40c01a363d5540">
+            <input type="hidden" name="name" value="DemoForm">
+            <input type="hidden" name="VTIGER_RECAPTCHA_PUBLIC_KEY" value="RECAPTCHA PUBLIC KEY FOR THIS DOMAIN">
+
+            <div class="form-group req_field">
+                <input type="text" name="Company_Name" value="" class="form-control req_input" id="dCompany_Name" placeholder="Enter Your Company Name">
+                <div id="dCompany_Name_error" style="color:red"></div>
+            </div>
+
+            <div class="form-group req_field">
+                <input type="email" name="email" id="demail" value="" class="form-control req_input" placeholder="Enter Your Email">
+                <div id="demail_error" style="color:red"></div>
+
+            </div>
+
+            <div class="form-group req_field">
+                <input type="text" name="lastname" value="" class="form-control req_input" id="dlastname" placeholder="Enter Your Name" onkeypress='return restrictNumber3(event)'>
+                <div id="dlastname_error" style="color:red"></div>
+            </div>
+
+            <div class="form-group req_field">
+                <input type="text" id="dPhone Number" class="form-control req_input" onkeypress='return restrictAlphabet3(event)' name="Phone Number" placeholder="Enter Your Contact Number" pattern="[6-9]{1}[0-9]{9}" title="Phone number with 6-9 and remaing 9 digit with 0-9">
+                <div id="dPhone Number_error" style="color:red"></div>
+            </div>
+
+
+            <div class="form-group req_field">
+                <input type="text" name="country" value="" class="form-control req_input" id="dcountry" placeholder="Enter Country Name">
+                <div id="dcountry_error" style="color:red"></div>
+            </div>
+
+            <div class="form-group req_field">
+                <select class="form-control req_input" id="dProduct" name="Product">
+                    <option value="">- Select Demo -</option>
+                    <option value="sitecore">Sitecore</option>
+                    <option value="umbraco">Umbraco</option>
+                    <option value="vtiger">Vtiger</option>
+                    <option value="azure">Azure</option>
+                    <option value="aws">AWS</option>
+                    <option value="xamarin">Xamarin</option>
+                </select>
+                <div id="dProduct_error" style="color:red"></div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" name="terms" id="dterms" class="form-check-input">Please accept <a href="http://localhost:64439/terms-conditions/"> terms and conditions</a> ?
+                    <div id="dterms_error" style="color:red"></div>
+                </label>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 work_btn text-center">
+                <button value="submit" type="submit" id="SubmitBtn" class="btn contact_orange_btn them_color them_border white_text" role="button" onclick=" return register_validate3()">Submit</button>
+            </div>
+        </form>
+    </div>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+    $('form.ajax').on('submit', function () {
+        var that = $(this),
+            url = that.attr('action'),
+            type = 'POST',
+            data = {};
+        that.find('[name]').each(function (index, value) {
+            var that = $(this),
+                name = that.attr('name'),
+                value = that.val();
+
+            data[name] = value;
+        });
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: function (response) {
+                var name = document.getElementById('dlastname').value;
+                var phone = document.getElementById('dPhone Number').value;
+                var email = document.getElementById('demail').value;
+
+                var result = "Thank You ";
+                result = result.concat(name, '\n', 'we will contact you soon ', '\n', '           on     ', '\n', phone, ' or ', email);
+                $("#output").replaceWith(result);
+            }
+        });
+        return false;
+    });
+</script>
+
+<script>
+    function register_validate3() {
+        var company = document.getElementById('dCompany_Name').value;
+        var email = document.getElementById('demail').value;
+        var name = document.getElementById('dlastname').value;
+        var mobile = document.getElementById('dPhone Number').value;
+        var country = document.getElementById('dcountry').value;
+        var selectedDemo = document.getElementById('dProduct').value;
+        var isAccepted = document.getElementById("dterms").checked;
+
+        if (company == "") {
+            document.getElementById('dCompany_Name_error').innerHTML = "Company Name Is Required";
+            return false;
+        }
+        if (email == "") {
+            document.getElementById('demail_error').innerHTML = "Email Is Required";
+            return false;
+        }
+        if (name == "") {
+            document.getElementById('dlastname_error').innerHTML = "Name Is Required";
+            return false;
+        }
+        if (mobile == "") {
+            document.getElementById('dPhone Number_error').innerHTML = "Phone Number Is Required";
+            return false;
+        }
+        if (country == "") {
+            document.getElementById('dcountry_error').innerHTML = "Country Name Is Required";
+            return false;
+        }
+        if (selectedDemo == "") {
+            document.getElementById('dProduct_error').innerHTML = "Please select a Demo";
+            return false;
+        }
+        if (isAccepted == false) {
+            document.getElementById('dterms_error').innerHTML = "Please Accept our Tems";
+            return false;
+        }
+       
+        return true;
+    }
+    function removeWarning2() {
+        document.getElementById(this.id + "_error").innerHTML = "";
+    }
+
+    document.getElementById("dCompany_Name").onkeyup = removeWarning2;
+    document.getElementById("demail").onkeyup = removeWarning2;
+    document.getElementById("dlastname").onkeyup = removeWarning2;
+    document.getElementById("dPhone Number").onkeyup = removeWarning2;
+    document.getElementById("dcountry").onkeyup = removeWarning2;
+    document.getElementById("dProduct").onmouseup = removeWarning2;
+    document.getElementById("dterms").onmouseup = removeWarning2;
+
+</script>
+
+@*for number*@
+<script type="text/javascript">
+    /*code: 48-57 Numbers
+      8  - Backspace,
+      35 - home key, 36 - End key
+      37-40: Arrow keys, 46 - Delete key*/
+    function restrictAlphabet3(e) {
+        var x = e.which || e.keycode;
+        if ((x >= 48 && x <= 57) || x == 8 ||
+            (x >= 35 && x <= 40) || x == 46)
+            return true;
+        else
+            return false;
+    }
+</script>
+<script>
+    function restrictNumber3(e) {
+        var x = e.which || e.keycode;
+        if ((x >= 67 && x <= 122) || x == 8 ||
+            (x >= 35 && x <= 40) || x == 46)
+            return true;
+        else
+            return false;
+    }
+</script>
+

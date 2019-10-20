@@ -1,0 +1,27 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var name = Model.Name.ToLower() == "contact us" ? Model.Parent.Name : Model.Name;
+    name = Model.Name.ToLower() == "careers" ? Model.Parent.Name : Model.Name;
+    if(name == "Contact US" || name == "About")
+    {
+        name = "contact";
+    }
+}
+
+<section class="page_breadcrumb @name.ToLower()_breadcrumb">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a class="black_text" href="@Model.Parent.Url">@Model.Parent.Name</a>
+                        <i class="fa fa-angle-right mx-2 black_text" aria-hidden="true"></i>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a class="black_text" href="javascript:void(0)">@Model.Name</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>

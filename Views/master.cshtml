@@ -1,0 +1,129 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using System.Web.Optimization;
+@using System.Text;
+@{
+    Layout = null;
+    var Title = Model.Level == 1 ? Model.Root().Name.ToUpper().ToString() : Model.Level == 2 ? Model.Root().Name.ToUpper().ToString() + " | " + Model.Name.ToUpper().ToString() : Model.Level == 3 ? Model.Root().Name.ToUpper().ToString() + " | " + Model.Parent.Name.ToUpper().ToString() + " | " + Model.Name.ToUpper().ToString() : Model.Root().Name.ToUpper().ToString() + " | " + Model.Parent.Parent.Name.ToUpper().ToString() + " | " + Model.Parent.Name.ToUpper().ToString() + " | " + Model.Name.ToUpper().ToString();
+    var title = Model.HasProperty("pageTitle") ? Model.GetProperty("pageTitle").Value().ToString() : Title;
+    var metaDescription = Model.HasProperty("metaDescription") ? Model.GetProperty("metaDescription").Value().ToString() : "Biztechnosys";
+    var keywords = "";
+    var canonicalUrl =(Model.HasValue("canonicalUrl")) ? Model.Value("canonicalUrl") : "";
+
+    try
+    {
+        if (Model.GetProperty("metaKeywords") != null)
+        {
+            foreach (var tag in Model.GetProperty("metaKeywords").Value<IEnumerable<string>>())
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.Append(tag);
+                builder.Append(",");
+                keywords += builder.ToString();
+            }
+            keywords = keywords.Substring(0, keywords.Length - 1);
+        }
+    }
+    catch (Exception ex)
+    {
+        var kjk = ex.Message;
+        var kkj = ex.StackTrace;
+        keywords = "";
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title> @title  </title>
+    <meta name="description" content="@metaDescription" />
+    <meta name="keywords" content="@keywords" />
+
+    <link rel="canonical" href="@canonicalUrl">
+
+    <link rel="shortcut icon" href="~/image/biztechnosys/favicon_logo.png">
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:100,200,300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+
+    @Styles.Render("~/bundles/site.css")
+    <script src="~/js/Zendesk.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+
+    <style>
+        /*Styles added by me for forms*/
+
+        .field-validation-error {
+            color: #ff0000;
+            background-color: white;
+            border-radius: 4px;
+            display: block;
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            text-align: left;
+        }
+
+        .field-validation-valid {
+            display: none;
+        }
+
+        .input-validation-error {
+            border: 1px solid #ff0000;
+            background-color: #ffeeee;
+        }
+
+
+        .validation-summary-errors {
+            font-weight: bold;
+            color: #ff0000;
+        }
+
+        .validation-summary-valid {
+            display: none;
+        }
+
+        .ErrorMessage {
+            font-family: Cambria;
+        }
+    </style>
+</head>
+
+<body>
+    @Html.Partial("HeaderNavigation")
+
+    @RenderBody()
+
+    <!--social media sticky bar-->
+    <div class="social_media_section">
+        @Umbraco.RenderMacro("StickyBar")
+    </div>
+
+    <!--footer section-->
+    <section class="footer_section">
+        @Html.Partial("Footer", Model)
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- owl slider -->
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/owlmaincasestudy.js"></script>
+    <script src="~/js/owlclientslide.js"></script>
+    <script src="~/js/owlcounter.js"></script>
+
+</body>
+</html>

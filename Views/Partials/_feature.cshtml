@@ -1,0 +1,32 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{ 
+    var selection = Model.Value<IEnumerable<IPublishedElement>>("featureData");
+}
+
+<section class="@Model.Name.ToLower()_feature">
+    <div class="feature container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <h3 class="black_text text-center">@Model.Value("featureMainheading")</h3>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="main_feature">
+                    @foreach (var item in selection)
+                        {
+                            <a href="#" class="feature_line">
+                                <div class="feature_icon">
+                                    <i class="@item.GetProperty("iconClass").Value()"></i>
+                                </div>
+                                <div class="feature_content">
+                                    <h3 class="feature_title">@item.GetProperty("featureHeading").Value() </h3>
+                                    <p class="feature_description">
+                                        @item.GetProperty("featureSubheading").Value()
+                                    </p>
+                                </div>
+                            </a>
+                        }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

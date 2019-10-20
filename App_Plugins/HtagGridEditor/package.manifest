@@ -1,0 +1,18 @@
+﻿{
+  "gridEditors": [
+    {
+      "name": "Headline",
+      "alias": "htmlHeading",
+      "view": "~/App_Plugins/HtagGridEditor/views/headline.editor.html",
+      "render": "~/App_Plugins/HtagGridEditor/views/headline.render.cshtml",
+      "icon": "icon-oew-heading"
+    }
+  ],
+  "javascript": [
+    "~/App_Plugins/HtagGridEditor/scripts/headline.controller.js"
+  ],
+  "css": [
+    "~/App_Plugins/HtagGridEditor/css/headline.icons.css",
+    "~/App_Plugins/HtagGridEditor/css/headline.styles.css"
+  ]
+}

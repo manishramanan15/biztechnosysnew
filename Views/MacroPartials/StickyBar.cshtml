@@ -1,0 +1,48 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    Layout = null;
+}
+
+<!-- References: I have taken help from these websites. If any issue check here, By SURAJ KUMAR-->
+<!--
+1. https://our.umbraco.com/documentation/Getting-Started/Backoffice/Property-Editors/Built-in-Property-Editors/Multi-Url-Picker/
+2. https://our.umbraco.com/packages/backoffice-extensions/multi-url-picker/
+-->
+@*  Checked and Verified for New Changes on 10/07/19 *@
+
+@{
+    var link1 = Umbraco.AssignedContentItem.Root();
+    var links = (List<Umbraco.Web.Models.Link>)link1.GetProperty("externalLinks").Value();
+    if (links.Count() > 0)
+    {
+        <div class="social_icon_bar">
+            <ul class="list-unstyled">
+                @foreach (var item in links)
+                {
+                    var className = @item.Name.ToLowerInvariant();
+                    var newClassName = "fab fa-" + className;
+                    if(className == "facebook")
+                        newClassName = "fab fa-" + className + "-f";
+
+                    <li class="@className"><a rel="noreferrer" href="@item.Url" target="@item.Target" class="white_text"><i class="@newClassName"></i></a></li>
+                                                                                                                           <!-- Instead of using rel="stylesheet" I am using rel= "noopener" or rel= "noreferrer" to all External Links to improve performance and prevent security vulnerabilities. -->
+                }
+            </ul>
+        </div>
+    }
+}
+
+
+
+
+
+<!--
+<div class="social_icon_bar">
+    <ul class="list-unstyled">
+        <li class="facebook"><a href="#" class="white_text"><i class="fab fa-facebook-f"></i></a></li>
+        <li class="twitter"><a href="#" class="white_text"><i class="fab fa-twitter"></i></a></li>
+        <li class="linkedin"><a href="#" class="white_text"><i class="fab fa-linkedin"></i></a></li>
+    </ul>
+
+</div>
+    -->

@@ -1,0 +1,33 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web;
+@{ var site = Model.Root();}
+<section class="container our_work">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <h2 class="black_text">@site.GetProperty("sliderTitle").Value()</h2>
+            <p class="p_text">
+                <em><b>@site.GetProperty("sliderSubTitle").Value()</b></em>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        @{
+            var caseStudies = (IEnumerable<IPublishedContent>)site.GetProperty("sliderComponent").Value();
+            foreach (var item in caseStudies)
+            {
+                <div class="col-lg-3 col-md-3 col-sm-4 col-6 button_hover client_logo">
+                    <img class="img-fluid" src="@item.Url" alt="@item.Name" />
+                    @*<button type="button" class="case_study_button btn">
+                        <a class="arrow">
+                            <span class="view_arrow">view case study</span>
+                            <span><i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </button>*@
+                </div>
+            }
+        }
+        @*<div class="col-lg-12 col-md-12 col-sm-12 col-12 work_btn">
+            <a href="#" class="btn contact_orange_btn work_them_color work_border white_text" role="button">View All Clients</a>
+        </div>*@
+    </div>
+</section>

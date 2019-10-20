@@ -1,0 +1,25 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.BizprivacyPolicy>
+@using ContentModels = ProjectNamespace.PublishedContentModels;
+@{
+    Layout = "master.cshtml";
+}
+<section class="container">
+    <div class="row privacy">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            @Model.Value("privacyPolicy")
+            <br />
+        </div>
+    </div>
+</section>
+
+
+<script>
+    document.getElementById('QuoteSubmitButton').classList.add("them_color");
+    document.getElementById('QuoteSubmitButton').classList.add("them_border");
+
+    document.getElementById('DemoBtn').classList.add("them_color");
+    document.getElementById('DemoBtn').classList.add("them_border");
+
+    document.getElementById('RequestBtn').classList.add("them_color");
+    document.getElementById('RequestBtn').classList.add("them_border");
+</script>

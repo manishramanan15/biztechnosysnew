@@ -1,0 +1,82 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+<section class="main_services product_ser">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                @Model.Value("testimonial")
+            </div>
+        </div>
+        @{
+            var ProductNav = Model.Children.Where(x => x.IsVisible());
+            int sum = 2; // odd number causes else part to be executed and even number cause 1st part to execute. 
+            IPublishedContent selectedImg;
+            foreach (var product in ProductNav)
+            {
+                selectedImg = product.Value<IPublishedContent>("landingPageImage");
+                if (sum % 2 == 0)
+                {
+                    <div class="service_detail">
+                        <div class="row">
+                            @if(sum == 2)
+                            {
+                                <div class="col-lg-12 col-md-12 col-sm-12 service_heading">
+                                    <h3 class="black_text text-center">Featured Global Products</h3>
+                                </div>
+                            }
+                            <div class="col-lg-6 col-md-6 col-sm-4 service_images">
+                                <div class="wow fadeInLeft" data-wow-duration="4s">
+                                    <img src="@selectedImg.Url" class="img-fluid" alt="">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-8 col-12 service_des wow fadeInRight service_block" data-wow-duration="2s">
+                                <div class="service_block">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <h4 class="services_text text-center product_them_color white_text">@product.Name</h4>
+                                            <p class="p_text">@product.Value("homePageDescription")</p>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 work_btn text-center">
+                                            <a href="@product.Url" class="btn contact_orange_btn product_border product_text" role="button">Learn More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    sum++;
+                }
+                else
+                {
+                    <div class="service_detail">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-8 col-12 service_des wow fadeInLeft" data-wow-duration="2s">
+                                <div class="service_block">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <h4 class="services_text text-center product_them_color white_text">@product.Name</h4>
+                                            <p class="p_text">@product.Value("homePageDescription")</p>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 work_btn text-center">
+                                            <a href="@product.Url" class="btn contact_orange_btn product_border product_text" role="button">Learn More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-4 service_images">
+                                <div class="wow fadeInRight" data-wow-duration="4s">
+                                    <img src="@selectedImg.Url" class="img-fluid" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    sum++;
+                }                    
+            }
+        }
+    </div>
+</section>
+
+
+
+
