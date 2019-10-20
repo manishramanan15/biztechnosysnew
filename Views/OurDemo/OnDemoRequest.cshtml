@@ -62,7 +62,7 @@
             <label class="form-check-label">
                 @Html.CheckBoxFor(m => m.Terms, htmlAttributes: new { @class = "form-check-input", id = "Dterm_Condition" })
                 @Html.LabelFor(m => m.Terms)
-                <a href="http://localhost:64439/terms-conditions/"> terms and conditions</a> ?
+                <a href="/terms-conditions/"> terms and conditions</a> ?
                 @Html.ValidationMessageFor(m => m.Terms, "", htmlAttributes: new { @class = "ErrorMessage" })
                 <span id="Dterm_Condition_error" style="color:red"></span>
             </label>
