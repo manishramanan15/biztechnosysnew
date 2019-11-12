@@ -1,13 +1,15 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @using System.Web.Optimization;
 @using System.Text;
+@using ClientDependency.Core.Mvc
 @{
+    @*for facebook pixel    https://www.facebook.com/business/help/952192354843755?id=1205376682832142  *@
     Layout = null;
     var Title = Model.Level == 1 ? Model.Root().Name.ToUpper().ToString() : Model.Level == 2 ? Model.Root().Name.ToUpper().ToString() + " | " + Model.Name.ToUpper().ToString() : Model.Level == 3 ? Model.Root().Name.ToUpper().ToString() + " | " + Model.Parent.Name.ToUpper().ToString() + " | " + Model.Name.ToUpper().ToString() : Model.Root().Name.ToUpper().ToString() + " | " + Model.Parent.Parent.Name.ToUpper().ToString() + " | " + Model.Parent.Name.ToUpper().ToString() + " | " + Model.Name.ToUpper().ToString();
     var title = Model.HasProperty("pageTitle") ? Model.GetProperty("pageTitle").Value().ToString() : Title;
     var metaDescription = Model.HasProperty("metaDescription") ? Model.GetProperty("metaDescription").Value().ToString() : "Biztechnosys";
     var keywords = "";
-    var canonicalUrl =(Model.HasValue("canonicalUrl")) ? Model.Value("canonicalUrl") : "";
+    var canonicalUrl = (Model.HasValue("canonicalUrl")) ? Model.Value("canonicalUrl") : "";
 
     try
     {
@@ -38,18 +40,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    @Html.Partial("_OpenGraph")
+
     <title> @title  </title>
     <meta name="description" content="@metaDescription" />
     <meta name="keywords" content="@keywords" />
-
     <link rel="canonical" href="@canonicalUrl">
 
-    <link rel="shortcut icon" href="~/image/biztechnosys/favicon_logo.png">
-    
+    <link rel="shortcut icon" href="~/image/biztechnosys/favicon_logo1.jpg">
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="//fonts.googleapis.com/css?family=Roboto+Slab:100,200,300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 
@@ -99,6 +101,8 @@
 </head>
 
 <body>
+    <input id="clientLocation" type="hidden" runat="server" />
+
     @Html.Partial("HeaderNavigation")
 
     @RenderBody()
@@ -124,6 +128,9 @@
     <script src="~/js/owlmaincasestudy.js"></script>
     <script src="~/js/owlclientslide.js"></script>
     <script src="~/js/owlcounter.js"></script>
+    
+    <script src="~/Scripts/Location.js"></script>
+
 
 </body>
 </html>

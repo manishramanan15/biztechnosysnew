@@ -13,7 +13,7 @@
     <div class="container text-md-left">
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 col-12 footer_menu">
-                <h5 class="">Quick Links</h5>
+                <h6 class="">Quick Links</h6>
                 <ul class="list-unstyled">
                     @{
                         var QuickLink = (List<IPublishedContent>)site.GetProperty("quickLinks").Value();
@@ -28,7 +28,7 @@
             </div>
             <hr class="clearfix d-md-none">
             <div class="col-lg-4 col-md-4 col-sm-12 col-12 footer_contact">
-                <h5 class="">Contact Us</h5>
+                <h6 class="">Contact Us</h6>
                 <ul class="list-unstyled">
                     <li>
                         <a href="tel:@site.Value("mobileNo")" class="black_text"><i class="fas fa-mobile-alt"></i><span>@site.Value("mobileNo")</span></a>
@@ -40,7 +40,7 @@
             </div>
             <hr class="clearfix d-md-none">
             <div class="col-lg-4 col-md-4 col-sm-12 col-12 social_menu">
-                <h5 class="">Stay Connected</h5>
+                <h6 class="">Stay Connected</h6>
                 <ul class="list-unstyled list-inline">
                     @{
                         var links = (List<Umbraco.Web.Models.Link>)site.GetProperty("externalLinks").Value();

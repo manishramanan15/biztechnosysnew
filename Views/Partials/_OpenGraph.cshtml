@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var siteRoot = Model.Root();
+    var appID = Model.HasValue("fB_AppID") ? Model.Value("fB_AppID").ToString() != "" ? Model.Value("fB_AppID") : "" : "";
+    var title = Model.HasValue("og_Title") ? Model.Value("og_Title").ToString() != "" ? Model.Value("og_Title") : Model.Value("pageTitle") : Model.Value("pageTitle");
+    var descr = Model.HasValue("og_Description") ? Model.Value("og_Description").ToString() != "" ? Model.Value("og_Title") : Model.Value("metaDescription") : Model.Value("metaDescription");
+    var image = Model.HasValue("og_Image") ? (IPublishedContent)Model.Value("og_Image") : (IPublishedContent)siteRoot.Value("siteLogo");
+    var type =  Model.Name.ToLower() == "blogs" || Model.Root().Name != Model.Name && Model.Parent.Name.ToLower() == "blogs" ? "article" : "website";
+}
+<meta property="fb:app_id" content="@appID" />
+<meta property="og:type" content="@type" />
+<meta property="og:title" content="@title">
+<meta property="og:description" content="@descr">
+<meta property="og:image" content="@image.Url">
+<meta property="og:url" content="@Request.Url">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="@title">
+<meta name="twitter:description" content="@descr">
+<meta name="twitter:image" content="@image.Url">
+<meta name="twitter:site" content="@Request.Url">

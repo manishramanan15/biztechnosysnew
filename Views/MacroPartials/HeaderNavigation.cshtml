@@ -7,10 +7,10 @@
     Layout = null;
     var selectedmodel = Model;
     var site = Model.Root();
-    var select = site.Children.Where(x => x.Id == 1258 || x.Id == 1259);
+    var select = site.Children.Where(x => x.Id == 1258 || x.Id == 1259 || x.Id == 1561);
     var selection = site.Children.Where(x => x.IsVisible()).Except(select);
     var name = Model.Level == 1 ? Model.Name : Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
-    name = @name.ToLower() == "privacy policy" ?  "terms & conditions_header" : name.ToLower() + "_header";
+    name = @name.ToLower() == "privacy policy" ?  "terms & conditions_header" : name.ToLower() == "data science" ? "data_header" : name.ToLower() + "_header";
 }
 
 <!--

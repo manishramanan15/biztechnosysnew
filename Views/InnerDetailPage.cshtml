@@ -1,12 +1,17 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.InnerDetailPage>
 @using ContentModels = ProjectNamespace.PublishedContentModels;
+@using System.Globalization;
 @{
     Layout = "master.cshtml";
     var pageIcon = (IPublishedContent)Model.Parent.GetProperty("pickedIcon").Value();
     var selectedName = Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
+    selectedName = selectedName.ToLower() == "data science" ? "data" : selectedName;
     var cssClass1 = selectedName.ToLower().ToString() + "_them_color";
     var cssClass2 = selectedName.ToLower().ToString() + "_border";
     var caseStudyIcon = (IPublishedContent)Model.GetProperty("caseStudyIcon").Value();
+
+    var btnslinks = (IPublishedContent)Model.Value("buttonLink");
+    var btns_links = (btnslinks == null) ? "#" : btnslinks.Url;
 }
 
 @Umbraco.RenderMacro("ServiceNav")
@@ -14,8 +19,6 @@
 @{
     if (Model.Parent.Parent.Name.ToLower() == "work")
     {
-        var btnslinks = (IPublishedContent)Model.Value("buttonLink");
-        var btns_links = (btnslinks == null) ? "#" : btnslinks.Url;
         <section class="client_cs_wrapper">
             <div class="row title_slider">
                 <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
@@ -82,15 +85,17 @@
     }
     else if (Model.Parent.Parent.Name.ToLower() == "services")
     {
+        var cssClassName = Model.Parent.Name.ToLower() == "data science" ? "data" : Model.Parent.Name.ToLower();
+        var secClass = Model.Parent.Name.ToLower() == "data science" ? "cms_data_science" : "cms_" + cssClassName;
         <!--pageIcon is used inside this section-->
-        <section class="cms_@Model.Parent.Name.ToLower()">
+        <section class="@secClass">
             <div class="row title_slider">
                 <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
                     <div class="service_name">
-                        <h1 class="page_title @Model.Parent.Name.ToLower()_text"><b>@Model.GetProperty("heading").Value()</b></h1>
-                        <p class="black_text">@Model.GetProperty("subHeading").Value()</p>
+                        <h1 class="page_title @cssClassName.ToLower()_text"><b>@Model.GetProperty("heading").Value()</b></h1>
+                        <h2 class="black_text">@Model.GetProperty("subHeading").Value()</h2>
                         <div class="work_btn">
-                            <a href="#" class="btn contact_orange_btn @Model.Parent.Name.ToLower()_them_color @Model.Parent.Name.ToLower()_border white_text" role="button">@Model.GetProperty("buttonText").Value()</a>
+                            <a href="@btns_links" class="btn contact_orange_btn @cssClassName.ToLower()_them_color @cssClassName.ToLower()_border white_text" role="button">@Model.GetProperty("buttonText").Value()</a>
                         </div>
                     </div>
                 </div>
@@ -103,7 +108,7 @@
             </div>
         </section>
 
-        <section class="page_breadcrumb @Model.Parent.Name.ToLower()_breadcrumb cms_breadecrumb">
+        <section class="page_breadcrumb @cssClassName.ToLower()_breadcrumb cms_breadecrumb">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -126,7 +131,7 @@
         </section>
 
         <section class="container-fluid">
-            <div class="@Model.Parent.Name.ToLower()_services cms_services biz_service">
+            <div class="@cssClassName.ToLower()_services cms_services biz_service">
                 <div class="row">
                     <div class="col-lg-4 col-md-5 col-sm-12 col-12 consumer_form">
                         <div class="row">
@@ -166,6 +171,95 @@
 
         @Model.Value("mainContent")
     }
+    else if (Model.Parent.Parent.Name.ToLower() == "about")
+    {
+        
+        <section class="contact_wrapper skill">
+            <div class="row title_slider">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
+                    <div class="service_name">
+                        <h1 class="page_title about_text"><b>@Model.Value("jobTitle")</b></h1>
+                        <h2 class="black_text">@Model.Value("jobDescription")</h2>
+                        <div class="work_btn">
+                            <a href="#" class="btn contact_orange_btn about_border white_text about_them_color" role="button" data-toggle="modal" data-backdrop="static" data-target="#biz_requirement">Apply For This Job</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container biz_service text-left cms_services skill">
+            <div class="row inner_des">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h2>You will be responsible for</h2>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 ">
+                    <ul class="list-unstyled">
+                        <li> Strong experience in architecture of Java.</li>
+                        <li>Strong understanding of large scale distributed architectures, reactive </li>
+                        <li>
+                            programming paradigms, design patterns, application development processes and
+                            practices
+                        </li>
+                        <li>Should have strong understanding of transactional databases, and of multiple </li>
+                        <li>types of NoSQL databases like Cassandra/MongoDB</li>
+                        <li>Knowledge of Elasticsearch or Lucene</li>
+                        <li>Understanding of Spring & Play framework</li>
+                        <li>Knowledge of Kafka or any other queue implementation</li>
+                        <li>Should have strong understanding of transactional databases, and of multiple </li>
+                        <li>types of NoSQL databases like Cassandra/MongoDB</li>
+                        <li>Knowledge of Elasticsearch or Lucene</li>
+                        <li>Understanding of Spring & Play framework</li>
+                        <li>Knowledge of Kafka or any other queue implementation</li>
+                    </ul>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 work_btn">
+                    <a href="#" class="btn contact_orange_btn about_border white_text about_them_color" role="button" data-toggle="modal" data-backdrop="static" data-target="#biz_requirement">Apply For This Job</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal fade" id="biz_requirement">
+                    <div class="modal-dialog modal-dialog-centered consumer">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="row mt-3">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <h5 class="text-left about_text">Please fill your details</h5>
+                                        <form action="/">
+                                            <div class="form-group">
+                                                <label for="name">Full Name:</label>
+                                                <input type="text" class="form-control req_input" id="name" placeholder="Enter Your Name*" name="name" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email address:</label>
+                                                <input type="email" class="form-control req_input" id="email" placeholder="Enter Your email*" name="email" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="phone">Phone Number:</label>
+                                                <input type="tel" class="form-control req_input" id="phone" placeholder="Enter Your Phone Number*" name="phone" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Attech Your Resume:</label>
+                                                <input type="file" class="form-control choosefile" id="image" name="image" required>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 work_btn">
+                                                <a href="#" class="btn contact_orange_btn about_them_color about_border white_text" role="button">Submit</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
     else  // code for product section
     {
         <section class="page_breadcrumb product_breadcrumb blog_breadcrumb cms_breadecrumb">
@@ -190,8 +284,12 @@
             </div>
         </section>
 
-        @Model.Value("pageContent")
-        @Model.Value("mainContent")
+        <section class="container prdt_title">
+            @Model.Value("pageContent")
+        </section>
+        <section class="container ">
+            @Model.Value("mainContent")
+        </section>
     }
 }
 
@@ -199,11 +297,13 @@
 
 @Html.Partial("_footerBanner")
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+@*
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+*@
 
 <script>
     $(document).on('click', '.card-heading span.clickable', function (e) {

@@ -2,6 +2,7 @@
 
 @{ 
     var cssName = Model.Level == 1 ? "biz" : Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "Biztechnosys";
+    cssName = cssName.ToLower() == "data science" ? "data" : cssName;
     var site = Model.Root();
     string forColor = Model.Level == 1 ? "them_color" : cssName.ToLower() + "_them_color";
 }

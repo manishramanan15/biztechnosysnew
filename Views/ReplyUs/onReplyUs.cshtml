@@ -1,144 +1,171 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Biztechnosys.Umbraco.Website.Models.ReplyUs>
+@{
+    Layout = null;
+    var actionLink = System.Configuration.ConfigurationManager.AppSettings["DemoForm1"];
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
 
-<div class="row blog_form blog_post" id="QuoteOutput" style="text-align:left">
+<div id="LeaveReply" class="row blog_form blog_post" style="text-align:left">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-left">
         <div class="text-left">
             <h2 class="black_text"><strong>Leave a Reply</strong></h2>
             <p class="p_text">Your email address will not be published. Required fields are marked *</p>
-
-            <form name="DemoForm1" action="https://cors-anywhere.herokuapp.com/https://daily.biztechnosys.com/modules/Webforms/capture.php" method="post" class="ajax" id="demo" accept-charset="utf-8" enctype="multipart/form-data">
+            <form name="DemoForm" action="@actionLink" method="post" class="ajax" accept-charset="utf-8" enctype="multipart/form-data">
                 <input type="hidden" name="__vtrftk" value="sid:fe1cd1ccdbff124a6d42daacd56323f05d509f4a,1565608495">
                 <input type="hidden" name="publicid" value="cd1c2a44509ae631bf40c01a363d5540">
                 <input type="hidden" name="name" value="DemoForm">
                 <input type="hidden" name="VTIGER_RECAPTCHA_PUBLIC_KEY" value="RECAPTCHA PUBLIC KEY FOR THIS DOMAIN">
                 <div class="form-group">
                     <label for="name">Name (Required)</label>
-
-                    <input type="text" name="lastname" value="" class="form-control req_input" id="clastname" placeholder="Enter Your Name" onkeypress='return restrictNumbers(event)'>
-                    <div id="clastname_error" style="color:red"></div>
+                    @Html.TextBoxFor(m => m.Name, htmlAttributes: new { @class = "form-control req_input", id = "Replylastname", placeholder = "Enter Your Name*", name = "lastname", onkeypress = "return restrictNumber11(event)" })
+                    @Html.ValidationMessageFor(m => m.Name, "", htmlAttributes: new { @class = "ErrorMessage" })
+                    <span id="Replylastname_error" class="ErrorMessage field-validation-error"></span>
                 </div>
                 <div class="form-group">
                     <label for="email">Email (Required)</label>
-                    <input type="email" name="email" id="cemail" value="" class="form-control req_input" placeholder="Enter Your Email">
-                    <div id="cemail_error" style="color:red"></div>
+                    @Html.TextBoxFor(m => m.Email, htmlAttributes: new { @class = "form-control req_input", id = "Replyemail", placeholder = "Enter Your Email*", name = "email" })
+                    @Html.ValidationMessageFor(m => m.Email, "", htmlAttributes: new { @class = "ErrorMessage" })
+                    <span id="Replyemail_error" class="ErrorMessage field-validation-error"></span>
                 </div>
                 <div class="form-group">
                     <label for="website">Website</label>
-                    <input type="text" id="cwebsite" class="form-control req_input" name="website" placeholder="www.example.com">
-                    <div id="cwebsite_error" style="color:red"></div>
+                    @Html.TextBoxFor(m => m.website, htmlAttributes: new { @class = "form-control req_input", id = "Replywebsite", placeholder = "Enter Your Website Url*", name = "website" })
+                    @Html.ValidationMessageFor(m => m.website, "", htmlAttributes: new { @class = "ErrorMessage" })
+                    <span id="Replywebsite_error" class="ErrorMessage field-validation-error"></span>
                 </div>
-
                 <div class="form-group">
                     <label for="comment">Comment</label>
-                    <textarea id="cdescription" name="description" rows="5" class="form-control req_input" placeholder="Enter Your message"></textarea>
-                    <div id="cdescription_error" style="color:red"></div>
+                    @Html.TextAreaFor(m => m.comment, htmlAttributes: new { @class = "form-control req_input", rows = "5", id = "Replydescription", placeholder = "Enter Your Message*", name = "description" })
+                    @Html.ValidationMessageFor(m => m.comment, "Message is required", htmlAttributes: new { @class = "ErrorMessage" })
+                    <span id="Replydescription_error" class="ErrorMessage field-validation-error"></span>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 work_btn text-center">
-                    <button value="submit" type="submit" id="QuoteSubmitButton" class="btn about_them_color about_border white_text" role="button" onclick=" return register_validate()">Submit</button>
+                <div class="form-group text-center">
+                    <button value="submit" type="submit" id="SubmitButton2" class="btn submit_btn white_text" role="button" onclick=" return register_validate11()">Submit</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div id="successResult2" style="background-color:palegreen;color:blue;"></div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<div id="errorResult2" style="background-color:palevioletred;color:red;"></div>
 <script>
-        $('form.ajax').on('submit', function () {
+    $('form.ajax').on('submit', function () {
+        var that = $(this),
+            url = that.attr('action'),
+            type = 'POST',
+            data = {};
+        that.find('[name]').each(function (index, value) {
             var that = $(this),
-                url = that.attr('action'),
-                type = that.attr('method'),
-                data = {};
+                name = that.attr('name'),
+                value = that.val();
+            data[name] = value;
+        });
 
-            that.find('[name]').each(function (index, value) {
-                var that = $(this),
-                    name = that.attr('name'),
-                    value = that.val();
-
-                data[name] = value;
-            });
-            $.ajax({
-                url: url,
-                header: { 'Access-Control-Allow-Origin': 'https://daily.biztechnosys.com/modules/Webforms/capture.php' },
-                async: false,
-                type: "POST",
-                data: data,
-                success: function (response) {
-                    var name = document.getElementById('clastname').value;
-                    var phone = document.getElementById('cwebsite').value;
-                    var email = document.getElementById('cemail').value;
-
+        $.ajax({
+            url: '@Url.Action("onReplyUs", "ReplyUs")',
+            type: 'POST',
+            data: data,
+            success: function (response) {
+                if (response == "true") {
+                    var name = document.getElementById('Replylastname').value;
+                    var phone = document.getElementById('Replywebsite').value;
+                    var email = document.getElementById('Replyemail').value;
                     var result = "Thank You ";
                     result = result.concat(name, '\n', 'we will contact you soon ', '\n', '           on     ', '\n', phone, ' or ', email);
-                    $("#QuoteOutput").replaceWith(result);
-                },
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: 'json',
-            });
-            return false;
+                    document.getElementById("successResult2").innerHTML = "Email sent successfully";
+                    $("#LeaveReply").replaceWith(result);
+                }
+                else {
+                    document.getElementById("errorResult2").innerHTML = "Operation Failed" + "<br/>" + response;
+                }
+
+            }
         });
+        return false;
+    });
 </script>
+@*Validation *@
 <script>
-        function register_validate() {
-            var name = document.getElementById('clastname').value;
-            var email = document.getElementById('cemail').value;
-            var Desc = document.getElementById('cdescription').value;
-            var mobile = document.getElementById('cwebsite').value;
-            if (name == "") {
-                document.getElementById('clastname_error').innerHTML = "Name Is Required";
-                return false;
-            }
 
-            if (email == "") {
-                document.getElementById('cemail_error').innerHTML = "Email Is Required";
-                return false;
-            }
-            if (mobile == "") {
-                document.getElementById('cwebsite_error').innerHTML = "Website Is Requiredquired";
-                return false;
-            }
-
-            //dummy
-
-            if (Desc == "") {
-                document.getElementById('cdescription_error').innerHTML = "Message Is Required";
-                return false;
-            }
-            return true;
-        }
-        function removeWarning() {
-            document.getElementById(this.id + "_error").innerHTML = "";
+    function register_validate11() {
+        var name = document.getElementById('Replylastname').value;
+        var email = document.getElementById('Replyemail').value;
+        var Desc = document.getElementById('Replydescription').value;
+        var website = document.getElementById('Replywebsite').value;
+        var emailReg = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (name == "") {
+            document.getElementById('Replylastname_error').innerHTML = "The Name field is Required*";
+            document.getElementById('Replylastname').focus(); return false;
         }
 
-        document.getElementById("clastname").onkeyup = removeWarning;
-        document.getElementById("cemail").onkeyup = removeWarning;
-        document.getElementById("cwebsite").onkeyup = removeWarning;
-        document.getElementById("cdescription").onkeyup = removeWarning;
+        if (email == "") {
+            document.getElementById('Replyemail_error').innerHTML = "The email field is required*";
+            return false;
+        }
+        if (!emailReg.test(email)) {
+            document.getElementById('Replyemail_error').innerHTML = "";
+            document.getElementById('Replyemail_error').innerHTML = "Email is not valid*";
+            document.getElementById('Replyemail').focus();
+            return false;
+        }
+        if (website == "") {
+            document.getElementById('Replywebsite_error').innerHTML = "The Website Url is required*";
+            document.getElementById('Replywebsite').focus();
+            return false;
+        }
+        if (Desc == "") {
+            document.getElementById('Replydescription_error').innerHTML = "Message is required*";
+            document.getElementById('Replydescription').focus();
+            return false;
+        }
+        return true;
+    }
+    function removeWarning11() {
+        document.getElementById(this.id + "_error").innerHTML = "";
+    }
+
+    document.getElementById("Replylastname").onkeyup = removeWarning11;
+    document.getElementById("Replyemail").onkeyup = removeWarning11;
+    document.getElementById("Replywebsite").onkeyup = removeWarning11;
+    document.getElementById("Replydescription").onkeyup = removeWarning11;
 
 </script>
-
 @*for number*@
-<script type="text/javascript">
-        /*code: 48-57 Numbers
-          8  - Backspace,
-          35 - home key, 36 - End key
-          37-40: Arrow keys, 46 - Delete key*/
-        function restrictAlphabets(e) {
-            var x = e.which || e.keycode;
-            if ((x >= 48 && x <= 57) || x == 8 ||
-                (x >= 35 && x <= 40) || x == 46)
-                return true;
-            else
-                return false;
-        }
+<script>
+    function restrictNumbers11(e) {
+        var x = e.which || e.keycode;
+        if ((x >= 67 && x <= 122) || x == 8 || (x >= 32 && x <= 40) || x == 46)
+            return true;
+        else
+            return false;
+    }
 </script>
 <script>
-        function restrictNumbers(e) {
-            var x = e.which || e.keycode;
-            if ((x >= 67 && x <= 122) || x == 8 ||
-                (x >= 35 && x <= 40) || x == 46)
-                return true;
-            else
+    var indexcount = 0;
+    jQuery("input,alastname").on('keypress', function (e) {
+        if (jQuery(this).val().length < 1) {
+            if (e.which == 32) {
                 return false;
+            }
         }
+        else {
+            if (e.which == 32) {
+                if (indexcount != 0) {
+                    return false;
+                }
+                indexcount++;
+            }
+            else {
+                indexcount = 0;
+            }
+        }
+    });
+</script>
+
+<script>
+    document.getElementById('SubmitButton2').classList.add("about_them_color");
+    document.getElementById('SubmitButton2').classList.add("about_border");
 </script>
 

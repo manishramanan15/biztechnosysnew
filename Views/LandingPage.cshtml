@@ -6,6 +6,18 @@
 @{
     Layout = "master.cshtml";
     var site = Model.Root();
+
+    IPublishedContent buttonlink;
+    string btnLink = "";
+    if (Model.Value("buttonLink") != null)
+    {
+        buttonlink = (IPublishedContent)Model.GetProperty("buttonLink").Value();
+        btnLink = buttonlink.Url;
+    }
+    else
+    {
+        btnLink = "#";
+    }
 }
 
 @Umbraco.RenderMacro("ServiceNav")
@@ -17,7 +29,7 @@
                 <h1 class="page_title white_text"><b>@Model.Value("heading")</b></h1>
                 <h2 class="black_text">@Model.Value("subHeading")</h2>
                 <div class="work_btn">
-                    <a href="#" class="btn contact_orange_btn white_border white_text" role="button">@Model.Value("buttonText")</a>
+                    <a href="@btnLink" class="btn contact_orange_btn white_border white_text" role="button">@Model.Value("buttonText")</a>
                 </div>
             </div>
         </div>
@@ -38,9 +50,7 @@
         case "services":
             //Our Services
             @Html.Partial("~/Views/LandingPages/services/ourServices.cshtml")
-
             @Html.Partial("_OurWorks")
-
             break;
 
         case "about":
@@ -49,6 +59,28 @@
 
             //Careers
             @Html.Partial("~/Views/LandingPages/About/careers_Banner.cshtml")
+
+            var pillarList = (IEnumerable<IPublishedElement>)Model.GetProperty("pillars").Value();
+
+            <section class="container biz_service biz_solution">
+                <div class="row biz_moto">
+                    @foreach (var pillar in pillarList)
+                    {
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                            <div class="card">
+                                <div class="card-header about_them_color biz_moto_title">
+                                    <h2 class="white_text">@pillar.Value("pillarTitle")</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p class="black_text">
+                                        @pillar.Value("pillarDescription")
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
 
             //testimonial
             @Html.Partial("~/Views/LandingPages/About/testimonial.cshtml")
@@ -74,7 +106,6 @@
 @Html.Partial("_footerBanner")
 
 <script>
-
     document.getElementById('QuoteSubmitButton').classList.add("them_color");
     document.getElementById('QuoteSubmitButton').classList.add("them_border");
 
@@ -84,10 +115,10 @@
     document.getElementById('DemoBtn').classList.add("them_color");
     document.getElementById('DemoBtn').classList.add("them_border");
 </script>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+@*
+    Already added in Master Page
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
 <!-- Popper JS -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+@*<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>*@
 <!-- Latest compiled JavaScript -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="~/js/wowslider.js"></script>

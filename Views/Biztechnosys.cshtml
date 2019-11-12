@@ -4,27 +4,9 @@
 @{
     Layout = "master.cshtml";
     var site = Model.Root();
-}
-@*
-            To Use forms in our Application I Installed "Microsoft-JQuery-Unobstrusive-Ajax".
-            Reference
-            https://www.completecsharptutorial.com/asp-net-mvc5/4-ways-to-create-form-in-asp-net-mvc.php#three
-        -->
-        <!-- Try to attach this Package in umbraco Back Office
-            https://our.umbraco.com/packages/backoffice-extensions/cultiv-tabify-umbraco-8/             //added
-            https://our.umbraco.com/packages/website-utilities/grid-layout-youtube-video/
-
-            Macros Should not be used Instead use Partial Views
-            https://24days.in/umbraco-cms/2015/umbraco-zeitgeist/
-        Grid Best Practices:
-        https://our.umbraco.com/documentation/getting-started/backoffice/property-editors/built-in-property-editors/Grid-Layout/Grid-Layout-Best-Practices
-
-    @****************************SEO Components starts *******************@
-
-
-@{
     var typedMediaPickerSingle = site.Value<IPublishedContent>("siteLogo");
 }
+@****************************SEO Components starts *******************@
 
 <script type="application/ld+json">
     {
@@ -32,15 +14,13 @@
     "@@type": "Organization",
     "name": "Biztechnosys",
     "email": "info@biztechnosys.com",
-    "description": " Biztechnosys provides Umbraco CMS development and Microsoft cloud services in USA , UK & Australia. And also Cloud Service development. We help you to achieve increased productivity, faster time-to-market and improvements in cost and effort efficiency.Visit our website today.",
+    "description": "Biztechnosys provides Umbraco CMS development and Microsoft cloud services in USA , UK & Australia. And also Cloud Service development. We help you to achieve increased productivity, faster time-to-market and improvements in cost and effort efficiency.Visit our website today.",
     "logo": "@typedMediaPickerSingle.Url",
-    "url": "www. Biztechnosys.com",
+    "url": "www.Biztechnosys.com",
     "sameAs": [
-    "https://www.facebook.com/mygenneve/",
-    "https://twitter.com/mygenneve/",
-    "https://www.instagram.com/mygenneve/",
-    "https://www.linkedin.com/company/genneve/",
-    "http://www.genneve.libsyn.com/"
+    "https://facebook.com/biztechnosys/",
+    "https://twitter.com/biztechnosys/",
+    "https://linkedin.com/company/biztechnosys-pvt-ltd/"
     ]
     }
 </script>
@@ -48,11 +28,11 @@
     {
     "@@context": "https://schema.org/",
     "@@type": "WebSite",
-    "url": "www. Biztechnosys.com",
+    "url": "www.Biztechnosys.com",
     "potentialAction": {
     "@@type": "SearchAction",
-    "target": "www. Biztechnosys.com",
-    "query-input": "required name=search_term_string"
+    "target": "www.Biztechnosys.com",
+    "query-input":"required name=search_term_string"
     }
     }
 </script>
@@ -111,6 +91,15 @@
                         {
                             <div class="item">
                                 <div class="owl_image">
+                                    <div class="owl_service">
+                                        @foreach (var selectedIcon1 in icons)
+                                        {
+                                            if (selectedIcon1.Name.Contains(item.Name.Substring(0, 7)))
+                                            {
+                                                <img src="@selectedIcon1.Url" alt="">
+                                            }
+                                        }
+                                    </div>
                                     <img src="@item.Url" class="img-fluid" alt="">
                                     <button type="button" class="case_study_button btn them_border them_color">
                                         <a class="arrow white_text" href="#">

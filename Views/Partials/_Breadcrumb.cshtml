@@ -1,7 +1,8 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @{
-    var name = Model.Name.ToLower() == "contact us" ? Model.Parent.Name : Model.Name;
-    name = Model.Name.ToLower() == "careers" ? Model.Parent.Name : Model.Name;
+    var name = Model.Name.ToLower() == "contact us" || Model.Name.ToLower() == "careers" ? Model.Parent.Name : Model.Name;
+    //name = Model.Name.ToLower() == "careers" ? Model.Parent.Name : Model.Name;
+    name = Model.Name.ToLower() == "data science" ? "data" : name;
     if(name == "Contact US" || name == "About")
     {
         name = "contact";

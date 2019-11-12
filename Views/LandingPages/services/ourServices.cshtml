@@ -4,7 +4,7 @@
 <section class="main_services">
     <div class="container">
         <div class="service_heading">
-            <h1 class="black_text text-center">@Model.GetProperty("heading").Value()</h1>
+            <h2 class="black_text text-center">@Model.GetProperty("heading").Value()</h2>
         </div>
         @{
             var serviceNavi = Model.Children.Where(x => x.IsVisible());
@@ -17,12 +17,12 @@
                     <div class="service_detail">
                         <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-8 col-12 service_des wow fadeInLeft" data-wow-duration="2s">
-                                        <div class="service_block">
-                                            <h4 class="services_text text-center services_them_color white_text">@nav.Name</h4>
+                                        <a href="@nav.Url" class="service_block">
+                                            <h2 class="text-center services_them_color white_text our_ser_name">@nav.Name</h2>
                                             <p class="p_text">
                                                 @nav.GetProperty("homePageDescription").Value()
                                             </p>
-                                        </div>
+                                        </a>
                                         <!--<div class="line_bottom"></div>-->
                                     </div>
                             <div class="col-lg-6 col-md-6 col-sm-4 service_images">
@@ -43,12 +43,12 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-8 col-12 service_des wow fadeInRight" data-wow-duration="2s">
-                                <div class="service_block">
-                                    <h4 class="services_text text-center services_them_color white_text">@nav.Name</h4>
+                                <a href="@nav.Url" class="service_block">
+                                    <h2 class="text-center services_them_color white_text our_ser_name">@nav.Name</h2>
                                     <p class="p_text">
                                         @nav.GetProperty("homePageDescription").Value()
                                     </p>
-                                </div>
+                                </a>
                                 @*<div class="line_bottom"></div>*@
                             </div>
                         </div>

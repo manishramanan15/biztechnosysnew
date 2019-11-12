@@ -2,16 +2,29 @@
 @{ 
     var name = Model.Name.ToLower() == "contact us" ? Model.Parent.Name : Model.Name;
     name = Model.Name.ToLower() == "careers" ? Model.Parent.Name : Model.Name;
+    name = Model.Name.ToLower() == "data science" ? "data" : name;
     var selectedIcon = Model.Value<IPublishedContent>("pickedIcon");
+
+    IPublishedContent BtnLink;
+    string StartLink = "";
+    if(Model.Value("buttonLink") != null)
+    {
+        BtnLink = (IPublishedContent)Model.GetProperty("buttonLink").Value();
+        StartLink = BtnLink.Url;
+    }
+    else
+    {
+        StartLink = "#";
+    }
 }
 <section class="@name.ToLower()_wrapper">
     <div class="row title_slider">
         <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
             <div class="service_name">
                 <h1 class="page_title @name.ToLower()_text"><b>@Model.Value("heading")</b></h1>
-                <p class="black_text">@Model.Value("subHeading")</p>
+                <h2 class="black_text">@Model.Value("subHeading")</h2>
                 <div class="work_btn">
-                    <a href="#" class="btn contact_orange_btn @name.ToLower()_them_color @name.ToLower()_border white_text" role="button">@Model.Value("buttonText")</a>
+                    <a href="@StartLink" class="btn contact_orange_btn @name.ToLower()_them_color @name.ToLower()_border white_text" role="button">@Model.Value("buttonText")</a>
                 </div>
             </div>
         </div>

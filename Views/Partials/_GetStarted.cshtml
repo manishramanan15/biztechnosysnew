@@ -12,14 +12,17 @@
         startlink = "#";
     }
     var headerClass = Model.Level == 1 ? "Biztechnosys" : Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "Biztechnosys";
-    Boolean status = Model.Name.ToLower() == "work" ? true : false;
+    headerClass = headerClass.ToLower() == "data science" ? "data" : headerClass;
+    //Boolean status = Model.Name.ToLower() == "work" ? true : false;
+    var getStarted_Text = @Model.GetProperty("startSubHeading").Value();
+    var justifyMe = getStarted_Text.ToString().Length >= 100 ? "text-justify" : "";
 }   
 
-<section id="getStarted" class="container-fluid @headerClass.ToLower()_contact">
+<section id="getStarted" class="container @headerClass.ToLower()_contact">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <h4 class="black_text">@Model.GetProperty("startHeading").Value()</h4>
-            <p class="p_text">@Model.GetProperty("startSubHeading").Value()</p>
+            <p class="p_text @justifyMe">@getStarted_Text</p>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 contact_btn">
             <a href="@startlink" class="btn black_border black_text" role="button">@Model.GetProperty("startButtonText").Value()</a>
