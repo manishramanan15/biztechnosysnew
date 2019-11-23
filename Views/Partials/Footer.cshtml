@@ -19,9 +19,9 @@
                         var QuickLink = (List<IPublishedContent>)site.GetProperty("quickLinks").Value();
                         foreach (var item in QuickLink)
                         {
-                        <li>
-                            <a href="@item.Url" class="black_text">@item.Name</a>
-                        </li>
+                            <li>
+                                <a href="@item.Url" class="black_text">@item.Name</a>
+                            </li>
                         }
                     }
                 </ul>
@@ -51,12 +51,12 @@
                             foreach (var item in links)
                             {
                                 var imageItem = typedMultiMediaPicker.FirstOrDefault(x => x.Name == item.Name); <!--Instead of using second For Loop we used Lamda Expression to make our code runs faster. Try to skip two for loops in your code.-->
-                        <li class="list-inline-item">
-                            <a rel="noreferrer" href="@item.Url" target="@item.Target">
-                                <img src="@imageItem.Url" data-toggle="tooltip" title="@item.Name" class="img-fluid" alt="@item.Name">
-                            </a>
-                            <!-- Instead of using rel="stylesheet" I am using rel= "noopener" or rel= "noreferrer" to all External Links to improve performance and prevent security vulnerabilities. -->
-                        </li>
+                                <li class="list-inline-item">
+                                    <a rel="noreferrer" href="@item.Url" target="@item.Target">
+                                        <img src="@imageItem.Url" data-toggle="tooltip" title="@item.Name" class="img-fluid" alt="@imageItem.Value("altText")">
+                                    </a>
+                                    <!-- Instead of using rel="stylesheet" I am using rel= "noopener" or rel= "noreferrer" to all External Links to improve performance and prevent security vulnerabilities. -->
+                                </li>
                             }
                         }
                     }
@@ -75,9 +75,9 @@
                             @{
                                 foreach (var item in selection)
                                 {
-                                <li class="list-inline-item">
-                                    <a href="@item.Url" class="white_text">@item.Name</a>
-                                </li>
+                                    <li class="list-inline-item">
+                                        <a href="@item.Url" class="white_text">@item.Name</a>
+                                    </li>
                                 }
                             }
                         </ul>
@@ -86,7 +86,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 order-md-first">
                     <p class="footer_color_text">
                         Copyright <i class="far fa-copyright"></i> 2019, All Right Reserved
-                        <a href="http://localhost:64439" class="footer_color_text"> @site.Name</a>
+                        <a href="@site.Url" class="footer_color_text"> @site.Name</a>
                     </p>
                 </div>
             </div>

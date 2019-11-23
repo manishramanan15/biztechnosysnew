@@ -19,6 +19,7 @@
     //Code for Banner button to Redirect to Contact Us Page
     IPublishedContent Btnlink;
     string startLink = "";
+    var altText = "";
     if (Model.Value("buttonLink") != null)
     {
         Btnlink = (IPublishedContent)Model.GetProperty("buttonLink").Value();
@@ -126,8 +127,9 @@
                                                         <ul class="list-unstyled list-inline client_industry">
                                                             @foreach (var images in OurBanner)
                                                             {
+                                                                altText =(string)(images.Value("altText").ToString() != "" ? images.Value("altText") : images.Name );
                                                                 <li>
-                                                                    <img class="img-fluid" src="@images.Url" alt="@images.Name" title="@images.Name">
+                                                                    <img class="img-fluid" src="@images.Url" alt="@altText" title="@images.Name">
                                                                 </li>
                                                             }
 
@@ -235,9 +237,10 @@
                                     IPublishedContent CtrlLink = selectedItem.Value<IPublishedContent>("caseStudyButtonLink");
                                     if (CtrlLink != null)
                                     {
+                                        altText =(string)(selectedCaseStudy.Value("altText").ToString() != "" ? selectedCaseStudy.Value("altText") : selectedCaseStudy.Name );
                                         <div class="col-lg-4 col-md-3 col-sm-4 col-6 client_logo">
                                             <a href="@CtrlLink.Url">
-                                                <img class="img-fluid" src="@selectedCaseStudy.Url" alt="Archtype Solution Group">
+                                                <img class="img-fluid" src="@selectedCaseStudy.Url" alt="@altText">
                                                 <button class="btn contact_orange_btn work_them_color work_border white_text" role="button">@selectedItem.GetProperty("caseStudyButtonText").Value()</button>
                                             </a>
                                         </div>
@@ -293,7 +296,8 @@
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                         @foreach (var labImg in labImage)
                                         {
-                                            <img src="@labImg.Url" class="img-fluid " alt="">
+                                            altText =(string)(labImg.Value("altText").ToString() != "" ? labImg.Value("altText") : labImg.Name );
+                                            <img src="@labImg.Url" class="img-fluid " alt="@altText">
                                         }
                                     </div>
                                 }
@@ -302,7 +306,8 @@
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                         @foreach (var labImgs in labImage)
                                         {
-                                            <img src="@labImgs.Url" class="img-fluid " alt="">
+                                            altText =(string)(labImgs.Value("altText").ToString() != "" ? labImgs.Value("altText") : labImgs.Name );
+                                            <img src="@labImgs.Url" class="img-fluid " alt="@altText">
                                         }
                                     </div>
                                     @lab.Value("industryIntro")
@@ -431,7 +436,7 @@
 
                     if (path != "")
                     {
-                        @Html.Partial(path)
+                        @Html.Partial(path) 
                     }
 
                     <section class="container open_pstn">
@@ -449,16 +454,21 @@
                                     IPublishedContent redirectUs = job.Value<IPublishedContent>("redirectMe");
                                     <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                                         <div class="spc_req">
-                                            <p class="experiance">@job.Value("requiredExperiance")</p>
                                             <p><strong>Department : @job.Value("departmentName")</strong></p>
-                                            <h4>@job.Value("jobTitle")</h4>
+                                            @if (redirectUs != null)
+                                            {
+                                                <a href="@redirectUs.Url">
+                                                    <h4 class="opening_position">@job.Value("jobTitle")</h4>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <h4>@job.Value("jobTitle")</h4>
+                                            }
+                                            <p class="experiance">@job.Value("requiredExperiance")</p>
                                             <p class="spe_des">Job Type : @job.Value("jobType")</p>
                                             <p class="spe_des">Vacancies : <strong>@job.Value("seatsAvailable")</strong></p>
                                             <div>
-                                                @if (redirectUs != null)
-                                                 {
-                                                    <a href="@redirectUs.Url" role="button" class="about_text" style="text-align:left;font-size:larger">Read More</a>
-                                                 }
                                                 <p class="spe_post_date" style="text-align:right;font-family:Cambria;color:gray">@dateRepresentation.OurFormat(@redirectUs.UpdateDate)</p>
                                             </div>
                                         </div>
@@ -472,7 +482,7 @@
                         <div class="container">
                             <div class="row justify-content-md-center">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h1>@Model.GetProperty("joinusHeading").Value()</h1>
+                                    <h5>@Model.GetProperty("joinusHeading").Value()</h5>
                                 </div>
                                 @{
                                     var JoinUsImg = (IEnumerable<IPublishedContent>)Model.Value("joinusImages");
@@ -485,10 +495,11 @@
                                 {
                                     foreach (var item1 in JoinUsImg)
                                     {
+                                        altText =(string)(item1.Value("altText").ToString() != "" ? item1.Value("altText") : item1.Name );
                                         var selectLink = socialLinks.FirstOrDefault(x => x.Name.ToLower() == item1.Name.ToLower());
                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="biz_soc">
-                                                <img src="@item1.Url" alt="" class="img-fluid">
+                                                <img src="@item1.Url" alt="@altText" class="img-fluid">
                                                 <div class="soc_content">
                                                     <ul class="icon">
                                                         <li class="soc_media">
@@ -571,10 +582,11 @@
                                                                 </div>
                                                                 @{
                                                                     var blogImg = (IPublishedContent)selectedBlog.GetProperty("blogImage").Value();
+                                                                    altText =(string)(blogImg.Value("altText").ToString() != "" ? blogImg.Value("altText") : blogImg.Name );
                                                                 }
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                                                     <div class="blog_img">
-                                                                        <img src="@blogImg.Url" class="img-fluid" alt="@blogImg.Name">
+                                                                        <img src="@blogImg.Url" class="img-fluid" alt="@altText">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -650,11 +662,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm col-12 ">
-                        <div class="slider_logo">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 ">
+                        <div class="slider_logo text-center">
                             @if (selectedIcon != null)
                             {
-                                <img src="@selectedIcon.Url" class="img-fluid img-thumbnail" alt="@selectedIcon.Name">
+                                altText =(string)(selectedIcon.Value("altText").ToString() != "" ? selectedIcon.Value("altText") : selectedIcon.Name );
+                                <img src="@selectedIcon.Url" class="img-fluid" alt="@altText">
                             }
                         </div>
                     </div>
@@ -675,9 +688,10 @@
                         foreach (var Tools in ToolsData)
                         {
                             var banner = (IPublishedContent)Tools.Value("image");
+                            altText =(string)(banner.Value("altText").ToString() != "" ? banner.Value("altText") : banner.Name );
                             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                 <div class="text-center">
-                                    <img src="@banner.Url" class="img-fluid" width="100" alt="@banner.Name">
+                                    <img src="@banner.Url" class="img-fluid" width="100" alt="@altText">
                                     <h2>@Tools.GetProperty("imageTitle").Value()</h2>
                                     <p>
                                         @Tools.Value("imageSubTitle")
@@ -701,10 +715,11 @@
                         {
                             var buttonlink = (IPublishedContent)usecase.Value("buttonLink");
                             var UseBanner = (IPublishedContent)usecase.GetProperty("image").Value();
+                            altText =(string)(UseBanner.Value("altText").ToString() != "" ? UseBanner.Value("altText") : UseBanner.Name );
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 ">
                                 <div class="prdt_detail">
                                     <div class="prdt_img">
-                                        <img src="@UseBanner.Url" class="img-fluid" alt="@UseBanner.Name">
+                                        <img src="@UseBanner.Url" class="img-fluid" alt="@altText">
                                     </div>
                                     <div class="prdt_name">
                                         <h4>@usecase.Value("imageTitle")</h4>

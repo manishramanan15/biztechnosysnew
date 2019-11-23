@@ -1,0 +1,31 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    var rootCache = UmbracoContext.ContentCache.GetAtRoot();
+    var exclusions = (List<IPublishedContent>)Umbraco.AssignedContentItem.GetProperty("exclusions").Value();
+    var rootList = rootCache.Except(exclusions);
+}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    @foreach (var root in rootList)
+    {
+        <url>
+            <loc>@root.UrlAbsolute()</loc>
+            <lastmod>@root.UpdateDate.ToString("yyyy-MM-ddTHH:mm:00")+00:00</lastmod>
+            @if (root.HasValue("updateFrequency"))
+            {
+                <changefreq>@root.GetProperty("updateFrequency").Value()</changefreq>
+            }
+        </url>
+        var descendants = root.Descendants().Except(exclusions);
+        foreach (var content in descendants)
+        {
+            <url>
+                <loc>@content.UrlAbsolute()</loc>
+                <lastmod>@content.UpdateDate.ToString("yyyy-MM-ddTHH:mm:00")+00:00</lastmod>
+                @if (content.HasValue("updateFrequency"))
+                {
+                    <changefreq>@content.GetProperty("updateFrequency").Value()</changefreq>
+                }
+            </url>
+        }
+    }
+</urlset>

@@ -60,12 +60,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 
-    @*Facebook Sharing*@
-    <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-    <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php"
-            type="text/javascript">
-    </script>
-    
     <style>
         /*Styles added by me for forms*/
 
@@ -107,7 +101,6 @@
 </head>
 
 <body>
-    <input id="clientLocation" type="hidden" runat="server" />
 
     @Html.Partial("HeaderNavigation")
 
@@ -123,6 +116,68 @@
         @Html.Partial("Footer", Model)
     </section>
 
+    <!--Form 1-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modal fade" id="biz_quate">
+                <div class="modal-dialog modal-dialog-centered consumer">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" onclick="document.location.reload(true);">&times;</button>
+                            <div class="row mt-3">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <h5 class="text-center them_text">Please fill in your details</h5>
+                                    @Html.Partial("~/Views/Contact/OnQuoteRequest.cshtml", new Biztechnosys.Umbraco.Website.Models.ContactModel())
+                                    @*@Html.Partial("_OnQuoteRequest")*@
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-12 quote_req">
+                                    <img src="@Umbraco.Media("1477").Url" class="img-fluid" alt="@Umbraco.Media("1477").Value("altText")">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Form 2-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modal fade" id="biz_consumer">
+                <div class="modal-dialog modal-dialog-centered consumer">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" onclick="document.location.reload(true);">&times;</button>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 quote">
+                                    <h5 class="them_text">
+                                        Biztechnosys has delivered projects across verticals, with its office in Bangalore has served clients around the globe.
+                                        Why Biztechnosys?
+                                    </h5>
+                                    <ul>
+                                        <li>Competitive prices</li>
+                                        <li> Customized solutions</li>
+                                        <li>Excellent track record in project delivery</li>
+                                        <li> Diversified and talented work-pool</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <img src="@Umbraco.Media("1476").Url" class="img-fluid" alt="@Umbraco.Media("1476").Value("altText")">
+                                    </div>
+                                    @Html.Partial("~/Views/OurDemo/OnDemoRequest.cshtml", new Biztechnosys.Umbraco.Website.Models.OurDemoModel())
+                                    @*@Html.Partial("_OnDemoRequest")*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -134,7 +189,7 @@
     <script src="~/js/owlmaincasestudy.js"></script>
     <script src="~/js/owlclientslide.js"></script>
     <script src="~/js/owlcounter.js"></script>
-    
+
     <script src="~/Scripts/Location.js"></script>
 
 

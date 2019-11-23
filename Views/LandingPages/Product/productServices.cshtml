@@ -17,17 +17,19 @@
             var ProductNav = Model.Children.Where(x => x.IsVisible());
             int sum = 2; // odd number causes else part to be executed and even number cause 1st part to execute. 
             IPublishedContent selectedImg;
+            var altText = "";
             foreach (var product in ProductNav)
             {
                 selectedImg = product.Value<IPublishedContent>("landingPageImage");
 
                 if (sum % 2 == 0)
                 {
+                    altText =(string)(selectedImg.Value("altText").ToString() != "" ? selectedImg.Value("altText") : selectedImg.Name );
                     <div class="service_detail">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-4 service_images">
                                 <div class="wow fadeInLeft" data-wow-duration="4s">
-                                    <img src="@selectedImg.Url" class="img-fluid" alt="">
+                                    <img src="@selectedImg.Url" class="img-fluid" alt="@altText">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 service_des wow fadeInRight service_block" data-wow-duration="2s">
@@ -51,6 +53,7 @@
                 }
                 else
                 {
+                    altText =(string)(selectedImg.Value("altText").ToString() != "" ? selectedImg.Value("altText") : selectedImg.Name );
                     string prodName = product.Name;
                     prodName = product.Name.ToLower() == "budget" ? prodName + " Management" : prodName;
                     <div class="service_detail">
@@ -72,7 +75,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-4 service_images">
                                 <div class="wow fadeInRight" data-wow-duration="4s">
-                                    <img src="@selectedImg.Url" class="img-fluid" alt="">
+                                    <img src="@selectedImg.Url" class="img-fluid" alt="@altText">
                                 </div>
                             </div>
                         </div>

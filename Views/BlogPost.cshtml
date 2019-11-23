@@ -3,6 +3,7 @@
 @{
     Layout = "master.cshtml";
     var blogImage = (IPublishedContent)Model.GetProperty("blogImage").Value();
+    var altText =(string)(blogImage.Value("altText").ToString() != "" ? blogImage.Value("altText") : blogImage.Name );
 }
 @Umbraco.RenderMacro("serviceNav")
 
@@ -46,7 +47,7 @@
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="blog_img">
-                        <img src="@blogImage.Url" class="img-fluid" alt="">
+                        <img src="@blogImage.Url" class="img-fluid" alt="@altText">
                     </div>
                 </div>
                 @Model.Value("fullwidthContent")

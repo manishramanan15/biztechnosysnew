@@ -9,6 +9,7 @@
         @{
             var serviceNavi = Model.Children.Where(x => x.IsVisible());
             int counter = 2;
+            var altText = "";
             foreach (var nav in serviceNavi)
             {
                 var selectedImg = nav.Value<IPublishedContent>("landingPageImage");
@@ -29,7 +30,8 @@
                                 <div class="wow fadeInRight" data-wow-duration="4s">
                                     @if (selectedImg != null)
                                     {
-                                        <img src="@selectedImg.Url" class="img-fluid" alt="@selectedImg.Name">
+                                        altText =(string)(selectedImg.Value("altText").ToString() != "" ? selectedImg.Value("altText") : selectedImg.Name );
+                                        <img src="@selectedImg.Url" class="img-fluid" alt="@altText">
                                     }
                                 </div>
                             </div>
@@ -44,7 +46,8 @@
                                 <div class="wow fadeInLeft" data-wow-duration="4s">
                                     @if (selectedImg != null)
                                     {
-                                        <img src="@selectedImg.Url" class="img-fluid" alt="@selectedImg.Name">
+                                        altText =(string)(selectedImg.Value("altText").ToString() != "" ? selectedImg.Value("altText") : selectedImg.Name );
+                                        <img src="@selectedImg.Url" class="img-fluid" alt="@altText">
                                     }
                                 </div>
                             </div>

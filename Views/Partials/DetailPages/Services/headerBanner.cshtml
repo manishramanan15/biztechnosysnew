@@ -16,6 +16,11 @@
     {
         StartLink = "#";
     }
+    var altText = "";
+    if(selectedIcon != null)
+    {
+        altText = (selectedIcon.Value("altText") != null ? selectedIcon.Value("altText") : Model.Value("heading")).ToString().ToLower();
+    }
 }
 <section class="@name.ToLower()_wrapper">
     <div class="row title_slider">
@@ -30,7 +35,7 @@
         </div>
         <div class="col-lg-5 col-md-5 col-sm-5 col-12 ">
             <div class="slider_logo">
-                <img src="@selectedIcon.Url" class="img-fluid" alt="@Model.Name">
+                <img src="@selectedIcon.Url" class="img-fluid" alt="@altText">
             </div>
         </div>
     </div>

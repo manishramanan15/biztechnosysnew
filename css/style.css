@@ -311,7 +311,7 @@
         #header_wrapper .overlay ul.nav-main > li.Product:before {
             background: #a072a5;
         }
-*/
+    */
     #header_wrapper .overlay ul.nav-main > li a {
         font-weight: 400;
         font-family: "Roboto Slab", serif;
@@ -422,7 +422,7 @@
         #header_wrapper .overlay ul.nav-main > li > ul.a-purple li:first-child:before {
             border-left: 3px solid #a072a5;
         }
-*/
+    */
 #header_wrapper .overlay-nav {
     opacity: 1;
     visibility: hidden;
@@ -1024,7 +1024,8 @@ button:focus {
     }
 }
 
-.biz_main_ser ul li h5 {
+.biz_main_ser ul li h2 {
+    font-size: 20px;
     position: absolute;
     top: -12%;
     left: 0;
@@ -1037,14 +1038,14 @@ button:focus {
 }
 
 @media screen and (max-width: 767px) {
-    .biz_main_ser ul li h5 {
+    .biz_main_ser ul li h2 {
         width: 100%;
         top: -11%;
     }
 }
 
 @media screen and (max-width: 428px) {
-    .biz_main_ser ul li h5 {
+    .biz_main_ser ul li h2 {
         top: -10%;
         height: 44px;
     }
@@ -1087,7 +1088,7 @@ button:focus {
     background: white;
 }
 
-    .biz_main_ser ul #centerbox h5 {
+    .biz_main_ser ul #centerbox h2 {
         background: white;
     }
 
@@ -1184,7 +1185,7 @@ button:focus {
     border-color: white;
 }
 
-.our_num_count .num_animate .counter h2 {
+.our_num_count .num_animate .counter h2, .our_num_count .num_animate .counter p {
     font-size: 22px;
     font-weight: bold;
     margin-top: 5px;
@@ -1241,7 +1242,7 @@ button:focus {
     border-color: white;
 }
 
-.our_num_count .owl_num_count .counter h2 {
+.our_num_count .owl_num_count .counter h2, .our_num_count .owl_num_count .counter p {
     font-size: 22px;
     font-weight: bold;
     margin-top: 5px;
@@ -1769,28 +1770,28 @@ button:focus {
     }
 }
 
-.biz_client h3 {
-    font-size: 35px;
-    padding-top: 50px;
-    padding-bottom: 20px;
+.biz_client h4 {
+    font-size: 28px;
+    padding-top: 25px;
+    padding-bottom: 10px;
     text-transform: capitalize;
     font-weight: 600;
     line-height: 1.2;
 }
 
 @media (max-width: 767px) and (min-width: 426px) {
-    .biz_client h3 {
+    .biz_client h4 {
         font-size: 25px;
     }
 }
 
 @media screen and (max-width: 425px) {
-    .biz_client h3 {
-        font-size: 20px;
+    .biz_client h4 {
+        font-size: 22px;
     }
 }
 
-.biz_client h3 {
+.biz_client h4 {
     display: block;
     width: 25%;
     margin: auto;
@@ -1800,13 +1801,13 @@ button:focus {
 }
 
 @media (max-width: 767px) and (min-width: 565px) {
-    .biz_client h3 {
+    .biz_client h4 {
         width: 30%;
     }
 }
 
 @media (max-width: 566px) and (min-width: 320px) {
-    .biz_client h3 {
+    .biz_client h4 {
         width: 47%;
     }
 }
@@ -19479,6 +19480,11 @@ p {
     color: #d5690f;
 }
 
+#biz_consumer .consumer .fill_detail {
+    font-size: 20px;
+    font-family: "Roboto Slab", serif;
+}
+
 #biz_quate, #biz_requirement {
     text-align: left;
 }
@@ -19555,6 +19561,11 @@ p {
 
 #biz_quate .consumer .form-control::-webkit-input-placeholder, #biz_requirement .consumer .form-control::-webkit-input-placeholder {
     font-size: 12px;
+}
+
+#biz_quate .consumer .fill_detail, #biz_requirement .consumer .fill_detail {
+    font-size: 20px;
+    font-family: "Roboto Slab", serif;
 }
 
 #biz_quate .choosefile, #biz_requirement .choosefile {
@@ -19868,4 +19879,15 @@ p {
     .privacy h3 {
         color: #232F3E;
     }
-/*Some css by me*/
+
+.error_page {
+    height: 100vh;
+}
+
+    .error_page .error_name {
+        padding-top: 100px;
+        width: 21%;
+        font-size: 90px;
+        font-weight: bold;
+        margin: auto;
+    }

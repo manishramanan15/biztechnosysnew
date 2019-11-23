@@ -9,15 +9,15 @@
         <div class="row">
             @{
                 var client_work = Model.Value<IEnumerable<IPublishedElement>>("clientData");
-
+                var altText = "";
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <ul class="list-unstyled list-inline">
                         @foreach (var item in client_work)
                         {
                             var images = item.Value<IPublishedContent>("clientImage");
-
+                            altText =(string)(images.Value("altText").ToString() != "" ? images.Value("altText") : images.Name );
                             <li class="list-inline-item client_grid">
-                                <img src="@images.Url" class="img-fluid" alt="@images.Name">
+                                <img src="@images.Url" class="img-fluid" alt="@altText">
                                 <div class="client_grid_view black_back ">
                                     <div class="">
                                         <p class="white_text">

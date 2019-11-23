@@ -1,6 +1,7 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.InnerDetailPage>
 @using ContentModels = ProjectNamespace.PublishedContentModels;
 @using System.Globalization;
+@using Biztechnosys.Umbraco.Website.Email_Service;
 @{
     Layout = "master.cshtml";
     var pageIcon = (IPublishedContent)Model.Parent.GetProperty("pickedIcon").Value();
@@ -12,6 +13,7 @@
 
     var btnslinks = (IPublishedContent)Model.Value("buttonLink");
     var btns_links = (btnslinks == null) ? "#" : btnslinks.Url;
+    var altText = "";
 }
 
 @Umbraco.RenderMacro("ServiceNav")
@@ -34,7 +36,8 @@
                     <div class="slider_logo">
                         @if (Model.HasValue("caseStudyIcon"))
                         {
-                            <img src="@caseStudyIcon.Url" class="img-fluid" alt="">
+                            altText =(string)(caseStudyIcon.Value("altText").ToString() != "" ? caseStudyIcon.Value("altText") : caseStudyIcon.Name );
+                            <img src="@caseStudyIcon.Url" class="img-fluid" alt="@altText">
                         }
                     </div>
                 </div>
@@ -102,7 +105,17 @@
 
                 <div class="col-lg-5 col-md-5 col-sm-5 col-12 ">
                     <div class="slider_logo">
-                        <img src="@pageIcon.Url" class="img-fluid" alt="@pageIcon.Name">
+                        @{ 
+                            if(pageIcon != null)
+                            {
+                                altText =(string)(pageIcon.Value("altText") != null ? pageIcon.Value("altText") : pageIcon.Name );
+                            }
+                            else
+                            {
+                                altText = "";
+                            }
+                        }
+                        <img src="@pageIcon.Url" class="img-fluid" alt="@altText">
                     </div>
                 </div>
             </div>
@@ -173,7 +186,19 @@
     }
     else if (Model.Parent.Parent.Name.ToLower() == "about")
     {
-        
+        @*Facebook Sharing*@
+        <!-- Load Facebook SDK for JavaScript -->
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
         <section class="contact_wrapper skill">
             <div class="row title_slider">
                 <div class="col-lg-7 col-md-7 col-sm-7 col-12 ">
@@ -193,26 +218,20 @@
                 <div class="col-lg-8 col-md-7 col-sm-12 col-12">
                     <div class="row social_menu">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                            <ul class="list-unstyled list-inline">
-                                <li class="list-inline-item">
-                                    SHARE :
-                                </li>
-                                <li class="list-inline-item share_social">
-                                    <a href="http://www.facebook.com/sharer.php" target="_blank">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item share_social">
-                                    <a href="#" target="_blank">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item share_social">
-                                    <a href="#" target="_blank">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                            <div class="list-unstyled list-inline">
+                                <p class="list-inline-item">SHARE : </p>
+                                <div class="fb-share-button" data-href="http://biztechnosys.com/" data-layout="button_count">
+                                </div>
+
+                                <div class="twitter-share-button">
+                                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+                                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                                </div>
+
+                                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                                <script type="IN/Share" data-url="http://biztechnosys.com/">
+                                </script>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -252,80 +271,47 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="spc_req">
-                                <p><strong>Banglore | India</strong></p>
-                                <a href="skill-requirement.html"><h4 class="opening_position">Java Developer</h4></a>
-                                <p class="spe_des">Full time,Bangalore, India</p>
-                                <p class="spe_post_date">posted 12 hr ago</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="spc_req">
-                                <p><strong>Banglore | India</strong></p>
-                                <a href="skill-requirement.html"><h4 class="opening_position">Java Developer</h4></a>
-                                <p class="spe_des">Full time,Bangalore, India</p>
-                                <p class="spe_post_date">posted 12 hr ago</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="spc_req">
-                                <p><strong>Banglore | India</strong></p>
-                                <a href="skill-requirement.html"><h4 class="opening_position">Java Developer</h4></a>
-                                <p class="spe_des">Full time,Bangalore, India</p>
-                                <p class="spe_post_date">posted 12 hr ago</p>
-                            </div>
-                        </div>
+                        @{
+                            var jobList = Model.Parent.Children.Where(x => x.IsVisible());
+                        }
+                        @foreach (var job in jobList)
+                        {
+                            DateRepresentation dateRepresentation = new DateRepresentation();
+                            if (Convert.ToInt32(job.Value("seatsAvailable").ToString()) > 0)
+                            {
+                                IPublishedContent redirectUs = job.Value<IPublishedContent>("redirectMe");
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="spc_req">
+                                        <p><strong>Department : @job.Value("departmentName")</strong></p>
+                                        @if (redirectUs != null)
+                                        {
+                                            <a href="@redirectUs.Url">
+                                                <h4 class="opening_position">@job.Value("jobTitle")</h4>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <h4>@job.Value("jobTitle")</h4>
+                                        }
+                                        <p class="experiance">@job.Value("requiredExperiance")</p>
+                                        <p class="spe_des">Job Type : @job.Value("jobType")</p>
+                                        <p class="spe_des">Vacancies : <strong>@job.Value("seatsAvailable")</strong></p>
+                                        <div>
+                                            <p class="spe_post_date" style="text-align:right;font-family:Cambria;color:gray">@dateRepresentation.OurFormat(@redirectUs.UpdateDate)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
                     </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 text-right more_job">
-                            <a href="career.html" role="button" class="about_text ">VIEW MORE <span><i class="far fa-arrow-alt-circle-right"></i></span></a>
+                            <a href="@Model.Parent.Url" role="button" class="about_text ">VIEW MORE <span><i class="far fa-arrow-alt-circle-right"></i></span></a>
                         </div>
                     </div>
                 </div>
-                <!--        </div>-->
             </div>
         </section>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="modal fade" id="biz_requirement">
-                    <div class="modal-dialog modal-dialog-centered consumer">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <div class="row mt-3">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <h5 class="text-left about_text">Please fill your details</h5>
-                                        <form action="/">
-                                            <div class="form-group">
-                                                <label for="name">Full Name:</label>
-                                                <input type="text" class="form-control req_input" id="name" placeholder="Enter Your Name*" name="name" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="email">Email address:</label>
-                                                <input type="email" class="form-control req_input" id="email" placeholder="Enter Your email*" name="email" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="phone">Phone Number:</label>
-                                                <input type="tel" class="form-control req_input" id="phone" placeholder="Enter Your Phone Number*" name="phone" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="name">Attech Your Resume:</label>
-                                                <input type="file" class="form-control choosefile" id="image" name="image" required>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 work_btn">
-                                                <a href="#" class="btn contact_orange_btn about_them_color about_border white_text" role="button">Submit</a>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     }
 
     else  // code for product section

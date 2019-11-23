@@ -1,11 +1,12 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @{
     var itemget = Model.Value<IEnumerable<IPublishedElement>>("pageHeader");
-
+    var altText = "";
 
     foreach (var select in itemget)
     {
         var image = (IPublishedContent)select.GetProperty("image").Value();
+        altText =(string)(image.Value("altText").ToString() != "" ? image.Value("altText") : image.Name );
         <section class="about_careers about_them_color">
             <div class="container-fluid">
                 <div class="row">
@@ -18,7 +19,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 careers_img">
-                        <img src="@image.Url" class="img-fluid" alt="">
+                        <img src="@image.Url" class="img-fluid" alt="@altText">
                     </div>
                 </div>
             </div>

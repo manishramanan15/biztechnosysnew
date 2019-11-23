@@ -1,5 +1,6 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.PageNotFound>
 @using ContentModels = ProjectNamespace.PublishedContentModels;
 @{
-	Layout = null;
+	Layout = "master.cshtml";
 }
+@Model.Value("custom404Page")

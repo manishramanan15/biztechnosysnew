@@ -5,6 +5,7 @@
     Layout = "master.cshtml";
     var site = Model.Root();
     var typedMediaPickerSingle = site.Value<IPublishedContent>("siteLogo");
+    var altText = "";
 }
 @****************************SEO Components starts *******************@
 
@@ -64,7 +65,8 @@
                         {
                             if (icon.Name.Contains(item.Name.Substring(0, 7)))
                             {
-                                <img style="padding-top:70px;" src="@icon.Url" alt="">
+                                altText =(string)(icon.Value("altText").ToString() != "" ? icon.Value("altText") : icon.Name );
+                                <img style="padding-top:70px;" src="@icon.Url" alt="@altText">
                             }
                         }
                         <button type="button" class="case_study_button btn ">
@@ -96,11 +98,15 @@
                                         {
                                             if (selectedIcon1.Name.Contains(item.Name.Substring(0, 7)))
                                             {
-                                                <img src="@selectedIcon1.Url" alt="">
+                                                altText =(string)(selectedIcon1.Value("altText").ToString() != "" ? selectedIcon1.Value("altText") : selectedIcon1.Name );
+                                                <img src="@selectedIcon1.Url" alt="@altText">
                                             }
                                         }
                                     </div>
-                                    <img src="@item.Url" class="img-fluid" alt="">
+                                    @{ 
+                                        altText =(string)(item.Value("altText").ToString() != "" ? item.Value("altText") : item.Name );
+                                    }
+                                    <img src="@item.Url" class="img-fluid" alt="@altText">
                                     <button type="button" class="case_study_button btn them_border them_color">
                                         <a class="arrow white_text" href="#">
                                             <span class="view_arrow">view case study <i class="fas fa-arrow-right"></i></span>
@@ -139,13 +145,22 @@
                     {
                         var selectedIcon = (IPublishedContent)pointer.GetProperty("pickedIcon").Value();
                         var description = pointer.GetProperty("homePageDescription").Value();
+                        if(selectedIcon != null)
+                        {
+                            altText =(string)(selectedIcon.Value("altText") != null ? selectedIcon.Value("altText") : selectedIcon.Name );
+                        }
+                        else
+                        {
+                            altText = "";
+                        }
+
                         <li class="list-inline-item">
                             <div id="@divIDs[index]">
                                 <div class="main_ser_logo">
-                                    <img src="@selectedIcon.Url" class="img-fluid" alt="@pointer.Name">
+                                    <img src="@selectedIcon.Url" class="img-fluid" alt="@altText">
                                 </div>
                                 <div class="main_ser_des">
-                                    <h5 class="@pointer.Name.ToLower()_text">@pointer.Name.ToUpper()</h5>
+                                    <h2 class="@pointer.Name.ToLower()_text">@pointer.Name.ToUpper()</h2>
                                     <p class="p_text">
                                         @description
                                     </p>
@@ -389,7 +404,8 @@
                     var consutationImage = site.Value<IPublishedContent>("consultationServices");
                     if (consutationImage != null)
                     {
-                        <img src="@consutationImage.Url" class="img-fluid" alt="@consutationImage.Value("altText")">
+                        altText =(string)(consutationImage.Value("altText").ToString() != "" ? consutationImage.Value("altText") : consutationImage.Name );
+                        <img src="@consutationImage.Url" class="img-fluid" alt="@altText">
                     }
                 }
             </div>
@@ -400,7 +416,7 @@
 <section class="container-fluid biz_client">
     <div class="row text-center">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-            <h3 class="them_text">@Model.Value("sliderTitle")</h3>
+            <h4 class="them_text">@Model.Value("sliderTitle")</h4>
         </div>
     </div>
     <div class="row client_slide">
@@ -411,9 +427,10 @@
 
                     foreach (var item in typedMultiMediaPicker)
                     {
+                        altText =(string)(item.Value("altText").ToString() != "" ? item.Value("altText") : item.Name );
                         <div class="item">
                             <div class="owl_image">
-                                <img src="@item.Url" alt="@item.Name" class="img-fluid" />
+                                <img src="@item.Url" alt="@altText" class="img-fluid" />
                             </div>
                         </div>
                     }
