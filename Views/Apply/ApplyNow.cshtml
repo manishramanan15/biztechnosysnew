@@ -1,0 +1,198 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Biztechnosys.Umbraco.Website.Models.ApplyNowModel>
+
+@{
+    Layout = null;
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+
+<div id="ApplyNowResult" style="text-align:left">
+    <form name="ApplyNowForm" method="post" id="ajax" accept-charset="utf-8" enctype="multipart/form-data">
+
+        @*Here we need to specify enctype = “multipart/form-data” which is necessary for uploading Files.
+        <form name="ApplyNowForm" method="post" class="ajax" accept-charset="utf-8" enctype="multipart/form-data"> *@
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                @Html.TextBoxFor(m => m.Name, htmlAttributes: new { @class = "form-control req_input", id = "Applyname", placeholder = "Enter Your Name*", name = "Aname", onkeypress = "return restrictNumber61(event)" })
+                @Html.ValidationMessageFor(m => m.Name, "", htmlAttributes: new { @class = "ErrorMessage" })
+                <span id="Applyname_error" class="ErrorMessage field-validation-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email address:</label>
+                @Html.TextBoxFor(m => m.Email, htmlAttributes: new { @class = "form-control req_input", id = "Applyemail", placeholder = "Enter Your Email*", name = "Aemail" })
+                @Html.ValidationMessageFor(m => m.Email, "", htmlAttributes: new { @class = "ErrorMessage" })
+                <span id="Applyemail_error" class="ErrorMessage field-validation-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                @Html.TextBoxFor(m => m.Mobile, htmlAttributes: new { @class = "form-control req_input", onkeypress = "return restrictAlphabet61(event)", id = "Applymobile", placeholder = "Enter Your Phone Number*", pattern = "[6-9]{1}[0-9]{9}", title = "Phone number with 6-9 and remaing 9 digit with 0-9", name = "Amobile" })
+                @Html.ValidationMessageFor(m => m.Mobile, "", htmlAttributes: new { @class = "ErrorMessage" })
+                <span id="Applymobile_error" class="ErrorMessage field-validation-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Attech Your Resume:</label>
+                <input type="file" class="form-control choosefile" id="Applypostedfile" name="selectedFile">
+                <span id="Applypostedfile_error" class="ErrorMessage field-validation-error"></span>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 work_btn">
+                <button value="submit" type="submit" id="ApplyNowButton" class="btn contact_orange_btn about_them_color about_border white_text" role="button" onclick=" return register_validate61()">Submit</button>
+            </div>
+        </form>
+</div>
+
+<div id="successMsg" style="background-color:palegreen;color:blue; font-weight:bold; font-family:Cambria; margin-top:10px;border-radius:10px;"></div>
+<div id="errorMsg" style="background-color:palevioletred;color:crimson;font-weight:bold;font-family:Cambria;border-radius:10px;"></div>
+
+<script>
+   document.getElementById('ajax').onsubmit = function () {
+        debugger
+        var formData = new FormData();
+        var selectedResume = document.getElementById('Applypostedfile');
+        for (var i = 0; i < selectedResume.files.length; i++) {
+            formData.append(selectedResume.files[i].name, selectedResume.files[i]);
+        }
+        formData.append("userName", document.getElementById('Applyname').value);
+        formData.append("userEmail", document.getElementById('Applyemail').value);
+        formData.append("userMobile", document.getElementById('Applymobile').value);
+
+       //Creating an XMLHttpRequest and sending
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '@Url.Action("ApplyNow", "Apply")');
+        xhr.send(formData);
+        xhr.onreadystatechange = function () {
+            debugger
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                debugger 
+                if (xhr.response == "true") {
+                    var name = document.getElementById('Applyname').value;
+                    var phone = document.getElementById('Applymobile').value;
+                    var email = document.getElementById('Applyemail').value;
+                    var result = "Thank You ";
+                    result = result.concat(name, '\n', 'we will contact you soon ', '\n', '           on     ', '\n', phone, ' or ', email);
+                    document.getElementById('successMsg').innerHTML = 'Email Send successfully and Received by Us Too..!!';
+                    $("#ApplyNowResult").replaceWith(result);                
+                }
+                else {
+                    document.getElementById('errorResult').innerHTML = "Operation Failed" + "<br/>" + response;
+                }
+            }
+        }
+        return false;
+    }
+	
+</script>
+
+@*Validation *@
+<script>
+
+    function register_validate61() {
+        debugger
+        var name = document.getElementById('Applyname').value;
+        var email = document.getElementById('Applyemail').value;
+        var postedfile = document.getElementById('Applypostedfile').value;
+        var mobile = document.getElementById('Applymobile').value;
+        var fileType = postedfile.split('.');
+        fileType = fileType[fileType.length - 1];
+        var emailReg = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (name == "") {
+            document.getElementById('Applyname_error').innerHTML = "The Name field is Required*";
+            document.getElementById('Applyname').focus();
+            return false;
+        }
+
+        if (email == "") {
+            document.getElementById('Applyemail_error').innerHTML = "The email field is required*";
+            document.getElementById('Applyemail').focus();
+            return false;
+        }
+
+        if (!emailReg.test(email)) {
+            document.getElementById('Applyemail_error').innerHTML = "Email is not valid*";
+            document.getElementById('Applyemail').focus();
+            return false;
+        }
+
+        if (mobile == "") {
+            document.getElementById('Applymobile_error').innerHTML = "The mobile field is required*";
+            document.getElementById('Applymobile').focus();
+            return false;
+        }
+
+        if (mobile.length != 10) {
+            document.getElementById('Applymobile_error').innerHTML = "Please enter 10 digit mobile number";
+            document.getElementById('Applymobile').focus();
+            return false;
+        }
+
+        if (postedfile == "") {
+            document.getElementById('Applypostedfile_error').innerHTML = "Please select Resume file*";
+            document.getElementById('Applypostedfile').focus();
+            return false;
+        }
+        if (fileType != "pdf" && fileType != "doc" && fileType != "docx") {
+            document.getElementById('Applypostedfile_error').innerHTML = "Please select file of type (.pdf, .doc, .docx)*";
+            document.getElementById('Applypostedfile').focus();
+            return false;
+        }
+        return true;
+    }
+    function removeWarning61() {
+        document.getElementById(this.id + "_error").innerHTML = "";
+    }
+
+    document.getElementById("Applyname").onkeyup = removeWarning61;
+    document.getElementById("Applyemail").onkeyup = removeWarning61;
+    document.getElementById("Applymobile").onkeyup = removeWarning61;
+    document.getElementById("Applypostedfile").onpointerleave = removeWarning61;
+
+</script>
+
+@*for number*@
+<script type="text/javascript">
+
+    /*code: 48-57 Numbers
+      8  - Backspace,
+      35 - home key, 36 - End key
+      37-40: Arrow keys, 46 - Delete key*/
+    function restrictAlphabet61(e) {
+        var x = e.which || e.keycode;
+        if ((x >= 48 && x <= 57) || x == 8 ||
+            (x >= 35 && x <= 40) || x == 46)
+            return true;
+        else
+            return false;
+    }
+
+    function restrictNumber61(e) {
+        var x = e.which || e.keycode;
+        if ((x >= 67 && x <= 122) || x == 8 || (x >= 32 && x <= 40) || x == 46)
+            return true;
+        else
+            return false;
+    }
+
+    var index4 = 0;
+    jQuery("input,Applyname").on('keypress', function (e) {
+        if (jQuery(this).val().length < 1) {
+            if (e.which == 32) {
+                return false;
+            }
+        }
+        else {
+            if (e.which == 32) {
+                if (index4 != 0) {
+                    return false;
+                }
+                index4++;
+            }
+            else {
+                index4 = 0;
+            }
+        }
+    });
+</script>
+
