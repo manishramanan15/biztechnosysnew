@@ -6,8 +6,8 @@
     Layout = null;
     var formactionLink = System.Configuration.ConfigurationManager.AppSettings["DemoForm1"];
 }
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+@*<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 
 <div id="QuoteOutput" style="text-align:left">
     <form name="DemoForm" action="@formactionLink" method="post" class="ajax" accept-charset="utf-8" enctype="multipart/form-data">

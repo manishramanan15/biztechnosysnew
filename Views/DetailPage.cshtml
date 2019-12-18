@@ -127,7 +127,7 @@
                                                         <ul class="list-unstyled list-inline client_industry">
                                                             @foreach (var images in OurBanner)
                                                             {
-                                                                altText =(string)(images.Value("altText").ToString() != "" ? images.Value("altText") : images.Name );
+                                                                altText = (string)(images.Value("altText").ToString() != "" ? images.Value("altText") : images.Name);
                                                                 <li>
                                                                     <img class="img-fluid" src="@images.Url" alt="@altText" title="@images.Name">
                                                                 </li>
@@ -237,7 +237,7 @@
                                     IPublishedContent CtrlLink = selectedItem.Value<IPublishedContent>("caseStudyButtonLink");
                                     if (CtrlLink != null)
                                     {
-                                        altText =(string)(selectedCaseStudy.Value("altText").ToString() != "" ? selectedCaseStudy.Value("altText") : selectedCaseStudy.Name );
+                                        altText = (string)(selectedCaseStudy.Value("altText").ToString() != "" ? selectedCaseStudy.Value("altText") : selectedCaseStudy.Name);
                                         <div class="col-lg-4 col-md-3 col-sm-4 col-6 client_logo">
                                             <a href="@CtrlLink.Url">
                                                 <img class="img-fluid" src="@selectedCaseStudy.Url" alt="@altText">
@@ -296,7 +296,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                         @foreach (var labImg in labImage)
                                         {
-                                            altText =(string)(labImg.Value("altText").ToString() != "" ? labImg.Value("altText") : labImg.Name );
+                                            altText = (string)(labImg.Value("altText").ToString() != "" ? labImg.Value("altText") : labImg.Name);
                                             <img src="@labImg.Url" class="img-fluid " alt="@altText">
                                         }
                                     </div>
@@ -306,7 +306,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                         @foreach (var labImgs in labImage)
                                         {
-                                            altText =(string)(labImgs.Value("altText").ToString() != "" ? labImgs.Value("altText") : labImgs.Name );
+                                            altText = (string)(labImgs.Value("altText").ToString() != "" ? labImgs.Value("altText") : labImgs.Name);
                                             <img src="@labImgs.Url" class="img-fluid " alt="@altText">
                                         }
                                     </div>
@@ -330,7 +330,7 @@
             @Html.Partial("_Breadcrumb")
             name = Model.Name.ToLower() == "data science" ? "data" : name;
             var selection = Model.Children.Where(x => x.IsVisible());
-            
+
             <section class="container-fluid">
                 <div class="@name.ToLower()_services biz_service">
                     <div class="row">
@@ -436,7 +436,7 @@
 
                     if (path != "")
                     {
-                        @Html.Partial(path) 
+                        @Html.Partial(path)
                     }
 
                     <section class="container open_pstn">
@@ -448,7 +448,7 @@
                         <div class="row">
                             @foreach (var job in jobList)
                             {
-                                DateRepresentation dateRepresentation = new DateRepresentation();            
+                                DateRepresentation dateRepresentation = new DateRepresentation();
                                 if (Convert.ToInt32(job.Value("seatsAvailable").ToString()) > 0)
                                 {
                                     IPublishedContent redirectUs = job.Value<IPublishedContent>("redirectMe");
@@ -495,7 +495,7 @@
                                 {
                                     foreach (var item1 in JoinUsImg)
                                     {
-                                        altText =(string)(item1.Value("altText").ToString() != "" ? item1.Value("altText") : item1.Name );
+                                        altText = (string)(item1.Value("altText").ToString() != "" ? item1.Value("altText") : item1.Name);
                                         var selectLink = socialLinks.FirstOrDefault(x => x.Name.ToLower() == item1.Name.ToLower());
                                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                             <div class="biz_soc">
@@ -519,6 +519,8 @@
                             </div>
                         </div>
                     </section>
+
+                    <script rel="text/javascript" src="~/Scripts/Location.js"></script>
                     break;
                 case "blogs":
                     <section class="contact_wrapper">
@@ -582,7 +584,7 @@
                                                                 </div>
                                                                 @{
                                                                     var blogImg = (IPublishedContent)selectedBlog.GetProperty("blogImage").Value();
-                                                                    altText =(string)(blogImg.Value("altText").ToString() != "" ? blogImg.Value("altText") : blogImg.Name );
+                                                                    altText = (string)(blogImg.Value("altText").ToString() != "" ? blogImg.Value("altText") : blogImg.Name);
                                                                 }
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                                                     <div class="blog_img">
@@ -666,7 +668,7 @@
                         <div class="slider_logo text-center">
                             @if (selectedIcon != null)
                             {
-                                altText =(string)(selectedIcon.Value("altText").ToString() != "" ? selectedIcon.Value("altText") : selectedIcon.Name );
+                                altText = (string)(selectedIcon.Value("altText").ToString() != "" ? selectedIcon.Value("altText") : selectedIcon.Name);
                                 <img src="@selectedIcon.Url" class="img-fluid" alt="@altText">
                             }
                         </div>
@@ -688,7 +690,7 @@
                         foreach (var Tools in ToolsData)
                         {
                             var banner = (IPublishedContent)Tools.Value("image");
-                            altText =(string)(banner.Value("altText").ToString() != "" ? banner.Value("altText") : banner.Name );
+                            altText = (string)(banner.Value("altText").ToString() != "" ? banner.Value("altText") : banner.Name);
                             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                 <div class="text-center">
                                     <img src="@banner.Url" class="img-fluid" width="100" alt="@altText">
@@ -715,7 +717,7 @@
                         {
                             var buttonlink = (IPublishedContent)usecase.Value("buttonLink");
                             var UseBanner = (IPublishedContent)usecase.GetProperty("image").Value();
-                            altText =(string)(UseBanner.Value("altText").ToString() != "" ? UseBanner.Value("altText") : UseBanner.Name );
+                            altText = (string)(UseBanner.Value("altText").ToString() != "" ? UseBanner.Value("altText") : UseBanner.Name);
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 ">
                                 <div class="prdt_detail">
                                     <div class="prdt_img">
@@ -748,13 +750,6 @@
 @Html.Partial("_footerBanner")
 
 <script>
-    //For the two Header Buttons
-    document.getElementById('RequestBtn').classList.add("them_color");
-    document.getElementById('RequestBtn').classList.add("them_border");
-
-    document.getElementById('DemoBtn').classList.add("them_color");
-    document.getElementById('DemoBtn').classList.add("them_border");
-
     //For the submit button
     if (document.getElementById('SubmitButton')) {
         document.getElementById('SubmitButton').classList.add("@selectedName.ToLower()_them_color");
@@ -766,12 +761,4 @@
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>   @*This is Stoping the form Submition so delete this reference But if we are comenting this then unobractive error is coming Check it once*@
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
-@*Already added in Master page
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-*@
 <script src="~/Js/wowslider.js"></script>

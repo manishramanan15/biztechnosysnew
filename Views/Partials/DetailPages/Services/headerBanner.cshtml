@@ -35,7 +35,12 @@
         </div>
         <div class="col-lg-5 col-md-5 col-sm-5 col-12 ">
             <div class="slider_logo">
-                <img src="@selectedIcon.Url" class="img-fluid" alt="@altText">
+                @{
+                    if (selectedIcon != null)
+                    {
+                        <img src="@selectedIcon.Url" class="img-fluid" alt="@altText">
+                    }
+                }
             </div>
         </div>
     </div>

@@ -1,7 +1,6 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @using System.Web.Optimization;
 @using System.Text;
-@using ClientDependency.Core.Mvc
 @{
     @*for facebook pixel    https://www.facebook.com/business/help/952192354843755?id=1205376682832142  *@
     Layout = null;
@@ -10,7 +9,6 @@
     var metaDescription = Model.HasProperty("metaDescription") ? Model.GetProperty("metaDescription").Value().ToString() : "Biztechnosys";
     var keywords = "";
     var canonicalUrl = (Model.HasValue("canonicalUrl")) ? Model.Value("canonicalUrl") : "";
-
     try
     {
         if (Model.GetProperty("metaKeywords") != null)
@@ -25,10 +23,8 @@
             keywords = keywords.Substring(0, keywords.Length - 1);
         }
     }
-    catch (Exception ex)
+    catch (Exception)
     {
-        var kjk = ex.Message;
-        var kkj = ex.StackTrace;
         keywords = "";
     }
 }
@@ -41,63 +37,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     @Html.Partial("_OpenGraph")
-
     <title> @title  </title>
     <meta name="description" content="@metaDescription" />
     <meta name="keywords" content="@keywords" />
     <link rel="canonical" href="@canonicalUrl">
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" async></script>    <!--To remove "Aos id not defined Error"-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" async></script>   <!--To remove "wow is not defined Error"-->
     <link rel="shortcut icon" href="~/image/biztechnosys/favicon_logo1.jpg">
-
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="//fonts.googleapis.com/css?family=Roboto+Slab:100,200,300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,200,300,400,700">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <script rel="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" async></script>
     @Styles.Render("~/bundles/site.css")
-    <script src="~/js/Zendesk.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-
-    <style>
-        /*Styles added by me for forms*/
-
-        .field-validation-error {
-            color: #ff0000;
-            background-color: white;
-            border-radius: 4px;
-            display: block;
-            position: relative;
-            top: 0;
-            right: 0;
-            left: 0;
-            text-align: left;
-        }
-
-        .field-validation-valid {
-            display: none;
-        }
-
-        .input-validation-error {
-            border: 1px solid #ff0000;
-            background-color: #ffeeee;
-        }
-
-
-        .validation-summary-errors {
-            font-weight: bold;
-            color: #ff0000;
-        }
-
-        .validation-summary-valid {
-            display: none;
-        }
-
-        .ErrorMessage {
-            font-family: Cambria;
-        }
-    </style>
 </head>
 
 <body>
@@ -176,22 +129,51 @@
         </div>
     </div>
 
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <!-- owl slider -->
     <script src="~/js/owl.carousel.min.js"></script>
-    <script src="~/js/owlmaincasestudy.js"></script>
-    <script src="~/js/owlclientslide.js"></script>
-    <script src="~/js/owlcounter.js"></script>
+    @Scripts.Render("~/bundles/sitejs.js")
 
-    <script src="~/Scripts/Location.js"></script>
+    <script>
+        window.onload = function () {
+            @{
+                var modelName = Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
+                modelName = modelName.ToLower() == "data science" ? "data" : modelName;
+                var cssClass1 = modelName.ToLower().ToString() + "_them_color";
+                var cssClass2 = modelName.ToLower().ToString() + "_border";
+            }
+        var element1 = document.getElementById("DemoBtn_Mobile");
+        if (typeof (element1) != 'undefined' && element1 != null) {
+            element1.classList.add("@cssClass1");
+            element1.classList.add("@cssClass2");
+        }
 
+        element1 = document.getElementById("RequestBtn_Mobile");
+        if (typeof(element1) != 'undefined' && element1 != null) {
+            element1.classList.add("@cssClass1");
+            element1.classList.add("@cssClass2");
+        }
 
+        element1 = this.document.getElementById("SubmitButton");
+        if (typeof(element1) != 'undefined' && element1 != null) {
+            element1.classList.add("@cssClass1");
+            element1.classList.add("@cssClass2");
+        }
+
+        element1 = this.document.getElementById("RequestBtn");
+        if (typeof(element1) != 'undefined' && element1 != null) {
+            element1.classList.add("@cssClass1");
+            element1.classList.add("@cssClass2");
+        }
+
+        element1 = this.document.getElementById("DemoBtn");
+        if (typeof(element1) != 'undefined' && element1 != null) {
+            element1.classList.add("@cssClass1");
+            element1.classList.add("@cssClass2");
+        }
+    }
+    </script>
 </body>
 </html>

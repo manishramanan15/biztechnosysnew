@@ -90,10 +90,6 @@
             //Product Services
             @Html.Partial("~/Views/LandingPages/Product/productServices.cshtml")
             @Html.Partial("_OurWorks")
-            <script>
-                document.getElementById('SubmitButton').classList.add("product_them_color");
-                document.getElementById('SubmitButton').classList.add("product_border");
-            </script>
             break;
 
         default:
@@ -106,19 +102,12 @@
 @Html.Partial("_footerBanner")
 
 <script>
-    document.getElementById('QuoteSubmitButton').classList.add("them_color");
-    document.getElementById('QuoteSubmitButton').classList.add("them_border");
-
-    document.getElementById('RequestBtn').classList.add("them_color");
-    document.getElementById('RequestBtn').classList.add("them_border");
-
-    document.getElementById('DemoBtn').classList.add("them_color");
-    document.getElementById('DemoBtn').classList.add("them_border");
+    window.onload = function () {
+        var element3 = document.getElementById('SubmitButton');
+        if (typeof (element3 != 'undefined') && element3 != null) {
+            element3.classList.add("product_them_color");
+            element3.classList.add("product_border");
+        }
+    }
 </script>
-@*
-    Already added in Master Page
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
-<!-- Popper JS -->
-@*<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>*@
-<!-- Latest compiled JavaScript -->
 <script src="~/js/wowslider.js"></script>

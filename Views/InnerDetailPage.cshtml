@@ -5,12 +5,7 @@
 @{
     Layout = "master.cshtml";
     var pageIcon = (IPublishedContent)Model.Parent.GetProperty("pickedIcon").Value();
-    var selectedName = Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
-    selectedName = selectedName.ToLower() == "data science" ? "data" : selectedName;
-    var cssClass1 = selectedName.ToLower().ToString() + "_them_color";
-    var cssClass2 = selectedName.ToLower().ToString() + "_border";
     var caseStudyIcon = (IPublishedContent)Model.GetProperty("caseStudyIcon").Value();
-
     var btnslinks = (IPublishedContent)Model.Value("buttonLink");
     var btns_links = (btnslinks == null) ? "#" : btnslinks.Url;
     var altText = "";
@@ -36,7 +31,7 @@
                     <div class="slider_logo">
                         @if (Model.HasValue("caseStudyIcon"))
                         {
-                            altText =(string)(caseStudyIcon.Value("altText").ToString() != "" ? caseStudyIcon.Value("altText") : caseStudyIcon.Name );
+                            altText = (string)(caseStudyIcon.Value("altText").ToString() != "" ? caseStudyIcon.Value("altText") : caseStudyIcon.Name);
                             <img src="@caseStudyIcon.Url" class="img-fluid" alt="@altText">
                         }
                     </div>
@@ -105,17 +100,20 @@
 
                 <div class="col-lg-5 col-md-5 col-sm-5 col-12 ">
                     <div class="slider_logo">
-                        @{ 
-                            if(pageIcon != null)
+                        @{
+                            if (pageIcon != null)
                             {
-                                altText =(string)(pageIcon.Value("altText") != null ? pageIcon.Value("altText") : pageIcon.Name );
+                                altText = (string)(pageIcon.Value("altText") != null ? pageIcon.Value("altText") : pageIcon.Name);
                             }
                             else
                             {
                                 altText = "";
                             }
+                            if (pageIcon != null)
+                            {
+                                <img src="@pageIcon.Url" class="img-fluid" alt="@altText">
+                            }
                         }
-                        <img src="@pageIcon.Url" class="img-fluid" alt="@altText">
                     </div>
                 </div>
             </div>
@@ -312,6 +310,26 @@
                 </div>
             </div>
         </section>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal fade" id="biz_requirement">
+                    <div class="modal-dialog modal-dialog-centered consumer">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="row mt-3">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <h5 class="text-left about_text">Please fill your details</h5>
+                                        @Html.Partial("~/Views/Apply/ApplyNow.cshtml", new Biztechnosys.Umbraco.Website.Models.ApplyNowModel())
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 
     else  // code for product section
@@ -376,16 +394,3 @@
     });
 </script>
 
-<script>
-    document.getElementById('SubmitButton').classList.add("@cssClass1");
-    document.getElementById('SubmitButton').classList.add("@cssClass2");
-
-    document.getElementById('RequestBtn').classList.add("@cssClass1");
-    document.getElementById('RequestBtn').classList.add("@cssClass2");
-
-    document.getElementById('DemoBtn').classList.add("@cssClass1");
-    document.getElementById('DemoBtn').classList.add("@cssClass2");
-
-    document.getElementById('QuoteSubmitButton').classList.add("them_color");
-    document.getElementById('QuoteSubmitButton').classList.add("them_border");
-</script>
