@@ -238,7 +238,7 @@
                                     if (CtrlLink != null)
                                     {
                                         altText = (string)(selectedCaseStudy.Value("altText").ToString() != "" ? selectedCaseStudy.Value("altText") : selectedCaseStudy.Name);
-                                        <div class="col-lg-4 col-md-3 col-sm-4 col-6 client_logo">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-6 client_logo">
                                             <a href="@CtrlLink.Url">
                                                 <img class="img-fluid" src="@selectedCaseStudy.Url" alt="@altText">
                                                 <button class="btn contact_orange_btn work_them_color work_border white_text" role="button">@selectedItem.GetProperty("caseStudyButtonText").Value()</button>
@@ -249,6 +249,12 @@
 
                             </div>
                         }
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 work_btn quote_btn">
+                                <a id="RequestBtn_Mobile" href="#" class="btn contact_orange_btn white_text" data-toggle="modal" data-backdrop="static" data-target="#biz_quate">Request a Quote</a>
+                                <a id="DemoBtn_Mobile" href="#" class="btn contact_orange_btn white_text" data-toggle="modal" data-backdrop="static" data-target="#biz_consumer">Get a Demo </a>
+                            </div>
+                        </div>
                     </section>
                     break;
 
@@ -293,7 +299,7 @@
                                 @if (iteration % 2 != 0)
                                 {
                                     @lab.Value("industryIntro")
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                                         @foreach (var labImg in labImage)
                                         {
                                             altText = (string)(labImg.Value("altText").ToString() != "" ? labImg.Value("altText") : labImg.Name);
@@ -302,8 +308,8 @@
                                     </div>
                                 }
                                 else
-                                {
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                { 
+                                    <div class="col-lg-6 col-md-12 col-sm-12 col-12 text-center">
                                         @foreach (var labImgs in labImage)
                                         {
                                             altText = (string)(labImgs.Value("altText").ToString() != "" ? labImgs.Value("altText") : labImgs.Name);
@@ -320,7 +326,10 @@
                 default:
                     break;
             }
-            @Html.Partial("_GetStarted")
+            if (Model.Value("startButtonText") != null && Model.Value("startButtonText").ToString() != "")
+            {
+                @Html.Partial("_GetStarted")
+            }
             break;
 
         case "services":
@@ -334,7 +343,7 @@
             <section class="container-fluid">
                 <div class="@name.ToLower()_services biz_service">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 consumer_form">
+                        <div class="col-lg-4 col-md-5 col-sm-12 col-12">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div class="our_service">
@@ -356,7 +365,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-12 col-12 ser_detail">
+                        <div class="col-lg-8 col-md-7 col-sm-12 col-12">
                             @Model.Value("firstParagraph")
                         </div>
                     </div>
@@ -371,7 +380,10 @@
 
             @Html.Partial("_OurWorks")
 
-            @Html.Partial("_GetStarted")
+            if (Model.Value("startButtonText") != null && Model.Value("startButtonText").ToString() != "")
+            {
+                @Html.Partial("_GetStarted")
+            }
             break;
 
         case "about":
@@ -521,6 +533,7 @@
                     </section>
 
                     <script rel="text/javascript" src="~/Scripts/Location.js"></script>
+                    <script src="~/Js/wowslider.js"></script>
                     break;
                 case "blogs":
                     <section class="contact_wrapper">
@@ -738,8 +751,10 @@
                     }
                 </div>
             </section>
-
-            @Html.Partial("_GetStarted")
+            if (Model.Value("startButtonText") != null && Model.Value("startButtonText").ToString() != "")
+            { 
+                @Html.Partial("_GetStarted")
+            }
             break;
 
         default:
@@ -761,4 +776,4 @@
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>   @*This is Stoping the form Submition so delete this reference But if we are comenting this then unobractive error is coming Check it once*@
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-<script src="~/Js/wowslider.js"></script>
+

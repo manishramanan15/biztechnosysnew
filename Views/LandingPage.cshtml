@@ -51,6 +51,7 @@
             //Our Services
             @Html.Partial("~/Views/LandingPages/services/ourServices.cshtml")
             @Html.Partial("_OurWorks")
+            <script src="~/js/wowslider.js"></script>
             break;
 
         case "about":
@@ -90,6 +91,7 @@
             //Product Services
             @Html.Partial("~/Views/LandingPages/Product/productServices.cshtml")
             @Html.Partial("_OurWorks")
+            <script src="~/js/wowslider.js"></script>
             break;
 
         default:
@@ -97,7 +99,11 @@
     }
 }
 
-@Html.Partial("_GetStarted")
+@if (Model.Value("startButtonText") != null && Model.Value("startButtonText").ToString() != "")
+{
+    @Html.Partial("_GetStarted")
+}
+
 
 @Html.Partial("_footerBanner")
 
@@ -110,4 +116,3 @@
         }
     }
 </script>
-<script src="~/js/wowslider.js"></script>

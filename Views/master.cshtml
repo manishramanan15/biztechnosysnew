@@ -35,22 +35,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
 
     @Html.Partial("_OpenGraph")
+
     <title> @title  </title>
     <meta name="description" content="@metaDescription" />
     <meta name="keywords" content="@keywords" />
     <link rel="canonical" href="@canonicalUrl">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" async></script>    <!--To remove "Aos id not defined Error"-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" async></script>   <!--To remove "wow is not defined Error"-->
     <link rel="shortcut icon" href="~/image/biztechnosys/favicon_logo1.jpg">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,200,300,400,700">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    <script rel="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" async></script>
     @Styles.Render("~/bundles/site.css")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <script rel="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>    <!--To remove "Aos id not defined Error"-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    @{
+        string cssClass1 = "";
+        string cssClass2 = "";
+        if(Model.Level == 1)
+        {
+            cssClass1 = "them_color";
+            cssClass2 = "them_border";
+        }
+        else
+        {
+            var modelName = Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
+            modelName = modelName.ToLower() == "data science" ? "data" : modelName;
+            cssClass1 = modelName.ToLower().ToString() + "_them_color";
+            cssClass2 = modelName.ToLower().ToString() + "_border";
+        }
+    }
 </head>
 
 <body>
@@ -68,7 +85,7 @@
     <section class="footer_section">
         @Html.Partial("Footer", Model)
     </section>
-
+    @Scripts.Render("~/bundles/footerjs.js")
     <!--Form 1-->
     <div class="row">
         <div class="col-lg-12">
@@ -84,7 +101,7 @@
                                     @*@Html.Partial("_OnQuoteRequest")*@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-12 quote_req">
-                                    <img src="@Umbraco.Media("1477").Url" class="img-fluid" alt="@Umbraco.Media("1477").Value("altText")">
+                                    <img src="@Umbraco.Media("1662").Url" class="img-fluid" alt="@Umbraco.Media("1662").Value("altText")">
                                 </div>
                             </div>
                         </div>
@@ -135,15 +152,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="~/js/owl.carousel.min.js"></script>
     @Scripts.Render("~/bundles/sitejs.js")
-
     <script>
         window.onload = function () {
-            @{
-                var modelName = Model.Level == 2 ? Model.Name : Model.Level == 3 ? (Model.Parent.Name.ToLower() == "services" ? Model.Name : Model.Parent.Name) : Model.Level == 4 ? (Model.Parent.Parent.Name.ToLower() == "services" ? Model.Parent.Name : Model.Parent.Parent.Name) : "";
-                modelName = modelName.ToLower() == "data science" ? "data" : modelName;
-                var cssClass1 = modelName.ToLower().ToString() + "_them_color";
-                var cssClass2 = modelName.ToLower().ToString() + "_border";
-            }
         var element1 = document.getElementById("DemoBtn_Mobile");
         if (typeof (element1) != 'undefined' && element1 != null) {
             element1.classList.add("@cssClass1");
@@ -173,7 +183,7 @@
             element1.classList.add("@cssClass1");
             element1.classList.add("@cssClass2");
         }
-    }
+        }
     </script>
 </body>
 </html>

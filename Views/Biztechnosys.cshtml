@@ -6,6 +6,7 @@
     var site = Model.Root();
     var typedMediaPickerSingle = site.Value<IPublishedContent>("siteLogo");
     var altText = "";
+    var backvideo = @Model.GetProperty("backgroundVideo").Value();
 }
 @****************************SEO Components starts *******************@
 
@@ -49,9 +50,12 @@
             string[] cssClass = { "service_s", "service_u", "service_c" };
             var bannerImages = Model.Value<IEnumerable<IPublishedContent>>("threeImages");
             var icons = Model.Value<IEnumerable<IPublishedContent>>("bannerIcon");
+            var casestudies = (List<IPublishedContent>)site.Value("caseStudyLinks");
             int i = 0;
+            int j = 0;
             foreach (var item in bannerImages)
             {
+                j = 0;
                 <div class="col-lg-4 col-md-4 col-sm-4 col-12 px-0">
                     <div class="@cssClass[i] button_hover"
                          style="background: url(@item.Url) no-repeat;
@@ -65,16 +69,25 @@
                         {
                             if (icon.Name.Contains(item.Name.Substring(0, 7)))
                             {
-                                altText =(string)(icon.Value("altText").ToString() != "" ? icon.Value("altText") : icon.Name );
+                                altText = (string)(icon.Value("altText").ToString() != "" ? icon.Value("altText") : icon.Name);
                                 <img style="padding-top:70px;" src="@icon.Url" alt="@altText">
+                                break;
                             }
                         }
-                        <button type="button" class="case_study_button btn ">
-                            <a class="arrow" href="#">
-                                <span class="view_arrow">view case study</span>
-                                <span><i class="fas fa-arrow-right"></i></span>
-                            </a>
-                        </button>
+                        @foreach (var casestudy in casestudies)
+                        {
+                            if (i == j)
+                            {
+                                <button type="button" class="case_study_button btn ">
+                                    <a class="arrow" href="@casestudy.Url">
+                                        <span class="view_arrow">view case study</span>
+                                        <span><i class="fas fa-arrow-right"></i></span>
+                                    </a>
+                                </button>
+                                break;
+                            }
+                            j++;
+                        }
                     </div>
                 </div>
                 i++;
@@ -87,10 +100,11 @@
             <div class="owl_case_studies">
                 <div class="main_case_study  owl-carousel owl-theme">
                     @{
-                        var typedMultiMediaPicker1 = Model.Value<IEnumerable<IPublishedContent>>("threeImages");
-
-                        foreach (var item in typedMultiMediaPicker1)
+                        i = 0;
+                        j = 0;
+                        foreach (var item in bannerImages)
                         {
+                            j = 0;
                             <div class="item">
                                 <div class="owl_image">
                                     <div class="owl_service">
@@ -98,22 +112,33 @@
                                         {
                                             if (selectedIcon1.Name.Contains(item.Name.Substring(0, 7)))
                                             {
-                                                altText =(string)(selectedIcon1.Value("altText").ToString() != "" ? selectedIcon1.Value("altText") : selectedIcon1.Name );
+                                                altText = (string)(selectedIcon1.Value("altText").ToString() != "" ? selectedIcon1.Value("altText") : selectedIcon1.Name);
                                                 <img src="@selectedIcon1.Url" alt="@altText">
+                                                break;
                                             }
                                         }
                                     </div>
-                                    @{ 
-                                        altText =(string)(item.Value("altText").ToString() != "" ? item.Value("altText") : item.Name );
+                                    @{
+                                        altText = (string)(item.Value("altText").ToString() != "" ? item.Value("altText") : item.Name);
                                     }
                                     <img src="@item.Url" class="img-fluid" alt="@altText">
-                                    <button type="button" class="case_study_button btn them_border them_color">
-                                        <a class="arrow white_text" href="#">
-                                            <span class="view_arrow">view case study <i class="fas fa-arrow-right"></i></span>
-                                        </a>
-                                    </button>
+                                    @foreach (var casestudy1 in casestudies)
+                                    {
+                                        if (i == j)
+                                        {
+                                            <button type="button" class="case_study_button btn them_border them_color">
+                                                <a class="arrow white_text" href="@casestudy1.Url">
+                                                    <span class="view_arrow">view case study <i class="fas fa-arrow-right"></i></span>
+                                                </a>
+                                            </button>
+                                            break;
+                                        }
+                                        j++;
+                                    }
+
                                 </div>
                             </div>
+                            i++;
                         }
                     }
                 </div>
@@ -145,9 +170,9 @@
                     {
                         var selectedIcon = (IPublishedContent)pointer.GetProperty("pickedIcon").Value();
                         var description = pointer.GetProperty("homePageDescription").Value();
-                        if(selectedIcon != null)
+                        if (selectedIcon != null)
                         {
-                            altText =(string)(selectedIcon.Value("altText") != null ? selectedIcon.Value("altText") : selectedIcon.Name );
+                            altText = (string)(selectedIcon.Value("altText") != null ? selectedIcon.Value("altText") : selectedIcon.Name);
                         }
                         else
                         {
@@ -179,8 +204,8 @@
 </section>
 
 <section class="our_num_count">
-    <video id="back_video" preload="auto" autoplay="autoplay" loop="loop" muted="muted" volume="0">
-        <source src="@Model.GetProperty("backgroundVideo").Value()" type="video/mp4">
+    <video id="back_video" preload="auto" autoplay="autoplay" loop="loop" muted="muted" volume="0" >
+        <source src="@backvideo" type="video/mp4">
     </video>
     <div class="overlay_menu">
         <div class="num_animate">
@@ -404,7 +429,7 @@
                     var consutationImage = site.Value<IPublishedContent>("consultationServices");
                     if (consutationImage != null)
                     {
-                        altText =(string)(consutationImage.Value("altText").ToString() != "" ? consutationImage.Value("altText") : consutationImage.Name );
+                        altText = (string)(consutationImage.Value("altText").ToString() != "" ? consutationImage.Value("altText") : consutationImage.Name);
                         <img src="@consutationImage.Url" class="img-fluid" alt="@altText">
                     }
                 }
@@ -427,7 +452,7 @@
 
                     foreach (var item in typedMultiMediaPicker)
                     {
-                        altText =(string)(item.Value("altText").ToString() != "" ? item.Value("altText") : item.Name );
+                        altText = (string)(item.Value("altText").ToString() != "" ? item.Value("altText") : item.Name);
                         <div class="item">
                             <div class="owl_image">
                                 <img src="@item.Url" alt="@altText" class="img-fluid" />

@@ -359,13 +359,16 @@
         <section class="container prdt_title">
             @Model.Value("pageContent")
         </section>
-        <section class="container ">
+        <section class="container">
             @Model.Value("mainContent")
         </section>
     }
 }
 
-@Html.Partial("_GetStarted")
+@if (Model.Value("startButtonText") != null && Model.Value("startButtonText").ToString() != "")
+{
+    @Html.Partial("_GetStarted")
+}
 
 @Html.Partial("_footerBanner")
 
@@ -376,7 +379,7 @@
     <!-- Latest compiled JavaScript -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 *@
-
+<script src="~/js/internalscript.js"></script>
 <script>
     $(document).on('click', '.card-heading span.clickable', function (e) {
         var $this = $(this);

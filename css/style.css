@@ -915,6 +915,7 @@ button:focus {
 
     .mainslide .main_service_slide .service_s img, .mainslide .main_service_slide .service_c img, .mainslide .main_service_slide .service_u img {
         padding-top: 70px;
+        width: 100%;
     }
 */
 .mainslide .main_service_slide .service_s {
@@ -1641,8 +1642,26 @@ button:focus {
 }
 
 /*circle slider */
-.biz_iq_features img {
-    height: 500px;
+.biz_iq_features {
+    position: relative;
+}
+
+    .biz_iq_features img {
+        height: 500px;
+    }
+
+@media screen and (max-width: 992px) {
+    .biz_iq_features img {
+        height: 400px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .biz_iq_features .biz_pointing {
+        bottom: 0;
+        position: absolute;
+        right: 0;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -21761,6 +21780,7 @@ p {
         font-weight: bold;
         margin: auto;
     }
+
 /*Some css added by me*/
 
 .field-validation-error {
