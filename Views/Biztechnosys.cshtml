@@ -98,7 +98,7 @@
     <div class="row">
         <div class="col-md-12 col-sm-12 col-12 ">
             <div class="owl_case_studies">
-                <div class="main_case_study  owl-carousel owl-theme">
+                <div class="main_case_study owl-carousel owl-theme">
                     @{
                         i = 0;
                         j = 0;
@@ -154,6 +154,10 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 @Model.Value("aboutText")
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 work_btn quote_btn">
+                <a href="#" id="RequestBtns" class="btn contact_orange_btn white_text" role="button" data-toggle="modal" data-backdrop="static" data-target="#biz_quate">Request a Quote</a>
+                <a href="#" id="DemoBtns" class="btn contact_orange_btn white_text" role="button" data-toggle="modal" data-backdrop="static" data-target="#biz_consumer">Get a Demo </a>
+            </div>
         </div>
     </div>
 </section>
@@ -169,7 +173,7 @@
                     foreach (var pointer in serviceItem)
                     {
                         var selectedIcon = (IPublishedContent)pointer.GetProperty("pickedIcon").Value();
-                        var description = pointer.GetProperty("homePageDescription").Value();
+                        var description = pointer.GetProperty("homeContent").Value();
                         if (selectedIcon != null)
                         {
                             altText = (string)(selectedIcon.Value("altText") != null ? selectedIcon.Value("altText") : selectedIcon.Name);
@@ -214,36 +218,36 @@
                     <div class="col">
                         <div class="counter">
                             <i class="fas fa-edit fa-2x"></i>
-                            <h2><span class="timer count-title count-number project" data-to="100" data-speed="3000"></span>+</h2>
-                            <p class="count-text ">Project</p>
+                            <p><span class="timer count-title count-number project" data-to="100" data-speed="3000"></span>+</p>
+                            <h2 class="count-text ">Project</h2>
                         </div>
                     </div>
                     <div class="col">
                         <div class="counter">
                             <i class="fas fa-shield-alt fa-2x"></i>
-                            <h2><span class="timer count-title count-number" data-to="99.2" data-speed="3000"></span>%</h2>
-                            <p class="count-text ">Success Rate</p>
+                            <p><span class="timer count-title count-number" data-to="99.2" data-speed="3000"></span>%</p>
+                            <h2 class="count-text ">Success Rate</h2>
                         </div>
                     </div>
                     <div class="col">
                         <div class="counter">
                             <i class="far fa-handshake fa-2x"></i>
-                            <h2><span class="timer count-title count-number" data-to="99.5" data-speed="3000"></span>%</h2>
-                            <p class="count-text ">Customer Retention</p>
+                            <p><span class="timer count-title count-number" data-to="99.5" data-speed="3000"></span>%</p>
+                            <h2 class="count-text ">Customer Retention</h2>
                         </div>
                     </div>
                     <div class="col">
                         <div class="counter">
                             <i class="fas fa-truck fa-2x"></i>
-                            <h2><span class="timer count-title count-number" data-to="99.7" data-speed="3000"></span>%</h2>
-                            <p class="count-text ">On-Time Delivery</p>
+                            <p><span class="timer count-title count-number" data-to="99.7" data-speed="3000"></span>%</p>
+                            <h2 class="count-text ">On-Time Delivery</h2>
                         </div>
                     </div>
                     <div class="col">
                         <div class="counter">
                             <i class="fas fa-award fa-2x"></i>
-                            <h2><span class="timer count-title count-number project" data-to="8" data-speed="3000"></span>+</h2>
-                            <p class="count-text ">Certified</p>
+                            <p><span class="timer count-title count-number project" data-to="8" data-speed="3000"></span>+</p>
+                            <h2 class="count-text ">Certified</h2>
                         </div>
                     </div>
                 </div>
@@ -257,8 +261,8 @@
                             <div class="col">
                                 <div class="counter">
                                     <i class="fas fa-edit fa-2x"></i>
-                                    <h2><span class="timer count-title count-number project" data-to="100" data-speed="3000"></span>+</h2>
-                                    <p class="count-text ">Project</p>
+                                    <p><span class="timer count-title count-number project" data-to="100" data-speed="3000"></span>+</p>
+                                    <h2 class="count-text ">Project</h2>
                                 </div>
                             </div>
                         </div>
@@ -266,8 +270,8 @@
                             <div class="col">
                                 <div class="counter">
                                     <i class="fas fa-shield-alt fa-2x"></i>
-                                    <h2><span class="timer count-title count-number" data-to="99.2" data-speed="3000"></span>%</h2>
-                                    <p class="count-text ">Success Rate</p>
+                                    <p><span class="timer count-title count-number" data-to="99.2" data-speed="3000"></span>%</p>
+                                    <h2 class="count-text ">Success Rate</h2>
                                 </div>
                             </div>
                         </div>
@@ -275,8 +279,8 @@
                             <div class="col">
                                 <div class="counter">
                                     <i class="far fa-handshake fa-2x"></i>
-                                    <h2><span class="timer count-title count-number" data-to="99.5" data-speed="3000"></span>%</h2>
-                                    <p class="count-text ">Customer Retention</p>
+                                    <p><span class="timer count-title count-number" data-to="99.5" data-speed="3000"></span>%</p>
+                                    <h2 class="count-text ">Customer Retention</h2>
                                 </div>
                             </div>
                         </div>
@@ -284,8 +288,8 @@
                             <div class="col">
                                 <div class="counter">
                                     <i class="fas fa-truck fa-2x"></i>
-                                    <h2><span class="timer count-title count-number" data-to="99.7" data-speed="3000"></span>%</h2>
-                                    <p class="count-text ">On-Time Delivery</p>
+                                    <p><span class="timer count-title count-number" data-to="99.7" data-speed="3000"></span>%</p>
+                                    <h2 class="count-text ">On-Time Delivery</h2>
                                 </div>
                             </div>
                         </div>
@@ -293,8 +297,8 @@
                             <div class="col">
                                 <div class="counter">
                                     <i class="fas fa-award fa-2x"></i>
-                                    <h2><span class="timer count-title count-number project" data-to="8" data-speed="3000"></span>+</h2>
-                                    <p class="count-text ">Certified</p>
+                                    <p><span class="timer count-title count-number project" data-to="8" data-speed="3000"></span>+</p>
+                                    <h2 class="count-text ">Certified</h2>
                                 </div>
                             </div>
                         </div>
@@ -328,7 +332,7 @@
                                     <img src="@selectedimage.Url" class="img-fluid" alt="@title">
                                     <p>@title</p>
                                 </div>
-                                <div class="client_grid_view  ">
+                                <div class="client_grid_view">
                                     <p class="white_text">
                                         @subTitle
                                     </p>
@@ -341,7 +345,7 @@
             </ul>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 work_btn">
-            <a href="#" class="btn contact_orange_btn them_color them_border white_text launch-modal" role="button" data-toggle="modal" data-target="#biz_quate">Request a Quote</a>
+            <a href="#" class="btn contact_orange_btn them_color them_border white_text launch-modal" role="button" data-toggle="modal" data-backdrop="static" data-target="#biz_quate">Request a Quote</a>
         </div>
     </div>
 </section>
@@ -392,7 +396,6 @@
                                 <li>NoSQL</li>
                                 <li>Redis Cache</li>
                             </ul>
-                            @*<i class="fas fa-database"></i>*@
                         </div>
                         <div class="CirItem title-box CirItem2">
                             <h2 class="titlecir"><span>Application Optimization</span></h2>
@@ -401,7 +404,6 @@
                                 <li>Web Server Tuning</li>
                                 <li>Optimization App. Layer</li>
                             </ul>
-                            @*<i class="fas fa-tablet-alt"></i>*@
                         </div>
                         <div class="CirItem title-box CirItem3">
                             <h2 class="titlecir"><span>CRM</span></h2>
@@ -419,7 +421,6 @@
                                 <li>Azur App Development</li>
                                 <li>Azur Migration Support</li>
                             </ul>
-                            @*<i class="fas fa-cloud"></i>*@
                         </div>
                     </div>
                 </div>
@@ -452,7 +453,14 @@
 
                     foreach (var item in typedMultiMediaPicker)
                     {
-                        altText = (string)(item.Value("altText").ToString() != "" ? item.Value("altText") : item.Name);
+                        try
+                        {
+                            altText = (string)(item.Value("altText").ToString() != "" ? item.Value("altText") : item.Name);
+                        }catch(Exception)
+                        {
+                            altText = item.Name;
+                        }
+
                         <div class="item">
                             <div class="owl_image">
                                 <img src="@item.Url" alt="@altText" class="img-fluid" />

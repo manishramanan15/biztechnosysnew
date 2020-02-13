@@ -16,7 +16,6 @@
 
     var site = Model.Root();
     string path = (string)Model.GetProperty("partialPath").Value();
-    //Code for Banner button to Redirect to Contact Us Page
     IPublishedContent Btnlink;
     string startLink = "";
     var altText = "";
@@ -29,7 +28,6 @@
     {
         startLink = "#";
     }
-    //************************************************
 }
 @Umbraco.RenderMacro("ServiceNav")
 @{
@@ -51,6 +49,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-12 ">
+                                <div class="slider_logo">
+                                    <img src="@selectedIcon.Url" class="img-fluid" alt="@selectedIcon.Value("altText")">
+                                </div>
+                            </div>    
                         </div>
                     </section>
 
@@ -149,8 +152,6 @@
                     </section>
 
                     <script>
-                        // // Add active class to the current button (highlight it)
-
                         var indlist = document.getElementById("industry_list");
                         var btns = indlist.getElementsByClassName("ind_link");
                         for (var j = 0; j < btns.length; j++) {
@@ -195,6 +196,11 @@
                                     <div class="work_btn">
                                         <a href="@startLink" class="btn contact_orange_btn work_border work_them_color white_text" role="button">@Model.Value("buttonText")</a>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-12 ">
+                                <div class="slider_logo">
+                                    <img src="@selectedIcon.Url" class="img-fluid" alt="@selectedIcon.Value("altText")">
                                 </div>
                             </div>
                         </div>
@@ -308,7 +314,7 @@
                                     </div>
                                 }
                                 else
-                                { 
+                                {
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-12 text-center">
                                         @foreach (var labImgs in labImage)
                                         {
@@ -460,7 +466,6 @@
                         <div class="row">
                             @foreach (var job in jobList)
                             {
-                                DateRepresentation dateRepresentation = new DateRepresentation();
                                 if (Convert.ToInt32(job.Value("seatsAvailable").ToString()) > 0)
                                 {
                                     IPublishedContent redirectUs = job.Value<IPublishedContent>("redirectMe");
@@ -481,7 +486,7 @@
                                             <p class="spe_des">Job Type : @job.Value("jobType")</p>
                                             <p class="spe_des">Vacancies : <strong>@job.Value("seatsAvailable")</strong></p>
                                             <div>
-                                                <p class="spe_post_date" style="text-align:right;font-family:Cambria;color:gray">@dateRepresentation.OurFormat(@redirectUs.UpdateDate)</p>
+                                                <p class="spe_post_date" style="text-align:right;font-family:Cambria;color:gray">@DateRepresentation.OurFormat(@redirectUs.UpdateDate)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -499,6 +504,7 @@
                                 @{
                                     var JoinUsImg = (IEnumerable<IPublishedContent>)Model.Value("joinusImages");
                                     string[] socialClass = (string[])Model.GetProperty("socialcssClass").Value();
+                                    string[] alignClass = {"margin-90-left", "margin-45", "margin-90-right"};
                                     var socialLinks = (List<Umbraco.Web.Models.Link>)site.GetProperty("externalLinks").Value();
                                     int count = 0;
                                 }
@@ -509,8 +515,8 @@
                                     {
                                         altText = (string)(item1.Value("altText").ToString() != "" ? item1.Value("altText") : item1.Name);
                                         var selectLink = socialLinks.FirstOrDefault(x => x.Name.ToLower() == item1.Name.ToLower());
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="biz_soc">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                                            <div class="biz_soc @alignClass[count]">
                                                 <img src="@item1.Url" alt="@altText" class="img-fluid">
                                                 <div class="soc_content">
                                                     <ul class="icon">
@@ -551,8 +557,6 @@
                     </section>
 
                     @Html.Partial("_Breadcrumb")
-
-                    //var blogList = Model.Children.OrderByDescending(c => c.CreateDate).Where(x => x.IsVisible()).Take(4);
                     var colStyle = 12;
                     var PageSize = Convert.ToInt32(Model.GetProperty("numberOfBlogs").Value());
                     var page = 1;
@@ -752,7 +756,7 @@
                 </div>
             </section>
             if (Model.Value("startButtonText") != null && Model.Value("startButtonText").ToString() != "")
-            { 
+            {
                 @Html.Partial("_GetStarted")
             }
             break;

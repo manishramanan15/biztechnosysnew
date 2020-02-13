@@ -15,7 +15,7 @@
         </div>
         @{
             var ProductNav = Model.Children.Where(x => x.IsVisible());
-            int sum = 2; // odd number causes else part to be executed and even number cause 1st part to execute. 
+            int sum = 2;  
             IPublishedContent selectedImg;
             var altText = "";
             foreach (var product in ProductNav)

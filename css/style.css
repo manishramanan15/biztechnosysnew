@@ -328,7 +328,7 @@
         #header_wrapper .overlay ul.nav-main > li.Product:before {
             background: #a072a5;
         }
-    */
+*/
     #header_wrapper .overlay ul.nav-main > li a {
         font-weight: 400;
         font-family: "Roboto Slab", serif;
@@ -858,7 +858,7 @@ button:focus {
 
 @media screen and (max-width: 768px) {
     .mainslide {
-        height: calc(100vh - 97px);
+        height: calc(100vh - 330px);
     }
 }
 
@@ -895,7 +895,7 @@ button:focus {
 
 .mainslide .main_service_slide {
     overflow: hidden;
-    height: 550px;
+    height: 100%;
 }
 
 @media screen and (max-width: 768px) {
@@ -915,7 +915,6 @@ button:focus {
 
     .mainslide .main_service_slide .service_s img, .mainslide .main_service_slide .service_c img, .mainslide .main_service_slide .service_u img {
         padding-top: 70px;
-        width: 100%;
     }
 */
 .mainslide .main_service_slide .service_s {
@@ -948,7 +947,7 @@ button:focus {
 
     .mainslide .owl_case_studies .owl_image {
         position: relative;
-        height: calc(100vh - 97px);
+        height: calc(100vh - 330px);
     }
 
         .mainslide .owl_case_studies .owl_image .owl_service {
@@ -968,7 +967,7 @@ button:focus {
 
         .mainslide .owl_case_studies .owl_image img {
             position: relative;
-            height: calc(100vh - 97px);
+            height: calc(100vh - 330px);
         }
 
         .mainslide .owl_case_studies .owl_image button {
@@ -1002,7 +1001,7 @@ button:focus {
 }
 
 .animation {
-    top: 45% !important;
+    top: 48% !important;
     -webkit-transition-duration: 2s;
     -moz-transition-duration: 2s;
     -o-transition-duration: 2s;
@@ -1477,6 +1476,10 @@ button:focus {
     -moz-transition: .5s ease;
     -o-transition: .5s ease;
     transition: .5s ease;
+    -webkit-transition-delay: 0s;
+    -moz-transition-delay: 0s;
+    -o-transition-delay: 0s;
+    transition-delay: 0s;
 }
 
 .biz_perform ul .client_grid:hover .client_grid_view {
@@ -1502,13 +1505,13 @@ button:focus {
 
 @media screen and (max-width: 428px) {
     .biz_perform ul .client_grid:hover .client_grid_view {
-        height: 125px;
+        height: 135px;
     }
 
         .biz_perform ul .client_grid:hover .client_grid_view p {
             padding: 0 2px;
             font-size: 11px;
-            line-height: 1.4;
+            line-height: 1.1;
         }
 }
 
@@ -2632,6 +2635,10 @@ button:focus {
     -moz-transition: .5s ease;
     -o-transition: .5s ease;
     transition: .5s ease;
+    -webkit-transition-delay: 0s;
+    -moz-transition-delay: 0s;
+    -o-transition-delay: 0s;
+    transition-delay: 0s;
 }
 
 .services_client ul .client_grid:hover .client_grid_view {
@@ -2657,13 +2664,13 @@ button:focus {
 
 @media screen and (max-width: 428px) {
     .services_client ul .client_grid:hover .client_grid_view {
-        height: 125px;
+        height: 135px;
     }
 
         .services_client ul .client_grid:hover .client_grid_view p {
             padding: 0 2px;
             font-size: 11px;
-            line-height: 1.4;
+            line-height: 1.1;
         }
 }
 
@@ -4377,7 +4384,7 @@ button:focus {
         padding: 0 !important;
     }
 
-        .biz_solution .key_benifit .card .card-body p {
+        .biz_solution .key_benifit .card .card-body p, .biz_solution .key_benifit .card .card-body ul {
             min-height: 30px;
             margin: 0;
             border-left: 5px solid #c62828;
@@ -21780,7 +21787,6 @@ p {
         font-weight: bold;
         margin: auto;
     }
-
 /*Some css added by me*/
 
 .field-validation-error {

@@ -132,8 +132,7 @@
 <script>
         function restrictNumbers(e) {
             var x = e.which || e.keycode;
-            if ((x >= 67 && x <= 122) || x == 8 ||
-                (x >= 35 && x <= 40) || x == 46)
+            if ((x >= 65 && x <= 90) || (x >= 97 && x <= 122) || x == 8 || x == 32 || x == 46)
                 return true;
             else
                 return false;

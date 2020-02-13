@@ -1,14 +1,12 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @{
     var name = Model.Name.ToLower() == "contact us" || Model.Name.ToLower() == "careers" ? Model.Parent.Name : Model.Name;
-    //name = Model.Name.ToLower() == "careers" ? Model.Parent.Name : Model.Name;
     name = Model.Name.ToLower() == "data science" ? "data" : name;
     if(name == "Contact US" || name == "About")
     {
         name = "contact";
     }
 }
-
 <section class="page_breadcrumb @name.ToLower()_breadcrumb">
     <div class="container-fluid">
         <div class="row">

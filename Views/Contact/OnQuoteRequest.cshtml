@@ -6,7 +6,6 @@
     Layout = null;
     var formactionLink = System.Configuration.ConfigurationManager.AppSettings["DemoForm1"];
 }
-@*<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 
 <div id="QuoteOutput" style="text-align:left">
@@ -162,7 +161,7 @@
 <script>
     function restrictNumber2(e) {
         var x = e.which || e.keycode;
-        if ((x >= 67 && x <= 122) || x == 8 || (x >= 32 && x <= 40) || x == 46)
+        if ((x >= 65 && x <= 90) || (x >= 97 && x <= 122) || x == 8 || x == 32 || x == 46)
             return true;
         else
             return false;

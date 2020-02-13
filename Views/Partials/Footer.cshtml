@@ -10,38 +10,14 @@
 }
 
 <div class="page_footer container-fluid footer_color">
-    <div class="container text-md-left">
+    <div class="container-fluid text-md-left">
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-12 footer_menu">
-                <h6 class="">Quick Links</h6>
-                <ul class="list-unstyled">
-                    @{
-                        var QuickLink = (List<IPublishedContent>)site.GetProperty("quickLinks").Value();
-                        foreach (var item in QuickLink)
-                        {
-                            <li>
-                                <a href="@item.Url" class="black_text">@item.Name</a>
-                            </li>
-                        }
-                    }
-                </ul>
+            <div class="col-lg-1 col-md-1 col-sm-12 col-12">
             </div>
             <hr class="clearfix d-md-none">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-12 footer_contact">
-                <h6 class="">Contact Us</h6>
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="tel:@site.Value("mobileNo")" class="black_text"><i class="fas fa-mobile-alt"></i><span>@site.Value("mobileNo")</span></a>
-                    </li>
-                    <li>
-                        <a href="mailto:@site.Value("email")" class="black_text"><i class="fas fa-envelope"></i><span>@site.Value("email")</span></a>
-                    </li>
-                </ul>
-            </div>
-            <hr class="clearfix d-md-none">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-12 social_menu">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-12 social_menu">
                 <h6 class="">Stay Connected</h6>
-                <ul class="list-unstyled list-inline">
+                <ul class="list-unstyled list-inline" style="margin:0px;padding:0px">
                     @{
                         var links = (List<Umbraco.Web.Models.Link>)site.GetProperty("externalLinks").Value();
                         if (links.Count() > 0)
@@ -55,12 +31,75 @@
                                     <a rel="noreferrer" href="@item.Url" target="@item.Target">
                                         <img src="@imageItem.Url" data-toggle="tooltip" title="@item.Name" class="img-fluid" alt="@imageItem.Value("altText")">
                                     </a>
-                                    <!-- Instead of using rel="stylesheet" I am using rel= "noopener" or rel= "noreferrer" to all External Links to improve performance and prevent security vulnerabilities. -->
                                 </li>
                             }
                         }
                     }
                 </ul>
+            </div>
+            <hr class="clearfix d-md-none">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-12 footer_menu">
+                <h6 class="">Library</h6>
+                <ul class="list-unstyled" style="margin:0px;padding:0px">
+                    <li><a href="/work/case-study/" class="black_text">CaseStudies</a></li>
+                    <li><a href="/about/blogs/" class="black_text">Blogs</a></li>
+                </ul>
+            </div>
+            <hr class="clearfix d-md-none">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-12 footer_menu">
+                <h6 class="">Quick Links</h6>
+                <ul class="list-unstyled" style="margin:0px;padding:0px">
+                    @{
+                        var QuickLink = (List<IPublishedContent>)site.GetProperty("quickLinks").Value();
+                        foreach (var item in QuickLink)
+                        {
+                            <li>
+                                <a href="@item.Url" class="black_text">@item.Name</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <hr class="clearfix d-md-none">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-12 footer_contact">
+                <h6 class="">@Umbraco.Content(1092).Name</h6>
+                <ul class="list-unstyled" style="margin:0px;padding:0px">
+                    @{ 
+                        foreach(var serviceLinks in Umbraco.Content(1092).Children)
+                        {
+                            <li>
+                                <a href="@serviceLinks.Url" class="black_text">@serviceLinks.Name</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <hr class="clearfix d-md-none">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-12 footer_contact">
+                <h6 class="">Contact Us</h6>
+                <ul class="list-unstyled" style="margin:0px;padding:0px">
+                    <li>Biztechnosys Infotech Pvt Ltd.</li>
+                    <li>
+                        <a href="tel:@site.Value("mobileNo")" class="black_text"><i class="fas fa-mobile-alt"></i><span>@site.Value("mobileNo")</span></a><br />
+                        <a href="tel:+919740933011" class="black_text"><i style="visibility:hidden"> /t</i><span>+91 9740933011</span></a>
+                    </li>
+                    <li>
+                        <a href="mailto:@site.Value("email")" class="black_text"><i class="fas fa-envelope"></i><span>@site.Value("email")</span></a>
+                        <a href="mailto:hr@biztechnosys.com" class="black_text"><i style="visibility:hidden">/t..</i><span>hr@biztechnosys.com</span></a>
+                    </li>
+                    <br />
+                    <li>HR Related Concerns:</li>
+                    <li><a href="tel:+919743722882" class="black_text"><i class="fas fa-phone-volume"> </i><span>+91 9743722882</span></a></li>
+                    <br />
+                    <li>IT Related Concers:</li>
+                    <li>
+                        <a href="tel:@site.Value("mobileNo")" class="black_text"><i class="fas fa-phone-volume"></i><span>@site.Value("mobileNo")</span></a><br />
+                        <a href="tel:+919740933011" class="black_text"><i style="visibility:hidden"> /t</i><span>+91 9740933011</span></a>
+                    </li>
+                </ul>
+            </div>
+            <hr class="clearfix d-md-none">
+            <div class="col-lg-1 col-md-1 col-sm-12 col-12">
             </div>
         </div>
     </div>
@@ -85,7 +124,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 order-md-first">
                     <p class="footer_color_text">
-                        Copyright <i class="far fa-copyright"></i> 2019, All Right Reserved
+                        Copyright <i class="far fa-copyright"></i> @site.Value("copyrightYear"), All Right Reserved
                         <a href="@site.Url" class="footer_color_text"> @site.Name</a>
                     </p>
                 </div>
@@ -93,16 +132,6 @@
         </div>
     </div>
 </div>
-
-@* added in master page after bundling
-<script src="~/js/circleslider.js"></script>
-    @*Enable any one of this if required 
-@*<script src="~/js/jquery.min.js"></script> 
-@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="~/js/counterAnimation.js"></script>
-<script src="~/js/toggleAndWindowscroll.js"></script>
-*@
-
 <script>
     $(document).ready(function () {
         $(".wlcm_slide").addClass("animation");

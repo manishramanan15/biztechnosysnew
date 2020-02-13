@@ -3,14 +3,10 @@
 @{
     Layout = null;
 }
-@*<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 
 <div id="ApplyNowResult" style="text-align:left">
     <form name="ApplyNowForm" method="post" id="ajax" accept-charset="utf-8" enctype="multipart/form-data">
-
-        @*Here we need to specify enctype = “multipart/form-data” which is necessary for uploading Files.
-            <form name="ApplyNowForm" method="post" class="ajax" accept-charset="utf-8" enctype="multipart/form-data"> *@
         <div class="form-group">
             <label for="name">Full Name:</label>
             @Html.TextBoxFor(m => m.Name, htmlAttributes: new { @class = "form-control req_input", id = "Applyname", placeholder = "Enter Your Name*", name = "Aname", onkeypress = "return restrictNumber61(event)" })
@@ -153,11 +149,7 @@
 
 @*for number*@
 <script type="text/javascript">
-
-    /*code: 48-57 Numbers
-      8  - Backspace,
-      35 - home key, 36 - End key
-      37-40: Arrow keys, 46 - Delete key*/
+    /*code: 48-57 Numbers  8  - Backspace, 35 - home key, 36 - End key    37-40: Arrow keys, 46 - Delete key*/
     function restrictAlphabet61(e) {
         var x = e.which || e.keycode;
         if ((x >= 48 && x <= 57) || x == 8 ||
@@ -169,7 +161,7 @@
 
     function restrictNumber61(e) {
         var x = e.which || e.keycode;
-        if ((x >= 67 && x <= 122) || x == 8 || (x >= 32 && x <= 40) || x == 46)
+        if ((x >= 65 && x <= 90) || (x >= 97 && x <= 122) || x == 8 || x == 32 || x == 46)
             return true;
         else
             return false;

@@ -41,8 +41,7 @@
     {
 
         case "work":
-            //work Banner
-            @*@Html.Partial("~/Views/LandingPages/work/workBanner.cshtml")*@
+            
             //for Our Clients
             @Html.Partial("~/Views/LandingPages/work/ourClients.cshtml")
             break;
@@ -98,12 +97,10 @@
             break;
     }
 }
-
 @if (Model.Value("startButtonText") != null && Model.Value("startButtonText").ToString() != "")
 {
     @Html.Partial("_GetStarted")
 }
-
 
 @Html.Partial("_footerBanner")
 

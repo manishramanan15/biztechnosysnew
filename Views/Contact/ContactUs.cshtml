@@ -4,7 +4,6 @@
     Layout = null;
     var actionLink = System.Configuration.ConfigurationManager.AppSettings["DemoForm1"];
 }
-@*<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
 
 <div id="QuoteResult" style="text-align:left">
@@ -144,10 +143,7 @@
 @*for number*@
 <script type="text/javascript">
 
-    /*code: 48-57 Numbers
-      8  - Backspace,
-      35 - home key, 36 - End key
-      37-40: Arrow keys, 46 - Delete key*/
+    /*code: 48-57 Numbers     8  - Backspace, 35 - home key, 36 - End key  37-40: Arrow keys, 46 - Delete key*/
     function restrictAlphabet1(e) {
         var x = e.which || e.keycode;
         if ((x >= 48 && x <= 57) || x == 8 ||
@@ -159,7 +155,7 @@
 
     function restrictNumber1(e) {
         var x = e.which || e.keycode;
-         if ((x >= 67 && x <= 122) || x == 8 || (x >= 32 && x <= 40) || x == 46)
+         if ((x >= 65 && x <= 90) || (x >= 97 && x <= 122) || x == 8 || x == 32 || x == 46)
             return true;
         else
             return false;

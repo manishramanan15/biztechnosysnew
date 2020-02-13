@@ -1,4 +1,3 @@
-
 wow = new WOW(
     {
         animateClass: 'animated',
